@@ -9,7 +9,8 @@ The interface is organised as five full-viewport pages rather than one long
 vertical document. Visitors can move with the capsule navigation, previous and
 next controls, keyboard arrows, touch swipes, or URL hashes. The original
 editorial ink/paper/coral visual language is preserved; frosted glass is limited
-to navigation and page controls.
+to small action pills and the bottom page controls, while the top navigation is
+transparent and editorial.
 
 ## Content boundaries
 

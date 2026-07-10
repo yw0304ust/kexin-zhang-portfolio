@@ -1500,7 +1500,19 @@ body {
   display: none;
 }
 
-.pager-header,
+.pager-header {
+  width: min(calc(100% - 4rem), 84rem);
+  padding-right: 0;
+  padding-left: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(18, 22, 19, 0.2);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
 .pager-controls {
   border-color: rgba(255, 255, 255, 0.64);
   background: rgba(243, 241, 234, 0.72);
@@ -1509,6 +1521,27 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.78);
   -webkit-backdrop-filter: blur(20px) saturate(135%);
   backdrop-filter: blur(20px) saturate(135%);
+}
+
+.pager-app[data-page="0"] .pager-header,
+.pager-app[data-page="2"] .pager-header {
+  border-bottom-color: rgba(251, 250, 246, 0.22);
+  color: #fbfaf6;
+}
+
+.pager-app[data-page="1"] .pager-header,
+.pager-app[data-page="3"] .pager-header,
+.pager-app[data-page="4"] .pager-header {
+  color: #121613;
+}
+
+.pager-app[data-page="0"] .pager-email,
+.pager-app[data-page="2"] .pager-email {
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  backdrop-filter: blur(16px) saturate(125%);
 }
 
 .pager-home {
@@ -1573,6 +1606,30 @@ body {
 .pager-home .pager-primary-action:hover {
   border-color: #ee6a45;
   background: #ee6a45;
+}
+
+.pager-main-nav {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.pager-main-nav a {
+  padding-right: 0.85rem;
+  padding-left: 0.85rem;
+  border-radius: 0;
+  color: currentColor;
+}
+
+.pager-main-nav a:hover {
+  color: var(--pager-accent);
+}
+
+.pager-main-nav a[aria-current="page"] {
+  background: transparent;
+  box-shadow: inset 0 -2px var(--pager-accent);
+  color: currentColor;
 }
 
 .focus-card {
