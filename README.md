@@ -5,6 +5,12 @@ English academic CV. The site positions her work at the intersection of
 narrative game design, player experience research, human-centered HCI, and
 digital communication.
 
+The interface is organised as five full-viewport pages rather than one long
+vertical document. Visitors can move with the capsule navigation, previous and
+next controls, keyboard arrows, touch swipes, or URL hashes. The original
+editorial ink/paper/coral visual language is preserved; frosted glass is limited
+to navigation and page controls.
+
 ## Content boundaries
 
 - Uses only facts supported by the current English CV.

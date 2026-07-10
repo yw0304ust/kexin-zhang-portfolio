@@ -71,6 +71,10 @@ const tools = [
 ] as const;
 
 export default function Home() {
+  return <PortfolioPager />;
+}
+
+function LegacyLongFormPortfolio() {
   return (
     <>
       <a className="skip-link" href="#main-content">
@@ -541,3 +545,4 @@ export default function Home() {
     </>
   );
 }
+import PortfolioPager from "./PortfolioPager";

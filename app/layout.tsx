@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import "./pager.css";
 
 const archivo = Archivo({
   variable: "--font-display",
@@ -18,6 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://kexin-zhang-portfolio.yw0304ust.chatgpt.site"),
   title: "Kexin Zhang — Game Design & Player Experience Research",
   description:
     "The selected portfolio of Kexin Zhang, exploring narrative game design, player experience, human-centered HCI, and digital communication.",
@@ -29,6 +31,27 @@ export const metadata: Metadata = {
     "narrative design",
     "user research",
   ],
+  openGraph: {
+    title: "Kexin Zhang — Game Design & Player Experience Research",
+    description:
+      "Narrative game design, player experience research, and human-centered HCI.",
+    type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1736,
+        height: 909,
+        alt: "Kexin Zhang — Game Design, Player Experience, and HCI",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kexin Zhang — Game Design & Player Experience Research",
+    description:
+      "Narrative game design, player experience research, and human-centered HCI.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({

@@ -41,17 +41,33 @@ test("server-renders Kexin Zhang's portfolio", async () => {
   assert.match(html, /Ruihi\.zhang@outlook\.com/);
 });
 
-test("ships accessible navigation and no starter metadata", async () => {
-  const [response, css] = await Promise.all([
+test("ships the accessible single-viewport pager", async () => {
+  const [response, css, source] = await Promise.all([
     render(),
-    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/pager.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/PortfolioPager.tsx", import.meta.url), "utf8"),
   ]);
   const html = await response.text();
 
-  assert.match(html, /Skip to content/);
-  assert.match(html, /aria-label="Primary navigation"/);
+  assert.match(html, /Skip to current page/);
+  assert.match(html, /aria-label="Primary pages"/);
+  assert.match(html, /aria-label="Page controls"/);
+  assert.match(html, /aria-current="page"/);
   assert.match(html, /id="main-content"/);
+  assert.match(html, /<dialog/);
+  assert.match(html, /og:image/);
+  assert.match(css, /backdrop-filter:\s*blur\(24px\)/);
+  assert.match(css, /\.pager-screen\.is-active/);
+  assert.match(css, /overflow:\s*hidden/);
   assert.match(css, /prefers-reduced-motion/);
+  assert.match(source, /event\.key === "ArrowRight"/);
+  assert.match(source, /event\.pointerType !== "touch"/);
+  assert.match(source, /window\.history\.pushState/);
+  assert.match(source, /dialog\.showModal\(\)/);
+  assert.equal(source.match(/pager-glass/g)?.length, 2);
+  assert.match(css, /\.pager-home\s*\{[\s\S]*?background:\s*#121613/);
+  assert.match(css, /\.pager-practice\s*\{[\s\S]*?background:\s*#202722/);
+  assert.match(css, /\.pager-ambient\s*\{[\s\S]*?display:\s*none/);
   assert.doesNotMatch(html, /codex-preview/);
   assert.doesNotMatch(html, /Your site is taking shape/);
   assert.doesNotMatch(html, /13990096118/);
