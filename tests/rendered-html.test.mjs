@@ -68,6 +68,11 @@ test("ships the accessible single-viewport pager", async () => {
   assert.match(css, /\.pager-home\s*\{[\s\S]*?background:\s*#121613/);
   assert.match(css, /\.pager-practice\s*\{[\s\S]*?background:\s*#202722/);
   assert.match(css, /\.pager-ambient\s*\{[\s\S]*?display:\s*none/);
+  assert.match(css, /\.pager-app\s*\{[^}]*height:\s*100dvh/);
+  assert.match(css, /\.pager-screen-scroll\s*\{[^}]*overflow-y:\s*hidden/);
+  assert.match(css, /\.home-layout,[\s\S]*?height:\s*100%/);
+  assert.match(css, /@media \(max-height: 500px\)/);
+  assert.doesNotMatch(css, /\.pager-screen-scroll\s*\{[^}]*overflow-y:\s*auto/);
   assert.doesNotMatch(html, /codex-preview/);
   assert.doesNotMatch(html, /Your site is taking shape/);
   assert.doesNotMatch(html, /13990096118/);

@@ -371,7 +371,7 @@ body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   overscroll-behavior: contain;
   scrollbar-width: none;
 }
@@ -382,7 +382,8 @@ body {
 
 .pager-shell {
   width: min(calc(100% - 2rem), 76rem);
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
   margin: 0 auto;
 }
 
@@ -2329,5 +2330,481 @@ body {
   .ambient-orb {
     filter: none;
     transform: none;
+  }
+}
+
+/* Strict single-viewport mode: every primary page is fully contained in the browser window. */
+.pager-app {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.pager-screen-scroll {
+  overflow: hidden;
+}
+
+.home-layout,
+.work-layout,
+.practice-layout,
+.profile-layout,
+.contact-layout {
+  height: 100%;
+  min-height: 0;
+}
+
+.pager-project-grid,
+.practice-cards,
+.practice-footer,
+.profile-content,
+.profile-timeline,
+.profile-tabs {
+  min-height: 0;
+}
+
+.pager-project-card {
+  height: 100%;
+  min-height: 0;
+}
+
+.practice-card,
+.process-strip,
+.story-button {
+  min-height: 0;
+}
+
+.profile-tab-panel {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.profile-timeline,
+.profile-tabs {
+  overflow: hidden;
+}
+
+@media (max-height: 650px) and (min-width: 761px) {
+  .home-copy h1 {
+    font-size: clamp(3.8rem, 8vw, 6.8rem);
+  }
+
+  .home-statement {
+    margin-top: 0.85rem;
+    font-size: 0.86rem;
+    line-height: 1.38;
+  }
+
+  .home-actions {
+    margin-top: 0.8rem;
+  }
+
+  .focus-card {
+    max-height: 58vh;
+    padding: 0.9rem;
+  }
+
+  .work-layout,
+  .practice-layout,
+  .profile-layout {
+    padding-top: 0;
+    padding-bottom: 0;
+    gap: 0.8rem;
+  }
+
+  .pager-page-heading {
+    gap: 2rem;
+  }
+
+  .pager-project-card {
+    padding: 0.85rem;
+    border-radius: 1.15rem;
+  }
+
+  .project-card-signal {
+    height: 2.4rem;
+    margin: 0.35rem 0;
+  }
+
+  .project-card-copy h3 {
+    font-size: clamp(1.55rem, 3.1vw, 2.8rem);
+  }
+
+  .project-card-copy > p {
+    margin-top: 0.4rem;
+    font-size: 0.68rem;
+  }
+
+  .project-card-copy > div {
+    margin-top: 0.55rem;
+    font-size: 0.58rem;
+  }
+
+  .practice-card {
+    padding: 0.75rem;
+  }
+
+  .practice-card h3 {
+    margin-top: 0.55rem;
+    font-size: clamp(1.1rem, 2vw, 1.8rem);
+  }
+
+  .practice-card p {
+    margin-top: 0.35rem;
+    font-size: 0.67rem;
+  }
+
+  .process-strip,
+  .story-button {
+    padding: 0.7rem;
+  }
+
+  .timeline-group article {
+    padding-top: 0.55rem;
+    padding-bottom: 0.55rem;
+  }
+
+  .profile-timeline,
+  .profile-tabs {
+    padding: 0.9rem;
+  }
+}
+
+@media (max-height: 500px) and (min-width: 761px) {
+  .pager-header {
+    min-height: 3.2rem;
+  }
+
+  .pager-screen {
+    padding-top: 3.95rem;
+    padding-bottom: 3.75rem;
+  }
+
+  .pager-controls {
+    min-height: 2.85rem;
+    bottom: 0.4rem;
+  }
+
+  .pager-arrow {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+  }
+
+  .pager-count {
+    min-width: 3rem;
+    font-size: 0.52rem;
+  }
+
+  .pager-steps button {
+    width: 30px;
+    min-width: 30px;
+    height: 38px;
+  }
+
+  .pager-page-heading h2 {
+    font-size: clamp(1.9rem, 4.8vw, 3rem);
+  }
+
+  .pager-page-heading > p {
+    display: none;
+  }
+
+  .home-copy h1 {
+    font-size: clamp(3rem, 7vw, 5.4rem);
+  }
+
+  .home-statement {
+    margin-top: 0.55rem;
+    font-size: 0.72rem;
+    line-height: 1.28;
+  }
+
+  .home-actions {
+    margin-top: 0.55rem;
+  }
+
+  .pager-primary-action {
+    min-height: 40px;
+    padding-right: 0.85rem;
+    padding-left: 0.95rem;
+    gap: 0.8rem;
+    font-size: 0.68rem !important;
+  }
+
+  .focus-card {
+    max-height: 48vh;
+    padding: 0.62rem;
+  }
+
+  .focus-card-bottom strong {
+    font-size: 1.35rem;
+  }
+
+  .focus-card-bottom > span {
+    max-width: 8rem;
+    font-size: 0.48rem;
+  }
+
+  .orbit-label {
+    padding: 0.28rem 0.45rem;
+    font-size: 0.46rem;
+  }
+
+  .pager-project-card {
+    padding: 0.62rem;
+  }
+
+  .project-card-signal,
+  .project-card-copy > p {
+    display: none;
+  }
+
+  .project-card-copy h3 {
+    margin-top: 0.3rem;
+    font-size: clamp(1.25rem, 2.6vw, 2.25rem);
+  }
+
+  .project-card-copy > div {
+    margin-top: 0.35rem;
+  }
+
+  .project-card-open {
+    min-height: 27px;
+    font-size: 0.56rem;
+  }
+
+  .practice-card {
+    padding: 0.55rem;
+  }
+
+  .practice-card h3 {
+    margin-top: 0.3rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.45rem);
+  }
+
+  .practice-card p {
+    display: none;
+  }
+
+  .process-strip,
+  .story-button {
+    min-height: 0;
+  }
+
+  .process-strip strong {
+    font-size: 0.85rem;
+  }
+
+  .process-strip div > span {
+    display: none;
+  }
+
+  .profile-content {
+    gap: 0.5rem;
+  }
+
+  .timeline-group h3 {
+    font-size: 0.86rem;
+  }
+
+  .timeline-group p {
+    font-size: 0.58rem;
+  }
+
+  .profile-tab-list button {
+    min-height: 34px;
+    font-size: 0.58rem;
+  }
+
+  .profile-chip-list li {
+    padding: 0.3rem 0.45rem;
+    font-size: 0.57rem;
+  }
+
+  .pager-contact .contact-copy h2 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+  }
+
+  .pager-contact .contact-copy > p:not(.pager-eyebrow) {
+    margin-top: 0.7rem;
+    font-size: 0.72rem;
+    line-height: 1.32;
+  }
+
+  .contact-email {
+    min-height: 40px;
+    margin-top: 0.7rem;
+    padding: 0 0.85rem;
+    gap: 0.75rem;
+    font-size: 0.68rem;
+  }
+
+  .contact-signature {
+    width: min(100%, 15rem);
+  }
+
+  .contact-copyright {
+    font-size: 0.5rem;
+  }
+}
+
+@media (max-height: 500px) and (min-width: 761px) and (max-width: 900px) {
+  .profile-timeline,
+  .profile-tabs {
+    padding: 0.6rem;
+  }
+
+  .profile-timeline {
+    gap: 0.45rem;
+  }
+
+  .timeline-group article {
+    padding: 0.4rem 0;
+    grid-template-columns: 3.6rem 1fr;
+  }
+
+  .timeline-group p {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) and (max-width: 760px) {
+  .pager-screen {
+    padding-top: 4.1rem;
+    padding-bottom: 4.35rem;
+  }
+
+  .pager-page-heading h2 {
+    font-size: clamp(1.9rem, 8vw, 2.8rem);
+  }
+
+  .pager-page-heading > p {
+    display: none;
+  }
+
+  .home-layout {
+    grid-template-rows: auto minmax(8rem, 0.8fr);
+    gap: 0.45rem;
+  }
+
+  .home-copy h1 {
+    margin-top: 0.35rem;
+    font-size: clamp(3.2rem, 18vw, 5rem);
+  }
+
+  .home-statement {
+    margin-top: 0.6rem;
+    font-size: 0.74rem;
+    line-height: 1.3;
+  }
+
+  .home-actions {
+    margin-top: 0.6rem;
+  }
+
+  .pager-primary-action {
+    min-height: 42px;
+    padding-right: 0.85rem;
+    padding-left: 0.95rem;
+    gap: 0.8rem;
+    font-size: 0.7rem !important;
+  }
+
+  .focus-card {
+    min-height: 8rem;
+    padding: 0.7rem;
+  }
+
+  .pager-contact .contact-copy h2 {
+    font-size: clamp(3rem, 15vw, 4.8rem);
+  }
+
+  .pager-contact .contact-copy > p:not(.pager-eyebrow) {
+    margin-top: 0.55rem;
+    font-size: 0.72rem;
+    line-height: 1.3;
+  }
+
+  .contact-email {
+    min-height: 40px;
+    margin-top: 0.7rem;
+    padding: 0 0.85rem;
+    gap: 0.75rem;
+    font-size: 0.7rem;
+  }
+
+  .contact-signature {
+    right: -1.2rem;
+    bottom: 0.7rem;
+    width: 9rem;
+  }
+
+  .contact-copyright {
+    margin-top: 0.9rem;
+  }
+
+  .pager-project-grid {
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+
+  .pager-project-card {
+    padding: 0.58rem 0.7rem;
+  }
+
+  .practice-card {
+    padding: 0.52rem 0.7rem;
+  }
+
+  .practice-card p {
+    font-size: 0.6rem;
+  }
+
+  .process-strip {
+    min-height: 4.25rem;
+  }
+
+  .story-button {
+    min-height: 3.7rem;
+  }
+
+  .profile-tab-panel {
+    max-height: none;
+  }
+
+  .profile-timeline,
+  .profile-tabs {
+    padding: 0.6rem;
+  }
+
+  .profile-timeline {
+    gap: 0.35rem;
+  }
+
+  .timeline-group article {
+    padding: 0.4rem 0;
+    grid-template-columns: 3.6rem 1fr;
+  }
+
+  .timeline-group p {
+    display: none;
+  }
+
+  .profile-tab-list button {
+    min-height: 34px;
+    font-size: 0.58rem;
+  }
+
+  .profile-chip-list li {
+    padding: 0.3rem 0.45rem;
+    font-size: 0.56rem;
+  }
+
+  .recognition-list p {
+    font-size: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .recognition-list p + p {
+    margin-top: 0.45rem;
+    padding-top: 0.45rem;
   }
 }

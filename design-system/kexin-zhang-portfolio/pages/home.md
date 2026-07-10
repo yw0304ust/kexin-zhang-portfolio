@@ -3,6 +3,7 @@
 This file overrides the generated master recommendations for the live portfolio.
 
 - Architecture: five fixed viewport pages — Home, Work, Practice, Profile, Contact.
+- Containment: every primary page is `100dvh` and the main shell never exposes vertical scrolling; short windows use compact type, spacing, and card rules.
 - Navigation: real hash links, previous/next controls, keyboard arrows, touch swipe.
 - Motion: directional transform/opacity transition, 420ms maximum; no scroll-driven layout.
 - Palette: ink `#121613`, warm paper `#f3f1ea`, coral `#ee6a45`, with sage and pale blue project surfaces.

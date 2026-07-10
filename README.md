@@ -12,6 +12,10 @@ editorial ink/paper/coral visual language is preserved; frosted glass is limited
 to small action pills and the bottom page controls, while the top navigation is
 transparent and editorial.
 
+Each primary page uses strict `100dvh` containment with height-aware compact
+breakpoints for desktop windows, laptop windows, and short mobile viewports; the
+main page shell does not expose a vertical scrollbar.
+
 ## Content boundaries
 
 - Uses only facts supported by the current English CV.
