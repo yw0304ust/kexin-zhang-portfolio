@@ -29,6 +29,15 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
+    // Keep the Sites fallback hostname out of the visible URL when someone
+    // follows an older bookmark or search result. The custom domain itself is
+    // served directly and never passes through this redirect.
+    if (url.hostname === "kexin-zhang-portfolio.yw0304ust.chatgpt.site") {
+      url.hostname = "kxzhang.com";
+      url.protocol = "https:";
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       return handleImageOptimization(request, {
