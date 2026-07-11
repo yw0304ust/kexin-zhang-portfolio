@@ -2883,7 +2883,7 @@ body {
   min-height: 0;
   padding: clamp(1.25rem, 2.5vw, 2.5rem);
   grid-template-columns: minmax(0, 1.45fr) minmax(15rem, 0.55fr);
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 1rem clamp(1.5rem, 4vw, 4rem);
   border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: clamp(1.7rem, 3vw, 3.2rem);
@@ -3211,8 +3211,8 @@ body {
   display: grid;
   padding: 0;
   grid-template-columns: 1fr;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 0.65rem;
+  grid-template-rows: minmax(0, 1fr);
+  gap: 0;
   border: 0;
   border-radius: 0;
   background: transparent !important;

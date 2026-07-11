@@ -796,15 +796,10 @@ export default function PortfolioPager() {
                   : project.description;
                 return (
                   <article className="project-page page-enter" data-tone={projectIndex} data-slide={projectSlide}>
-                    <div className="project-page-topline">
-                      <span>{project.number} / {project.status}</span>
-                      <span>{projectSlide + 1} / 2 · {project.period}</span>
-                    </div>
                     <div className="project-internal-stage">
                       {projectSlide === 0 ? (
                         <section className="project-overview-slide" aria-label={`${project.title} overview`}>
                           <div className="project-title-card">
-                            <p className="pager-eyebrow">{project.role}</p>
                             <h2
                               id="work-title"
                               tabIndex={-1}
@@ -858,12 +853,6 @@ export default function PortfolioPager() {
                     <div className="project-internal-controls" aria-label="Project pages">
                       <button type="button" onClick={() => setProjectSlide(0)} disabled={projectSlide === 0} aria-label="Previous project page">←</button>
                       <button type="button" onClick={() => setProjectSlide(1)} disabled={projectSlide === 1} aria-label="Next project page">→</button>
-                    </div>
-                    <div className="project-page-tags" aria-label="Project tags">
-                      {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
-                      {"external" in project && project.external && (
-                        <a href={project.external} target="_blank" rel="noreferrer">Competition context ↗</a>
-                      )}
                     </div>
                   </article>
                 );
