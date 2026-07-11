@@ -19,7 +19,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kexin-zhang-portfolio.yw0304ust.chatgpt.site"),
+  metadataBase: new URL("https://kxzhang.com"),
+  alternates: {
+    canonical: "/",
+  },
   title: "Kexin Zhang — Game Design & Player Experience Research",
   description:
     "The selected portfolio of Kexin Zhang, exploring narrative game design, player experience, human-centered HCI, and digital communication.",
@@ -36,6 +39,7 @@ export const metadata: Metadata = {
     description:
       "Narrative game design, player experience research, and human-centered HCI.",
     type: "website",
+    url: "/",
     images: [
       {
         url: "/og.png",
