@@ -64,6 +64,13 @@ final result: passed
 - Console errors: none.
 - Final result: passed.
 
+## Character-linked dialogue bubbles — 2026-07-12
+
+- Converted the three evidence cards into independently positioned speech bubbles in the character field.
+- Added connector strokes pointing from Kaveh, Ningguang, and Necrologist to their corresponding dissertation observations.
+- Separated the character figures with explicit spacing and removed the bottom card row.
+- Final result: passed.
+
 ## Attachment dialogue layout — 2026-07-12
 
 - Replaced the repeated card stack with three asymmetric speech-style evidence blocks anchored to the character research context.
