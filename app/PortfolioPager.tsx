@@ -8,6 +8,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+import ResearchVisuals from "./ResearchVisuals";
 
 const pages = [
   { id: "home", label: "Home" },
@@ -19,6 +20,7 @@ const pages = [
 
 const projects = [
   {
+    kind: "anchor",
     number: "01",
     title: "Anchor",
     subtitle: "A first-person narrative puzzle game",
@@ -46,41 +48,70 @@ const projects = [
     external: "https://tch.cloud.tencent.com/contest/40",
   },
   {
+    kind: "character",
     number: "02",
+    title: "Character Attachment",
+    subtitle: "How Nijigen characters begin to feel alive",
+    period: "2024",
+    role: "MA dissertation · Qualitative game research",
+    status: "Game research",
+    stat: "10 players · 6 games",
+    description:
+      "A qualitative study of how character appeal, interaction mechanics, narrative, and real-world objects turn fictional characters into felt relationships.",
+    tags: ["Thematic analysis", "Player interviews", "Game psychology"],
+    details: [
+      {
+        label: "Question",
+        text: "How do players form attachment to non-customisable characters—and how does that attachment move between the game and everyday life?",
+      },
+      {
+        label: "Method",
+        text: "Ten semi-structured interviews with dedicated players across six Nijigen games, followed by thematic analysis.",
+      },
+      {
+        label: "Finding",
+        text: "Three overlapping modes emerged: symbiotic, observance, and actualisation. All centred on perceived mutual care and response.",
+      },
+    ],
+  },
+  {
+    kind: "fps",
+    number: "03",
     title: "FPS Playtime Study",
     subtitle: "Factors associated with online playtime",
     period: "2024",
     role: "Project lead · Quantitative research",
     status: "Research study",
-    stat: "600+ valid responses",
+    stat: "97 valid responses",
     description:
-      "A survey-led study that moved from questionnaire design to data cleaning, reliability analysis, and multiple regression.",
-    tags: ["SPSS", "Player research", "Survey design"],
+      "A survey-led study of how game experience, perceived usability, and social interaction relate to FPS session length.",
+    tags: ["Ordinal regression", "SPSS", "Survey design"],
     details: [
       {
         label: "Question",
-        text: "What factors are associated with the amount of time FPS players spend playing online?",
+        text: "Which experience factors are associated with Chinese FPS players entering longer single-session playtime categories?",
       },
       {
         label: "Methods",
-        text: "Questionnaire design, data cleaning and recoding, reliability assessment, multiple regression in SPSS, and demographic tables for communicating the sample.",
+        text: "WeChat survey, data cleaning and recoding, reliability assessment, and ordinal logistic regression in SPSS.",
       },
       {
-        label: "Role",
-        text: "Project lead from study design through analysis and the communication of participant characteristics.",
+        label: "Finding",
+        text: "Social interaction had the strongest significant association with longer categories; game experience was significant, while usability was not.",
       },
     ],
   },
   {
-    number: "03",
+    kind: "ai",
+    number: "04",
     title: "AI × Library Live Chat",
     subtitle: "Student use of AI at King’s College London",
     period: "2023—24",
     role: "Project lead · User research",
     status: "HCI study",
-    stat: "400 student responses",
+    stat: "55 survey · 6 interviews",
     description:
-      "A collaborative study with KCL Library exploring how students use AI and how it might meet an existing support service.",
+      "A mixed-method study with KCL Library exploring student AI use, trust, privacy, guidance, and service opportunities.",
     tags: ["HCI", "Data visualisation", "Service research"],
     details: [
       {
@@ -89,11 +120,11 @@ const projects = [
       },
       {
         label: "Methods",
-        text: "A 400-response survey, data cleaning, and visualisations designed to make patterns of use and student feedback legible.",
+        text: "Fifty-five survey responses, six semi-structured interviews, question-level analysis, and evidence visualisation.",
       },
       {
-        label: "Outcome",
-        text: "The project was conducted with KCL Library, and I presented the findings to the Library.",
+        label: "Insight",
+        text: "Students wanted the speed of AI, the traceability of search, and the empathy of human support.",
       },
     ],
   },
@@ -122,7 +153,7 @@ const methods = [
   "Questionnaire design",
   "Data cleaning & recoding",
   "Reliability analysis",
-  "Multiple regression",
+  "Ordinal regression",
   "Data visualisation",
   "Interview design",
   "Narrative prototyping",
@@ -478,8 +509,8 @@ export default function PortfolioPager() {
                   </h2>
                 </div>
                 <p>
-                  Three projects across narrative design, player research, and
-                  service-focused HCI.
+                  Four projects across narrative design, game research, player
+                  research, and service-focused HCI.
                 </p>
               </div>
 
@@ -828,7 +859,11 @@ export default function PortfolioPager() {
           </div>
 
           {selectedProject && (
-            <div className="detail-content">
+            <div
+              className={`detail-content ${
+                selectedProject.kind === "anchor" ? "" : "research-detail-content"
+              }`.trim()}
+            >
               <div className="detail-heading">
                 <p>{selectedProject.role}</p>
                 <h2 id="detail-title">{selectedProject.title}</h2>
@@ -843,6 +878,9 @@ export default function PortfolioPager() {
                   </article>
                 ))}
               </div>
+              {selectedProject.kind !== "anchor" && (
+                <ResearchVisuals kind={selectedProject.kind} />
+              )}
               <ul className="detail-tags" aria-label="Project tags">
                 {selectedProject.tags.map((tag) => (
                   <li key={tag}>{tag}</li>

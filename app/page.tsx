@@ -16,8 +16,8 @@ const projects = [
     period: "2024",
     role: "Project lead · Quantitative research",
     description:
-      "A survey-led study that moved from questionnaire design to data cleaning, reliability analysis, and multiple regression.",
-    tags: ["600+ responses", "SPSS", "Player research"],
+      "A survey-led study that moved from questionnaire design to data cleaning, reliability analysis, and ordinal regression.",
+    tags: ["97 valid responses", "SPSS", "Player research"],
   },
   {
     number: "03",
@@ -27,7 +27,7 @@ const projects = [
     role: "Project lead · User research",
     description:
       "A collaborative study with KCL Library exploring how students use AI and how it might meet an existing support service.",
-    tags: ["400 responses", "Data visualisation", "HCI"],
+    tags: ["55 survey · 6 interviews", "Data visualisation", "HCI"],
   },
 ] as const;
 
@@ -162,8 +162,8 @@ function LegacyLongFormPortfolio() {
             <div>
               <h2 id="work-title">Questions made playable.</h2>
               <p>
-                Three projects across narrative design, player research, and
-                service-focused HCI.
+                Selected projects across narrative design, game research, player
+                research, and service-focused HCI.
               </p>
             </div>
           </div>
@@ -271,10 +271,10 @@ function LegacyLongFormPortfolio() {
               <div
                 className="data-visual"
                 role="img"
-                aria-label="Abstract distribution chart representing more than 600 valid survey responses"
+                aria-label="Abstract distribution chart representing 97 valid survey responses"
               >
                 <div className="data-stat">
-                  <strong>600+</strong>
+                  <strong>97</strong>
                   <span>valid responses</span>
                 </div>
                 <div className="data-bars" aria-hidden="true">
@@ -291,7 +291,7 @@ function LegacyLongFormPortfolio() {
                 <summary>Methods used</summary>
                 <p>
                   Questionnaire design, data cleaning and recoding, reliability
-                  assessment, multiple regression in SPSS, and demographic
+                  assessment, ordinal logistic regression in SPSS, and demographic
                   tables for communicating the sample.
                 </p>
               </details>
@@ -311,8 +311,8 @@ function LegacyLongFormPortfolio() {
                 aria-label="Abstract live chat interface representing the student AI use study"
               >
                 <div className="chat-stat">
-                  <strong>400</strong>
-                  <span>student responses</span>
+                  <strong>55 + 6</strong>
+                  <span>survey · interviews</span>
                 </div>
                 <div className="chat-thread" aria-hidden="true">
                   <span className="chat-line chat-line-one" />
