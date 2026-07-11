@@ -2390,6 +2390,7 @@ body {
 
 .project-page[data-tone="1"] .project-title-card {
   position: relative;
+  overflow: hidden;
   display: grid;
   min-height: 0;
   padding: clamp(0.4rem, 1.4vh, 0.9rem) 0 clamp(0.8rem, 2vh, 1.4rem);
@@ -2431,7 +2432,7 @@ body {
   position: absolute;
   top: -0.35rem;
   right: 0;
-  bottom: 0;
+  bottom: 0.65rem;
   display: flex;
   width: 58%;
   min-width: 32rem;
@@ -2444,7 +2445,7 @@ body {
 .attachment-character-lineup figure {
   position: relative;
   width: 34%;
-  height: 100%;
+  height: calc(100% - 0.35rem);
   margin: 0 -3.5%;
 }
 
@@ -2454,26 +2455,14 @@ body {
 
 .attachment-character-lineup img {
   width: 100%;
-  height: 94%;
+  height: 100%;
   object-fit: contain;
   object-position: center bottom;
   filter: drop-shadow(0 16px 18px rgba(33, 44, 37, 0.16));
 }
 
 .attachment-character-lineup figcaption {
-  position: absolute;
-  right: 8%;
-  bottom: 0.35rem;
-  left: 8%;
-  display: flex;
-  padding: 0.28rem 0.4rem;
-  flex-direction: column;
-  border-radius: 0.5rem;
-  background: rgba(247, 248, 243, 0.72);
-  box-shadow: 0 5px 16px rgba(33, 44, 37, 0.1);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  text-align: center;
+  display: none;
 }
 
 .attachment-character-lineup figcaption strong {
@@ -2496,6 +2485,11 @@ body {
   border-color: rgba(103, 128, 109, 0.22);
   border-radius: clamp(1rem, 1.6vw, 1.45rem);
   background: #dce8dc;
+}
+
+.project-page[data-tone="1"] .project-stat-card,
+.project-page[data-tone="1"] .project-mini-grid {
+  margin-top: 0.25rem;
 }
 
 .project-page[data-tone="1"] .project-stat-card {
