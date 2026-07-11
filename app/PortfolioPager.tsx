@@ -159,50 +159,131 @@ const methods = [
   "Narrative prototyping",
 ] as const;
 
+type SphereGroup = "core" | "motivation" | "attraction" | "mode" | "impact";
+type SphereWeight = 2 | 3 | 4 | 5;
+type SphereEdgeStrength = "strong" | "soft" | "theory";
+
 type SphereNode = {
   id: string;
   label: string;
+  weight: SphereWeight;
+  group: SphereGroup;
+  pinned?: boolean;
   x: number;
   y: number;
   z: number;
-  size: number;
-  tone: "accent" | "light" | "muted";
 };
 
-// The points form a semantic graph, not a random pile of words: the central
-// theme branches into care, mechanics, lived experience, and the three modes
-// that emerged from the dissertation.
-const researchSphereNodes: SphereNode[] = [
-  { id: "attachment", label: "character attachment", x: 0, y: 0.06, z: 0.98, size: 18, tone: "accent" },
-  { id: "care", label: "mutual care", x: -0.38, y: 0.24, z: 0.88, size: 12, tone: "light" },
-  { id: "mechanics", label: "interaction mechanics", x: -0.68, y: -0.28, z: 0.66, size: 9, tone: "light" },
-  { id: "gacha", label: "gacha", x: 0.63, y: -0.19, z: 0.71, size: 11, tone: "light" },
-  { id: "personality", label: "personality", x: -0.84, y: 0.37, z: 0.38, size: 8, tone: "muted" },
-  { id: "story", label: "story", x: -0.27, y: 0.73, z: 0.58, size: 10, tone: "light" },
-  { id: "reality", label: "real-world factors", x: 0.72, y: 0.4, z: 0.5, size: 8, tone: "muted" },
-  { id: "behaviour", label: "player behaviour", x: 0.14, y: -0.64, z: 0.7, size: 8, tone: "light" },
-  { id: "symbiotic", label: "symbiotic", x: -0.56, y: -0.76, z: 0.2, size: 7, tone: "muted" },
-  { id: "observance", label: "observance", x: 0.08, y: -0.86, z: 0.27, size: 7, tone: "muted" },
-  { id: "actualisation", label: "actualisation", x: 0.7, y: -0.58, z: 0.2, size: 7, tone: "muted" },
+type SphereEdge = {
+  from: string;
+  to: string;
+  strength: SphereEdgeStrength;
+};
+
+const researchSphereVocabulary: Array<Omit<SphereNode, "x" | "y" | "z">> = [
+  { id: "attachment", label: "Character Attachment", weight: 5, group: "core", pinned: true },
+  { id: "nijigen", label: "Nijigen Games", weight: 5, group: "core" },
+  { id: "gacha", label: "Gacha", weight: 5, group: "motivation" },
+  { id: "attraction", label: "Character Attraction", weight: 5, group: "attraction" },
+  { id: "symbiotic", label: "Symbiotic Attachment", weight: 5, group: "mode" },
+  { id: "observance", label: "Observance Attachment", weight: 5, group: "mode" },
+  { id: "actualisation", label: "Actualisation Attachment", weight: 5, group: "mode" },
+  { id: "care", label: "Mutual Care", weight: 5, group: "mode" },
+  { id: "game-motivation", label: "Game Motivation", weight: 4, group: "motivation" },
+  { id: "game-mechanics", label: "Game Mechanics", weight: 4, group: "motivation" },
+  { id: "personality", label: "Personality", weight: 4, group: "attraction" },
+  { id: "backstory", label: "Backstory", weight: 4, group: "attraction" },
+  { id: "social-attraction", label: "Social Attractiveness", weight: 4, group: "attraction" },
+  { id: "self-projection", label: "Self-projection", weight: 4, group: "mode" },
+  { id: "independent-agent", label: "Independent Social Agent", weight: 4, group: "mode" },
+  { id: "interaction", label: "Interaction Mechanisms", weight: 4, group: "impact" },
+  { id: "real-world", label: "Real-world Factors", weight: 4, group: "impact" },
+  { id: "emotional-support", label: "Emotional Support", weight: 4, group: "impact" },
+  { id: "behaviour", label: "Player Behaviour", weight: 4, group: "impact" },
+  { id: "parasocial", label: "Parasocial Interaction", weight: 3, group: "core" },
+  { id: "identification", label: "Character Identification", weight: 3, group: "core" },
+  { id: "collection", label: "Character Collection", weight: 3, group: "motivation" },
+  { id: "storyline", label: "Storyline", weight: 3, group: "motivation" },
+  { id: "physical-attraction", label: "Physical Attractiveness", weight: 3, group: "attraction" },
+  { id: "companionship", label: "Companionship", weight: 3, group: "impact" },
+  { id: "resources", label: "Resource Allocation", weight: 3, group: "impact" },
+  { id: "merchandise", label: "Merchandise", weight: 3, group: "impact" },
+  { id: "fan-creations", label: "Fan Creations", weight: 3, group: "impact" },
+  { id: "photography", label: "Photography", weight: 3, group: "impact" },
+  { id: "customisation", label: "Customisation", weight: 3, group: "impact" },
+  { id: "social-needs", label: "Social Requirements", weight: 2, group: "motivation" },
+  { id: "task-attraction", label: "Task Attractiveness", weight: 2, group: "attraction" },
 ];
 
-const researchSphereEdges: Array<[string, string]> = [
-  ["attachment", "care"],
-  ["attachment", "mechanics"],
-  ["attachment", "gacha"],
-  ["attachment", "story"],
-  ["attachment", "personality"],
-  ["care", "symbiotic"],
-  ["care", "observance"],
-  ["care", "actualisation"],
-  ["mechanics", "gacha"],
-  ["mechanics", "behaviour"],
-  ["story", "personality"],
-  ["story", "reality"],
-  ["behaviour", "observance"],
-  ["gacha", "actualisation"],
-  ["reality", "actualisation"],
+function spherePoint(index: number, count: number, angleOffset = 0) {
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+  const y = 1 - ((index + 0.5) / count) * 2;
+  const radius = Math.sqrt(Math.max(0, 1 - y * y));
+  const angle = index * goldenAngle + angleOffset;
+  return { x: Math.cos(angle) * radius, y, z: Math.sin(angle) * radius };
+}
+
+const researchSphereNodes: SphereNode[] = researchSphereVocabulary.map((term, index) => {
+  if (term.pinned) return { ...term, x: 0, y: 0, z: 0 };
+  return {
+    ...term,
+    ...spherePoint(index - 1, researchSphereVocabulary.length - 1, 0.68),
+  };
+});
+
+const researchSphereDust = Array.from({ length: 84 }, (_, index) => spherePoint(index, 84, 1.16));
+
+const researchSphereEdges: SphereEdge[] = [
+  { from: "nijigen", to: "attachment", strength: "strong" },
+  { from: "nijigen", to: "gacha", strength: "strong" },
+  { from: "nijigen", to: "game-mechanics", strength: "strong" },
+  { from: "gacha", to: "game-motivation", strength: "strong" },
+  { from: "gacha", to: "collection", strength: "soft" },
+  { from: "gacha", to: "resources", strength: "soft" },
+  { from: "attraction", to: "attachment", strength: "strong" },
+  { from: "interaction", to: "attachment", strength: "strong" },
+  { from: "real-world", to: "attachment", strength: "strong" },
+  { from: "attachment", to: "behaviour", strength: "strong" },
+  { from: "attachment", to: "emotional-support", strength: "strong" },
+  { from: "attachment", to: "symbiotic", strength: "strong" },
+  { from: "attachment", to: "observance", strength: "strong" },
+  { from: "attachment", to: "actualisation", strength: "strong" },
+  { from: "care", to: "symbiotic", strength: "strong" },
+  { from: "care", to: "observance", strength: "strong" },
+  { from: "care", to: "actualisation", strength: "strong" },
+  { from: "independent-agent", to: "care", strength: "soft" },
+  { from: "identification", to: "self-projection", strength: "soft" },
+  { from: "self-projection", to: "symbiotic", strength: "soft" },
+  { from: "symbiotic", to: "emotional-support", strength: "soft" },
+  { from: "backstory", to: "observance", strength: "soft" },
+  { from: "independent-agent", to: "observance", strength: "soft" },
+  { from: "observance", to: "emotional-support", strength: "soft" },
+  { from: "interaction", to: "actualisation", strength: "soft" },
+  { from: "real-world", to: "actualisation", strength: "soft" },
+  { from: "actualisation", to: "companionship", strength: "soft" },
+  { from: "actualisation", to: "merchandise", strength: "soft" },
+  { from: "personality", to: "social-attraction", strength: "soft" },
+  { from: "backstory", to: "social-attraction", strength: "soft" },
+  { from: "social-attraction", to: "attraction", strength: "soft" },
+  { from: "physical-attraction", to: "attraction", strength: "soft" },
+  { from: "task-attraction", to: "attraction", strength: "theory" },
+  { from: "storyline", to: "backstory", strength: "soft" },
+  { from: "behaviour", to: "resources", strength: "soft" },
+  { from: "behaviour", to: "merchandise", strength: "soft" },
+  { from: "behaviour", to: "fan-creations", strength: "soft" },
+  { from: "game-mechanics", to: "photography", strength: "soft" },
+  { from: "game-mechanics", to: "customisation", strength: "soft" },
+  { from: "parasocial", to: "attachment", strength: "theory" },
+  { from: "parasocial", to: "care", strength: "theory" },
 ];
+
+const researchSpherePalette: Record<SphereGroup, string> = {
+  core: "#fbfaf6",
+  motivation: "#d9ee88",
+  attraction: "#ff7954",
+  mode: "#aebbff",
+  impact: "#a8c8af",
+};
 
 function ResearchSphere() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -218,11 +299,15 @@ function ResearchSphere() {
       lastY: 0,
       velocityX: 0,
       velocityY: 0,
+      x: -1000,
+      y: -1000,
     };
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const fontFamily = getComputedStyle(canvas).fontFamily || "ui-monospace, monospace";
-    let rotationX = -0.08;
-    let rotationY = 0.36;
+    const bodyFontFamily = getComputedStyle(canvas).fontFamily || "system-ui, sans-serif";
+    const displaySource = document.querySelector<HTMLElement>(".home-copy h1") ?? canvas;
+    const displayFontFamily = getComputedStyle(displaySource).fontFamily || bodyFontFamily;
+    let rotationX = -0.12;
+    let rotationY = 0.28;
     let width = 0;
     let height = 0;
     let devicePixelRatio = 1;
@@ -238,19 +323,23 @@ function ResearchSphere() {
       canvas.height = Math.floor(height * devicePixelRatio);
     };
 
-    const project = (node: SphereNode, radius: number, centerX: number, centerY: number) => {
+    const projectPoint = (
+      point: { x: number; y: number; z: number },
+      radius: number,
+      centerX: number,
+      centerY: number,
+    ) => {
       const cosY = Math.cos(rotationY);
       const sinY = Math.sin(rotationY);
       const cosX = Math.cos(rotationX);
       const sinX = Math.sin(rotationX);
-      const rotatedX = node.x * cosY - node.z * sinY;
-      const rotatedZ = node.x * sinY + node.z * cosY;
-      const projectedY = node.y * cosX - rotatedZ * sinX;
-      const depth = node.y * sinX + rotatedZ * cosX;
-      const perspective = 0.76 + ((depth + 1) / 2) * 0.28;
+      const rotatedX = point.x * cosY - point.z * sinY;
+      const rotatedZ = point.x * sinY + point.z * cosY;
+      const projectedY = point.y * cosX - rotatedZ * sinX;
+      const depth = point.y * sinX + rotatedZ * cosX;
+      const perspective = 0.78 + ((depth + 1) / 2) * 0.24;
 
       return {
-        node,
         x: centerX + rotatedX * radius * perspective,
         y: centerY + projectedY * radius * perspective,
         depth,
@@ -262,31 +351,36 @@ function ResearchSphere() {
       if (cancelled) return;
 
       if (!pointer.active) {
-        if (!reducedMotion) rotationY += 0.0022 + pointer.velocityY;
+        if (!reducedMotion) rotationY += 0.00135 + pointer.velocityY;
         rotationX += pointer.velocityX;
         pointer.velocityX *= 0.94;
         pointer.velocityY *= 0.94;
       }
 
       const centerX = width / 2;
-      const centerY = height / 2 + height * 0.02;
-      const radius = Math.min(width, height) * 0.4;
-      const projected = researchSphereNodes.map((node) => project(node, radius, centerX, centerY));
+      const centerY = height / 2;
+      const radius = Math.min(width, height) * 0.415;
+      const projected = researchSphereNodes.map((node) => {
+        if (node.pinned) {
+          return { node, x: centerX, y: centerY, depth: 1.1, perspective: 1.06 };
+        }
+        return { node, ...projectPoint(node, radius, centerX, centerY) };
+      });
       const projectedById = new Map(projected.map((item) => [item.node.id, item]));
 
       context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
       context.clearRect(0, 0, width, height);
 
       const glow = context.createRadialGradient(
-        centerX - radius * 0.24,
-        centerY - radius * 0.3,
-        radius * 0.08,
+        centerX - radius * 0.28,
+        centerY - radius * 0.32,
+        radius * 0.04,
         centerX,
         centerY,
-        radius * 1.16,
+        radius * 1.12,
       );
-      glow.addColorStop(0, "rgba(238, 106, 69, 0.16)");
-      glow.addColorStop(0.5, "rgba(238, 106, 69, 0.045)");
+      glow.addColorStop(0, "rgba(255, 121, 84, 0.16)");
+      glow.addColorStop(0.46, "rgba(174, 187, 255, 0.045)");
       glow.addColorStop(1, "rgba(18, 22, 19, 0)");
       context.fillStyle = glow;
       context.beginPath();
@@ -294,62 +388,185 @@ function ResearchSphere() {
       context.fill();
 
       context.save();
-      context.strokeStyle = "rgba(251, 250, 246, 0.1)";
-      context.lineWidth = 0.7;
-      context.setLineDash([2, 5]);
+      context.strokeStyle = "rgba(251, 250, 246, 0.17)";
+      context.lineWidth = 0.8;
       context.beginPath();
-      context.ellipse(centerX, centerY, radius * 1.03, radius * 0.42, 0, 0, Math.PI * 2);
-      context.stroke();
-      context.beginPath();
-      context.ellipse(centerX, centerY, radius * 0.42, radius * 1.03, 0, 0, Math.PI * 2);
+      context.arc(centerX, centerY, radius * 1.025, 0, Math.PI * 2);
       context.stroke();
       context.restore();
 
-      for (const [fromId, toId] of researchSphereEdges) {
-        const from = projectedById.get(fromId);
-        const to = projectedById.get(toId);
+      for (const point of researchSphereDust) {
+        const dust = projectPoint(point, radius, centerX, centerY);
+        const depth = (dust.depth + 1) / 2;
+        context.globalAlpha = 0.08 + depth * 0.28;
+        context.fillStyle = depth > 0.58 ? "#fbfaf6" : "#a8c8af";
+        context.beginPath();
+        context.arc(dust.x, dust.y, 0.45 + depth * 0.75, 0, Math.PI * 2);
+        context.fill();
+      }
+      context.globalAlpha = 1;
+
+      const hovered = projected
+        .filter((item) => !item.node.pinned)
+        .map((item) => ({ item, distance: Math.hypot(item.x - pointer.x, item.y - pointer.y) }))
+        .filter(({ distance }) => distance < 20)
+        .sort((a, b) => a.distance - b.distance)[0]?.item;
+      const hoveredId = hovered?.node.id ?? null;
+      const relatedIds = new Set<string>();
+      if (hoveredId) {
+        relatedIds.add(hoveredId);
+        researchSphereEdges.forEach((edge) => {
+          if (edge.from === hoveredId) relatedIds.add(edge.to);
+          if (edge.to === hoveredId) relatedIds.add(edge.from);
+        });
+      }
+      canvas.style.cursor = pointer.active ? "grabbing" : hoveredId ? "pointer" : "grab";
+
+      for (const edge of researchSphereEdges) {
+        const from = projectedById.get(edge.from);
+        const to = projectedById.get(edge.to);
         if (!from || !to) continue;
-        const depth = Math.max(0.08, (from.depth + to.depth + 2) / 4);
-        context.strokeStyle = `rgba(238, 106, 69, ${0.08 + depth * 0.23})`;
-        context.lineWidth = 0.55 + depth * 0.7;
+        const depth = Math.max(0, (from.depth + to.depth + 2) / 4);
+        const highlighted = hoveredId === edge.from || hoveredId === edge.to;
+        const baseAlpha = edge.strength === "strong" ? 0.12 : edge.strength === "soft" ? 0.07 : 0.045;
+        const edgeColor = researchSpherePalette[to.node.group];
+        const midX = (from.x + to.x) / 2;
+        const midY = (from.y + to.y) / 2;
+        const radialX = midX - centerX;
+        const radialY = midY - centerY;
+        const radialLength = Math.max(1, Math.hypot(radialX, radialY));
+        const curve = 8 + Math.hypot(to.x - from.x, to.y - from.y) * 0.07;
+        context.save();
+        context.globalAlpha = highlighted ? 0.62 : baseAlpha + depth * (edge.strength === "strong" ? 0.12 : 0.07);
+        context.strokeStyle = edgeColor;
+        context.lineWidth = highlighted ? 1.55 : edge.strength === "strong" ? 0.95 : 0.65;
+        context.setLineDash(edge.strength === "theory" ? [3, 5] : []);
         context.beginPath();
         context.moveTo(from.x, from.y);
-        context.lineTo(to.x, to.y);
+        context.quadraticCurveTo(
+          midX + (radialX / radialLength) * curve,
+          midY + (radialY / radialLength) * curve,
+          to.x,
+          to.y,
+        );
         context.stroke();
+        context.restore();
       }
 
       projected
+        .filter((item) => !item.node.pinned)
         .sort((a, b) => a.depth - b.depth)
         .forEach(({ node, x, y, depth, perspective }) => {
-          const visibility = 0.3 + ((depth + 1) / 2) * 0.7;
-          const mobileScale = width < 260 ? 0.72 : 1;
-          const fontSize = Math.max(6, node.size * perspective * mobileScale);
-          const dotSize = Math.max(1.5, 2.2 * perspective * mobileScale);
-          const tone =
-            node.tone === "accent"
-              ? `rgba(238, 106, 69, ${visibility})`
-              : node.tone === "light"
-                ? `rgba(251, 250, 246, ${0.48 + visibility * 0.42})`
-                : `rgba(251, 250, 246, ${0.27 + visibility * 0.36})`;
-
+          const frontness = (depth + 1) / 2;
+          const highlighted = hoveredId === node.id;
+          const related = relatedIds.has(node.id);
+          const dotSize = Math.max(1.45, (1.4 + node.weight * 0.28) * perspective);
           context.save();
-          context.globalAlpha = visibility;
-          context.fillStyle = tone;
-          context.shadowColor = node.tone === "accent" ? "rgba(238, 106, 69, 0.42)" : "transparent";
-          context.shadowBlur = node.tone === "accent" ? 12 : 0;
+          context.globalAlpha = highlighted ? 1 : 0.32 + frontness * 0.6;
+          context.fillStyle = researchSpherePalette[node.group];
+          context.shadowColor = highlighted ? researchSpherePalette[node.group] : "transparent";
+          context.shadowBlur = highlighted ? 12 : 0;
           context.beginPath();
-          context.arc(x, y, dotSize, 0, Math.PI * 2);
+          context.arc(x, y, dotSize + (related ? 0.6 : 0), 0, Math.PI * 2);
           context.fill();
-          context.shadowBlur = 0;
-          context.font = `${node.tone === "accent" ? 650 : 520} ${fontSize}px ${fontFamily}`;
-          context.textAlign = "center";
-          context.textBaseline = "bottom";
-          const textWidth = context.measureText(node.label).width;
-          const labelX = Math.max(textWidth / 2 + 4, Math.min(width - textWidth / 2 - 4, x));
-          const labelY = Math.max(fontSize + 4, y - dotSize - 4);
-          context.fillText(node.label, labelX, Math.min(height - 4, labelY));
           context.restore();
         });
+
+      type LabelBox = { left: number; right: number; top: number; bottom: number };
+      const labelBoxes: LabelBox[] = [];
+      const compact = width < 260;
+      const centralFontSize = compact ? 17 : Math.max(20, Math.min(24, width * 0.055));
+      context.font = `700 ${centralFontSize}px ${displayFontFamily}`;
+      const centralWidth = Math.min(context.measureText("Character Attachment").width, width * 0.76);
+      labelBoxes.push({
+        left: centerX - centralWidth / 2 - 9,
+        right: centerX + centralWidth / 2 + 9,
+        top: centerY - centralFontSize * 0.7,
+        bottom: centerY + centralFontSize * 0.55,
+      });
+
+      const overlapArea = (first: LabelBox, second: LabelBox) => {
+        const horizontal = Math.max(0, Math.min(first.right, second.right) - Math.max(first.left, second.left));
+        const vertical = Math.max(0, Math.min(first.bottom, second.bottom) - Math.max(first.top, second.top));
+        return horizontal * vertical;
+      };
+
+      projected
+        .filter((item) => !item.node.pinned)
+        .sort((a, b) => b.node.weight * 10 + b.depth * 3 - (a.node.weight * 10 + a.depth * 3))
+        .forEach(({ node, x, y, depth, perspective }) => {
+          const frontness = (depth + 1) / 2;
+          const highlighted = hoveredId === node.id;
+          const related = relatedIds.has(node.id);
+          if (compact && node.weight <= 2 && !highlighted) return;
+          if (compact && node.weight === 3 && depth < 0.08 && !related) return;
+          if (!compact && node.weight <= 2 && depth < -0.58 && !highlighted) return;
+
+          const desktopSizes: Record<SphereWeight, number> = { 2: 9.5, 3: 10.5, 4: 12.5, 5: 15.5 };
+          const compactSizes: Record<SphereWeight, number> = { 2: 0, 3: 9.2, 4: 10.8, 5: 12.4 };
+          const baseSize = compact ? compactSizes[node.weight] : desktopSizes[node.weight];
+          const fontSize = Math.max(compact ? 9 : 9.5, baseSize * (0.9 + perspective * 0.12));
+          context.font = `${node.weight >= 4 ? 620 : 520} ${fontSize}px ${bodyFontFamily}`;
+          const textWidth = Math.min(context.measureText(node.label).width, width * (compact ? 0.52 : 0.46));
+          const radialX = (x - centerX) / Math.max(1, radius);
+          const radialY = (y - centerY) / Math.max(1, radius);
+          const candidates = [
+            { x, y: y - fontSize * 0.7 },
+            { x: x + radialX * 11, y: y + radialY * 10 },
+            { x: x - radialY * 11, y: y + radialX * 9 },
+            { x: x + radialY * 11, y: y - radialX * 9 },
+            { x: x + radialX * 20, y: y + radialY * 18 },
+            { x: x - radialY * 22, y: y + radialX * 18 },
+            { x: x + radialY * 22, y: y - radialX * 18 },
+            { x, y: y + fontSize * 1.3 },
+          ];
+
+          let chosen: { x: number; y: number; box: LabelBox; score: number } | null = null;
+          for (const candidate of candidates) {
+            const labelX = Math.max(textWidth / 2 + 5, Math.min(width - textWidth / 2 - 5, candidate.x));
+            const labelY = Math.max(fontSize, Math.min(height - fontSize, candidate.y));
+            const box = {
+              left: labelX - textWidth / 2 - 3,
+              right: labelX + textWidth / 2 + 3,
+              top: labelY - fontSize * 0.68,
+              bottom: labelY + fontSize * 0.5,
+            };
+            const score = labelBoxes.reduce((total, other) => total + overlapArea(box, other), 0);
+            if (!chosen || score < chosen.score) chosen = { x: labelX, y: labelY, box, score };
+            if (score === 0) break;
+          }
+
+          if (!chosen) return;
+          if (chosen.score > 0 && !highlighted) return;
+          labelBoxes.push(chosen.box);
+          const alpha = highlighted ? 1 : related ? 0.96 : 0.58 + frontness * 0.42;
+          context.save();
+          context.globalAlpha = alpha;
+          context.font = `${node.weight >= 4 ? 620 : 520} ${fontSize}px ${bodyFontFamily}`;
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.lineJoin = "round";
+          context.strokeStyle = "rgba(18, 22, 19, 0.92)";
+          context.lineWidth = compact ? 2.5 : 3.5;
+          context.strokeText(node.label, chosen.x, chosen.y, textWidth);
+          context.fillStyle = researchSpherePalette[node.group];
+          context.fillText(node.label, chosen.x, chosen.y, textWidth);
+          context.restore();
+        });
+
+      context.save();
+      context.font = `700 ${centralFontSize}px ${displayFontFamily}`;
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.lineJoin = "round";
+      context.shadowColor = "rgba(255, 121, 84, 0.34)";
+      context.shadowBlur = compact ? 10 : 18;
+      context.strokeStyle = "rgba(18, 22, 19, 0.96)";
+      context.lineWidth = compact ? 4 : 6;
+      context.strokeText("Character Attachment", centerX, centerY, width * 0.78);
+      context.fillStyle = researchSpherePalette.core;
+      context.fillText("Character Attachment", centerX, centerY, width * 0.78);
+      context.restore();
 
       animationFrame = window.requestAnimationFrame(draw);
     };
@@ -364,6 +581,9 @@ function ResearchSphere() {
     };
 
     const onPointerMove = (event: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = event.clientX - rect.left;
+      pointer.y = event.clientY - rect.top;
       if (!pointer.active) return;
       const deltaX = event.clientX - pointer.lastX;
       const deltaY = event.clientY - pointer.lastY;
@@ -378,6 +598,11 @@ function ResearchSphere() {
     const onPointerUp = (event: PointerEvent) => {
       pointer.active = false;
       if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    };
+
+    const onPointerLeave = () => {
+      pointer.x = -1000;
+      pointer.y = -1000;
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -397,6 +622,7 @@ function ResearchSphere() {
     canvas.addEventListener("pointermove", onPointerMove);
     canvas.addEventListener("pointerup", onPointerUp);
     canvas.addEventListener("pointercancel", onPointerUp);
+    canvas.addEventListener("pointerleave", onPointerLeave);
     canvas.addEventListener("keydown", onKeyDown);
     resize();
     animationFrame = window.requestAnimationFrame(draw);
@@ -409,26 +635,20 @@ function ResearchSphere() {
       canvas.removeEventListener("pointermove", onPointerMove);
       canvas.removeEventListener("pointerup", onPointerUp);
       canvas.removeEventListener("pointercancel", onPointerUp);
+      canvas.removeEventListener("pointerleave", onPointerLeave);
       canvas.removeEventListener("keydown", onKeyDown);
     };
   }, []);
 
   return (
-    <div
-      className="research-sphere"
-      role="img"
-      aria-label="Interactive research graph: character attachment connects mutual care, interaction mechanics, gacha, personality, story, real-world factors, player behaviour, and the symbiotic, observance, and actualisation modes."
-    >
-      <canvas className="research-sphere-canvas" ref={canvasRef} tabIndex={0} aria-hidden="true" />
-      <div className="research-sphere-hint" aria-hidden="true">
-        <span>Character attachment / Nijigen games</span>
-        <span>Drag to rotate</span>
-      </div>
-      <div className="research-sphere-legend" aria-hidden="true">
-        <span>Core theme</span>
-        <span>Conditions</span>
-        <span>Attachment modes</span>
-      </div>
+    <div className="research-sphere">
+      <canvas
+        aria-label="Interactive rotating knowledge sphere for the character attachment dissertation. Drag or use the arrow keys to explore research concepts and their connections."
+        className="research-sphere-canvas"
+        ref={canvasRef}
+        role="img"
+        tabIndex={0}
+      />
     </div>
   );
 }
@@ -732,10 +952,6 @@ export default function PortfolioPager() {
               <div
                 className="focus-card research-graph-card page-enter"
               >
-                <div className="focus-card-top research-graph-meta">
-                  <span>Research vocabulary</span>
-                  <span>MA dissertation · 2024</span>
-                </div>
                 <ResearchSphere />
               </div>
             </div>
