@@ -5,7 +5,6 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
@@ -160,32 +159,279 @@ const methods = [
   "Narrative prototyping",
 ] as const;
 
-type ResearchWord = {
+type SphereNode = {
+  id: string;
   label: string;
   x: number;
   y: number;
-  rotate: number;
-  size: string;
-  tone: "accent" | "light" | "muted" | "outline";
-  delay: string;
+  z: number;
+  size: number;
+  tone: "accent" | "light" | "muted";
 };
 
-// Weighted from the dissertation's abstract, findings and framework, then
-// paired with Anchor's own memory / choice / care vocabulary.
-const anchorResearchWords: ResearchWord[] = [
-  { label: "memory", x: 50, y: 47, rotate: -3, size: "clamp(2rem, 4.6vw, 3.2rem)", tone: "accent", delay: "0s" },
-  { label: "care", x: 18, y: 27, rotate: -10, size: "clamp(1.2rem, 2.2vw, 1.55rem)", tone: "light", delay: "-1.2s" },
-  { label: "choice", x: 81, y: 29, rotate: 8, size: "clamp(1.1rem, 2vw, 1.45rem)", tone: "light", delay: "-2.5s" },
-  { label: "identity", x: 18, y: 59, rotate: -7, size: "clamp(0.95rem, 1.65vw, 1.2rem)", tone: "muted", delay: "-3.5s" },
-  { label: "narrative", x: 80, y: 55, rotate: 7, size: "clamp(0.95rem, 1.75vw, 1.22rem)", tone: "muted", delay: "-4.2s" },
-  { label: "character attachment", x: 49, y: 17, rotate: -2, size: "clamp(0.62rem, 1.1vw, 0.78rem)", tone: "outline", delay: "-2s" },
-  { label: "interaction mechanics", x: 17, y: 45, rotate: -90, size: "clamp(0.54rem, 0.95vw, 0.68rem)", tone: "outline", delay: "-4.8s" },
-  { label: "mutual care", x: 83, y: 43, rotate: 88, size: "clamp(0.58rem, 1vw, 0.72rem)", tone: "outline", delay: "-1.8s" },
-  { label: "symbiotic", x: 29, y: 80, rotate: -8, size: "clamp(0.72rem, 1.3vw, 0.92rem)", tone: "light", delay: "-3s" },
-  { label: "observance", x: 69, y: 79, rotate: 7, size: "clamp(0.72rem, 1.3vw, 0.92rem)", tone: "light", delay: "-5.2s" },
-  { label: "actualisation", x: 50, y: 86, rotate: -2, size: "clamp(0.58rem, 1vw, 0.72rem)", tone: "muted", delay: "-0.7s" },
-  { label: "gacha · nijigen", x: 51, y: 7, rotate: 2, size: "clamp(0.5rem, 0.85vw, 0.62rem)", tone: "muted", delay: "-2.8s" },
+// The points form a semantic graph, not a random pile of words: the central
+// theme branches into care, mechanics, lived experience, and the three modes
+// that emerged from the dissertation.
+const researchSphereNodes: SphereNode[] = [
+  { id: "attachment", label: "character attachment", x: 0, y: 0.06, z: 0.98, size: 18, tone: "accent" },
+  { id: "care", label: "mutual care", x: -0.38, y: 0.24, z: 0.88, size: 12, tone: "light" },
+  { id: "mechanics", label: "interaction mechanics", x: -0.68, y: -0.28, z: 0.66, size: 9, tone: "light" },
+  { id: "gacha", label: "gacha", x: 0.63, y: -0.19, z: 0.71, size: 11, tone: "light" },
+  { id: "personality", label: "personality", x: -0.84, y: 0.37, z: 0.38, size: 8, tone: "muted" },
+  { id: "story", label: "story", x: -0.27, y: 0.73, z: 0.58, size: 10, tone: "light" },
+  { id: "reality", label: "real-world factors", x: 0.72, y: 0.4, z: 0.5, size: 8, tone: "muted" },
+  { id: "behaviour", label: "player behaviour", x: 0.14, y: -0.64, z: 0.7, size: 8, tone: "light" },
+  { id: "symbiotic", label: "symbiotic", x: -0.56, y: -0.76, z: 0.2, size: 7, tone: "muted" },
+  { id: "observance", label: "observance", x: 0.08, y: -0.86, z: 0.27, size: 7, tone: "muted" },
+  { id: "actualisation", label: "actualisation", x: 0.7, y: -0.58, z: 0.2, size: 7, tone: "muted" },
 ];
+
+const researchSphereEdges: Array<[string, string]> = [
+  ["attachment", "care"],
+  ["attachment", "mechanics"],
+  ["attachment", "gacha"],
+  ["attachment", "story"],
+  ["attachment", "personality"],
+  ["care", "symbiotic"],
+  ["care", "observance"],
+  ["care", "actualisation"],
+  ["mechanics", "gacha"],
+  ["mechanics", "behaviour"],
+  ["story", "personality"],
+  ["story", "reality"],
+  ["behaviour", "observance"],
+  ["gacha", "actualisation"],
+  ["reality", "actualisation"],
+];
+
+function ResearchSphere() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !context) return;
+
+    const pointer = {
+      active: false,
+      lastX: 0,
+      lastY: 0,
+      velocityX: 0,
+      velocityY: 0,
+    };
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fontFamily = getComputedStyle(canvas).fontFamily || "ui-monospace, monospace";
+    let rotationX = -0.08;
+    let rotationY = 0.36;
+    let width = 0;
+    let height = 0;
+    let devicePixelRatio = 1;
+    let animationFrame = 0;
+    let cancelled = false;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      width = Math.max(1, rect.width);
+      height = Math.max(1, rect.height);
+      devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * devicePixelRatio);
+      canvas.height = Math.floor(height * devicePixelRatio);
+    };
+
+    const project = (node: SphereNode, radius: number, centerX: number, centerY: number) => {
+      const cosY = Math.cos(rotationY);
+      const sinY = Math.sin(rotationY);
+      const cosX = Math.cos(rotationX);
+      const sinX = Math.sin(rotationX);
+      const rotatedX = node.x * cosY - node.z * sinY;
+      const rotatedZ = node.x * sinY + node.z * cosY;
+      const projectedY = node.y * cosX - rotatedZ * sinX;
+      const depth = node.y * sinX + rotatedZ * cosX;
+      const perspective = 0.76 + ((depth + 1) / 2) * 0.28;
+
+      return {
+        node,
+        x: centerX + rotatedX * radius * perspective,
+        y: centerY + projectedY * radius * perspective,
+        depth,
+        perspective,
+      };
+    };
+
+    const draw = () => {
+      if (cancelled) return;
+
+      if (!pointer.active) {
+        if (!reducedMotion) rotationY += 0.0022 + pointer.velocityY;
+        rotationX += pointer.velocityX;
+        pointer.velocityX *= 0.94;
+        pointer.velocityY *= 0.94;
+      }
+
+      const centerX = width / 2;
+      const centerY = height / 2 + height * 0.02;
+      const radius = Math.min(width, height) * 0.4;
+      const projected = researchSphereNodes.map((node) => project(node, radius, centerX, centerY));
+      const projectedById = new Map(projected.map((item) => [item.node.id, item]));
+
+      context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      context.clearRect(0, 0, width, height);
+
+      const glow = context.createRadialGradient(
+        centerX - radius * 0.24,
+        centerY - radius * 0.3,
+        radius * 0.08,
+        centerX,
+        centerY,
+        radius * 1.16,
+      );
+      glow.addColorStop(0, "rgba(238, 106, 69, 0.16)");
+      glow.addColorStop(0.5, "rgba(238, 106, 69, 0.045)");
+      glow.addColorStop(1, "rgba(18, 22, 19, 0)");
+      context.fillStyle = glow;
+      context.beginPath();
+      context.arc(centerX, centerY, radius * 1.16, 0, Math.PI * 2);
+      context.fill();
+
+      context.save();
+      context.strokeStyle = "rgba(251, 250, 246, 0.1)";
+      context.lineWidth = 0.7;
+      context.setLineDash([2, 5]);
+      context.beginPath();
+      context.ellipse(centerX, centerY, radius * 1.03, radius * 0.42, 0, 0, Math.PI * 2);
+      context.stroke();
+      context.beginPath();
+      context.ellipse(centerX, centerY, radius * 0.42, radius * 1.03, 0, 0, Math.PI * 2);
+      context.stroke();
+      context.restore();
+
+      for (const [fromId, toId] of researchSphereEdges) {
+        const from = projectedById.get(fromId);
+        const to = projectedById.get(toId);
+        if (!from || !to) continue;
+        const depth = Math.max(0.08, (from.depth + to.depth + 2) / 4);
+        context.strokeStyle = `rgba(238, 106, 69, ${0.08 + depth * 0.23})`;
+        context.lineWidth = 0.55 + depth * 0.7;
+        context.beginPath();
+        context.moveTo(from.x, from.y);
+        context.lineTo(to.x, to.y);
+        context.stroke();
+      }
+
+      projected
+        .sort((a, b) => a.depth - b.depth)
+        .forEach(({ node, x, y, depth, perspective }) => {
+          const visibility = 0.3 + ((depth + 1) / 2) * 0.7;
+          const mobileScale = width < 260 ? 0.72 : 1;
+          const fontSize = Math.max(6, node.size * perspective * mobileScale);
+          const dotSize = Math.max(1.5, 2.2 * perspective * mobileScale);
+          const tone =
+            node.tone === "accent"
+              ? `rgba(238, 106, 69, ${visibility})`
+              : node.tone === "light"
+                ? `rgba(251, 250, 246, ${0.48 + visibility * 0.42})`
+                : `rgba(251, 250, 246, ${0.27 + visibility * 0.36})`;
+
+          context.save();
+          context.globalAlpha = visibility;
+          context.fillStyle = tone;
+          context.shadowColor = node.tone === "accent" ? "rgba(238, 106, 69, 0.42)" : "transparent";
+          context.shadowBlur = node.tone === "accent" ? 12 : 0;
+          context.beginPath();
+          context.arc(x, y, dotSize, 0, Math.PI * 2);
+          context.fill();
+          context.shadowBlur = 0;
+          context.font = `${node.tone === "accent" ? 650 : 520} ${fontSize}px ${fontFamily}`;
+          context.textAlign = "center";
+          context.textBaseline = "bottom";
+          const textWidth = context.measureText(node.label).width;
+          const labelX = Math.max(textWidth / 2 + 4, Math.min(width - textWidth / 2 - 4, x));
+          const labelY = Math.max(fontSize + 4, y - dotSize - 4);
+          context.fillText(node.label, labelX, Math.min(height - 4, labelY));
+          context.restore();
+        });
+
+      animationFrame = window.requestAnimationFrame(draw);
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      pointer.active = true;
+      pointer.lastX = event.clientX;
+      pointer.lastY = event.clientY;
+      pointer.velocityX = 0;
+      pointer.velocityY = 0;
+      canvas.setPointerCapture(event.pointerId);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!pointer.active) return;
+      const deltaX = event.clientX - pointer.lastX;
+      const deltaY = event.clientY - pointer.lastY;
+      rotationY += deltaX * 0.009;
+      rotationX = Math.max(-0.75, Math.min(0.75, rotationX + deltaY * 0.006));
+      pointer.velocityY = deltaX * 0.0008;
+      pointer.velocityX = deltaY * 0.00045;
+      pointer.lastX = event.clientX;
+      pointer.lastY = event.clientY;
+    };
+
+    const onPointerUp = (event: PointerEvent) => {
+      pointer.active = false;
+      if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        rotationY += event.key === "ArrowLeft" ? -0.18 : 0.18;
+        event.preventDefault();
+      }
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        rotationX = Math.max(-0.75, Math.min(0.75, rotationX + (event.key === "ArrowUp" ? -0.12 : 0.12)));
+        event.preventDefault();
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(canvas);
+    canvas.addEventListener("pointerdown", onPointerDown);
+    canvas.addEventListener("pointermove", onPointerMove);
+    canvas.addEventListener("pointerup", onPointerUp);
+    canvas.addEventListener("pointercancel", onPointerUp);
+    canvas.addEventListener("keydown", onKeyDown);
+    resize();
+    animationFrame = window.requestAnimationFrame(draw);
+
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
+      canvas.removeEventListener("pointerdown", onPointerDown);
+      canvas.removeEventListener("pointermove", onPointerMove);
+      canvas.removeEventListener("pointerup", onPointerUp);
+      canvas.removeEventListener("pointercancel", onPointerUp);
+      canvas.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
+  return (
+    <div
+      className="research-sphere"
+      role="img"
+      aria-label="Interactive research graph: character attachment connects mutual care, interaction mechanics, gacha, personality, story, real-world factors, player behaviour, and the symbiotic, observance, and actualisation modes."
+    >
+      <canvas className="research-sphere-canvas" ref={canvasRef} tabIndex={0} aria-hidden="true" />
+      <div className="research-sphere-hint" aria-hidden="true">
+        <span>Character attachment / Nijigen games</span>
+        <span>Drag to rotate</span>
+      </div>
+      <div className="research-sphere-legend" aria-hidden="true">
+        <span>Core theme</span>
+        <span>Conditions</span>
+        <span>Attachment modes</span>
+      </div>
+    </div>
+  );
+}
 
 const tools = [
   "SPSS",
@@ -484,43 +730,13 @@ export default function PortfolioPager() {
               </div>
 
               <div
-                className="focus-card page-enter"
-                role="img"
-                aria-label="Research word cloud for Anchor: memory, care, choice, identity, character attachment, interaction mechanics, mutual care, symbiotic, observance, and actualisation"
+                className="focus-card research-graph-card page-enter"
               >
-                <div className="focus-card-top">
-                  <span>Current focus</span>
-                  <span>2026</span>
+                <div className="focus-card-top research-graph-meta">
+                  <span>Research vocabulary</span>
+                  <span>MA dissertation · 2024</span>
                 </div>
-                <div className="focus-word-cloud" aria-hidden="true">
-                  <span className="word-cloud-kicker">Research lexicon / Anchor</span>
-                  <span className="word-cloud-grid" />
-                  {anchorResearchWords.map((word) => (
-                    <span
-                      className={`word-cloud-word word-cloud-${word.tone}`}
-                      key={word.label}
-                      style={
-                        {
-                          "--word-x": `${word.x}%`,
-                          "--word-y": `${word.y}%`,
-                          "--word-rotate": `${word.rotate}deg`,
-                          "--word-size": word.size,
-                          "--word-delay": word.delay,
-                        } as CSSProperties
-                      }
-                    >
-                      {word.label}
-                    </span>
-                  ))}
-                  <span className="word-cloud-rule" />
-                </div>
-                <div className="focus-card-bottom">
-                  <div>
-                    <strong>Anchor</strong>
-                    <span>Narrative puzzle game</span>
-                  </div>
-                  <span>What we keep changes what returns.</span>
-                </div>
+                <ResearchSphere />
               </div>
             </div>
           </div>
