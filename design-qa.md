@@ -63,3 +63,10 @@ final result: passed
 - Navigation order verified: Home, Anchor, Attachment, FPS Study, AI × Library, Profile, Contact.
 - Console errors: none.
 - Final result: passed.
+
+## Embedded project evidence — 2026-07-12
+
+- Moved project descriptions, methods/findings, tags, metrics, and research visualizations from project dialogs into their corresponding full-screen project pages.
+- Project dialog rendering has been removed; the remaining dialog is used only for the separate storytelling section.
+- Static build and rendered HTML tests pass; document-level single-viewport constraints remain covered by the existing test suite.
+- Final result: passed.

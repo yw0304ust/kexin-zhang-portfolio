@@ -650,7 +650,6 @@ export default function PortfolioPager() {
   };
 
   const closeDetail = () => setActiveDetail(null);
-  const selectedProject = typeof activeDetail === "number" ? projects[activeDetail] : null;
 
   return (
     <div className="pager-app" data-page={currentPage}>
@@ -778,7 +777,7 @@ export default function PortfolioPager() {
                       <span>{project.period}</span>
                     </div>
                     <div className="project-page-copy">
-                      <p className="pager-eyebrow">Selected project</p>
+                      <p className="pager-eyebrow">{project.role}</p>
                       <h2
                         id="work-title"
                         tabIndex={-1}
@@ -792,12 +791,32 @@ export default function PortfolioPager() {
                       </h2>
                       <p>{project.subtitle}</p>
                     </div>
-                    <div className="project-page-summary">
-                      <strong>{project.stat}</strong>
-                      <p>{project.description}</p>
-                      <button onClick={() => setActiveDetail(projectIndex)} aria-haspopup="dialog">
-                        Open project <span aria-hidden="true">↗</span>
-                      </button>
+                    <div className="project-page-content">
+                      <div className="project-page-overview">
+                        <strong>{project.stat}</strong>
+                        <p>{project.description}</p>
+                        <div className="project-page-details">
+                          {project.details.map((detail) => (
+                            <article key={detail.label}>
+                              <span>{detail.label}</span>
+                              <p>{detail.text}</p>
+                            </article>
+                          ))}
+                        </div>
+                        <ul className="project-page-tags" aria-label="Project tags">
+                          {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                        </ul>
+                        {"external" in project && project.external && (
+                          <a href={project.external} target="_blank" rel="noreferrer">
+                            View competition context <span aria-hidden="true">↗</span>
+                          </a>
+                        )}
+                      </div>
+                      {project.kind !== "anchor" && (
+                        <div className="project-page-evidence">
+                          <ResearchVisuals kind={project.kind} />
+                        </div>
+                      )}
                     </div>
                   </article>
                 );
@@ -1106,50 +1125,9 @@ export default function PortfolioPager() {
       >
         <div className="detail-card">
           <div className="detail-topbar">
-            <span>{activeDetail === "story" ? "Storytelling" : selectedProject?.number}</span>
+            <span>Storytelling</span>
             <button onClick={closeDetail}>Close</button>
           </div>
-
-          {selectedProject && (
-            <div
-              className={`detail-content ${
-                selectedProject.kind === "anchor" ? "" : "research-detail-content"
-              }`.trim()}
-            >
-              <div className="detail-heading">
-                <p>{selectedProject.role}</p>
-                <h2 id="detail-title">{selectedProject.title}</h2>
-                <span>{selectedProject.subtitle}</span>
-              </div>
-              <p className="detail-lead">{selectedProject.description}</p>
-              <div className="detail-grid">
-                {selectedProject.details.map((detail) => (
-                  <article key={detail.label}>
-                    <span>{detail.label}</span>
-                    <p>{detail.text}</p>
-                  </article>
-                ))}
-              </div>
-              {selectedProject.kind !== "anchor" && (
-                <ResearchVisuals kind={selectedProject.kind} />
-              )}
-              <ul className="detail-tags" aria-label="Project tags">
-                {selectedProject.tags.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-              {"external" in selectedProject && selectedProject.external && (
-                <a
-                  className="detail-link"
-                  href={selectedProject.external}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View competition context <span aria-hidden="true">↗</span>
-                </a>
-              )}
-            </div>
-          )}
 
           {activeDetail === "story" && (
             <div className="detail-content story-detail">
