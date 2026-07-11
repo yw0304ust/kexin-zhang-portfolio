@@ -64,6 +64,15 @@ final result: passed
 - Console errors: none.
 - Final result: passed.
 
+## Project UI v2 — 2026-07-12
+
+- Removed the full-page coloured project container.
+- Reassigned each project colour to modular title, metric, detail, and evidence cards.
+- Added two internal project pages (overview and evidence) with independent glass previous/next controls anchored to the lower corners.
+- Constrained every project stage and evidence lane to the available viewport; no document-level scrolling was introduced.
+- Builds and automated single-viewport tests pass.
+- Final result: passed.
+
 ## Embedded project evidence — 2026-07-12
 
 - Moved project descriptions, methods/findings, tags, metrics, and research visualizations from project dialogs into their corresponding full-screen project pages.

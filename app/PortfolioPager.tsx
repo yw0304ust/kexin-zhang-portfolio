@@ -476,6 +476,7 @@ function pageIndexFromHash() {
 
 export default function PortfolioPager() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [projectSlide, setProjectSlide] = useState(0);
   const [activeDetail, setActiveDetail] = useState<Detail>(null);
   const [profileTab, setProfileTab] = useState(0);
   const currentPageRef = useRef(0);
@@ -484,6 +485,10 @@ export default function PortfolioPager() {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const touchStart = useRef<{ x: number; y: number; time: number } | null>(null);
+
+  useEffect(() => {
+    setProjectSlide(0);
+  }, [currentPage]);
 
   const navigateTo = useCallback(
     (
@@ -771,51 +776,60 @@ export default function PortfolioPager() {
                 const projectIndex = Math.max(0, Math.min(3, currentPage - 1));
                 const project = projects[projectIndex];
                 return (
-                  <article className={`project-page project-tone-${projectIndex} page-enter`}>
+                  <article className="project-page page-enter" data-tone={projectIndex} data-slide={projectSlide}>
                     <div className="project-page-topline">
                       <span>{project.number} / {project.status}</span>
-                      <span>{project.period}</span>
+                      <span>{projectSlide + 1} / 2 · {project.period}</span>
                     </div>
-                    <div className="project-page-copy">
-                      <p className="pager-eyebrow">{project.role}</p>
-                      <h2
-                        id="work-title"
-                        tabIndex={-1}
-                        ref={(element) => {
-                          if (currentPage >= 1 && currentPage <= 4) {
-                            headingRefs.current[currentPage] = element;
-                          }
-                        }}
-                      >
-                        {project.title}
-                      </h2>
-                      <p>{project.subtitle}</p>
+                    <div className="project-internal-stage">
+                      {projectSlide === 0 ? (
+                        <section className="project-overview-slide" aria-label={`${project.title} overview`}>
+                          <div className="project-title-card">
+                            <p className="pager-eyebrow">{project.role}</p>
+                            <h2
+                              id="work-title"
+                              tabIndex={-1}
+                              ref={(element) => {
+                                if (currentPage >= 1 && currentPage <= 4) headingRefs.current[currentPage] = element;
+                              }}
+                            >{project.title}</h2>
+                            <p>{project.subtitle}</p>
+                          </div>
+                          <div className="project-stat-card">
+                            <strong>{project.stat}</strong>
+                            <p>{project.description}</p>
+                          </div>
+                          <div className="project-mini-grid">
+                            {project.details.map((detail) => (
+                              <article key={detail.label}>
+                                <span>{detail.label}</span>
+                                <p>{detail.text}</p>
+                              </article>
+                            ))}
+                          </div>
+                        </section>
+                      ) : (
+                        <section className="project-evidence-slide" aria-label={`${project.title} evidence`}>
+                          {project.kind !== "anchor" ? (
+                            <ResearchVisuals kind={project.kind} />
+                          ) : (
+                            <div className="anchor-evidence-grid">
+                              {project.details.map((detail) => (
+                                <article key={detail.label}><span>{detail.label}</span><h3>{detail.text}</h3></article>
+                              ))}
+                            </div>
+                          )}
+                        </section>
+                      )}
                     </div>
-                    <div className="project-page-content">
-                      <div className="project-page-overview">
-                        <strong>{project.stat}</strong>
-                        <p>{project.description}</p>
-                        <div className="project-page-details">
-                          {project.details.map((detail) => (
-                            <article key={detail.label}>
-                              <span>{detail.label}</span>
-                              <p>{detail.text}</p>
-                            </article>
-                          ))}
-                        </div>
-                        <ul className="project-page-tags" aria-label="Project tags">
-                          {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
-                        </ul>
-                        {"external" in project && project.external && (
-                          <a href={project.external} target="_blank" rel="noreferrer">
-                            View competition context <span aria-hidden="true">↗</span>
-                          </a>
-                        )}
-                      </div>
-                      {project.kind !== "anchor" && (
-                        <div className="project-page-evidence">
-                          <ResearchVisuals kind={project.kind} />
-                        </div>
+                    <div className="project-internal-controls" aria-label="Project pages">
+                      <button type="button" onClick={() => setProjectSlide(0)} disabled={projectSlide === 0} aria-label="Previous project page">←</button>
+                      <button type="button" onClick={() => setProjectSlide(1)} disabled={projectSlide === 1} aria-label="Next project page">→</button>
+                    </div>
+                    <div className="project-page-tags" aria-label="Project tags">
+                      {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                      {"external" in project && project.external && (
+                        <a href={project.external} target="_blank" rel="noreferrer">Competition context ↗</a>
                       )}
                     </div>
                   </article>
