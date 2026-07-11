@@ -64,6 +64,15 @@ final result: passed
 - Console errors: none.
 - Final result: passed.
 
+## Attachment content-grounded overview — 2026-07-12
+
+- Re-read the full MA dissertation and grounded the overview in its actual sample: 10 dedicated players discussing non-customisable characters across Genshin Impact, Fate/Grand Order, Tears of Themis, Ensemble Stars, Reverse: 1999, and Ashes of the Kingdom.
+- Reframed the overview around the study's actual mechanism: attraction, interaction feedback, reciprocal care, and extension into everyday life; task strength is explicitly secondary.
+- Replaced full card screenshots with transparent character assets for Kaveh, Ningguang, and Necrologist, all characters explicitly discussed by interview participants.
+- Reduced headline scale and balanced the title region against the character composition.
+- Builds and automated viewport tests pass.
+- Final result: passed.
+
 ## Project UI v2 — 2026-07-12
 
 - Removed the full-page coloured project container.

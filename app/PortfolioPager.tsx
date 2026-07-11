@@ -803,7 +803,21 @@ export default function PortfolioPager() {
                                 if (currentPage >= 1 && currentPage <= 4) headingRefs.current[currentPage] = element;
                               }}
                             >{project.title}</h2>
-                            <p>{project.subtitle}</p>
+                            <p className="project-subtitle">{project.subtitle}</p>
+                            {project.kind === "character" && (
+                              <div className="attachment-character-lineup" aria-label="Characters discussed by interview participants">
+                                {[
+                                  ["/attachment-kaveh-cutout.webp", "Kaveh", "Genshin Impact"],
+                                  ["/attachment-ningguang-cutout.webp", "Ningguang", "Genshin Impact"],
+                                  ["/attachment-necrologist-cutout.webp", "Necrologist", "Reverse: 1999"],
+                                ].map(([src, name, game]) => (
+                                  <figure key={name}>
+                                    <img src={src} alt={`${name} from ${game}`} />
+                                    <figcaption><strong>{name}</strong><span>{game}</span></figcaption>
+                                  </figure>
+                                ))}
+                              </div>
+                            )}
                           </div>
                           <div className="project-stat-card">
                             <strong>{project.stat}</strong>
