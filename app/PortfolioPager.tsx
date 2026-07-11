@@ -775,6 +775,16 @@ export default function PortfolioPager() {
               {(() => {
                 const projectIndex = Math.max(0, Math.min(3, currentPage - 1));
                 const project = projects[projectIndex];
+                const overviewDetails = project.kind === "character"
+                  ? [
+                      { label: "Question", text: "How do fixed characters become felt relationships?" },
+                      { label: "Method", text: "10 interviews across 6 Nijigen games." },
+                      { label: "Finding", text: "Attachment forms through care, response, and everyday presence." },
+                    ]
+                  : project.details;
+                const overviewDescription = project.kind === "character"
+                  ? "Three overlapping attachment modes connect in-game interaction with players’ everyday lives."
+                  : project.description;
                 return (
                   <article className="project-page page-enter" data-tone={projectIndex} data-slide={projectSlide}>
                     <div className="project-page-topline">
@@ -797,10 +807,10 @@ export default function PortfolioPager() {
                           </div>
                           <div className="project-stat-card">
                             <strong>{project.stat}</strong>
-                            <p>{project.description}</p>
+                            <p>{overviewDescription}</p>
                           </div>
                           <div className="project-mini-grid">
-                            {project.details.map((detail) => (
+                            {overviewDetails.map((detail) => (
                               <article key={detail.label}>
                                 <span>{detail.label}</span>
                                 <p>{detail.text}</p>
