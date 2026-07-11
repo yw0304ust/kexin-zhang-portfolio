@@ -5,6 +5,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from "react";
@@ -158,6 +159,33 @@ const methods = [
   "Interview design",
   "Narrative prototyping",
 ] as const;
+
+type ResearchWord = {
+  label: string;
+  x: number;
+  y: number;
+  rotate: number;
+  size: string;
+  tone: "accent" | "light" | "muted" | "outline";
+  delay: string;
+};
+
+// Weighted from the dissertation's abstract, findings and framework, then
+// paired with Anchor's own memory / choice / care vocabulary.
+const anchorResearchWords: ResearchWord[] = [
+  { label: "memory", x: 50, y: 47, rotate: -3, size: "clamp(2rem, 4.6vw, 3.2rem)", tone: "accent", delay: "0s" },
+  { label: "care", x: 18, y: 27, rotate: -10, size: "clamp(1.2rem, 2.2vw, 1.55rem)", tone: "light", delay: "-1.2s" },
+  { label: "choice", x: 81, y: 29, rotate: 8, size: "clamp(1.1rem, 2vw, 1.45rem)", tone: "light", delay: "-2.5s" },
+  { label: "identity", x: 18, y: 59, rotate: -7, size: "clamp(0.95rem, 1.65vw, 1.2rem)", tone: "muted", delay: "-3.5s" },
+  { label: "narrative", x: 80, y: 55, rotate: 7, size: "clamp(0.95rem, 1.75vw, 1.22rem)", tone: "muted", delay: "-4.2s" },
+  { label: "character attachment", x: 49, y: 17, rotate: -2, size: "clamp(0.62rem, 1.1vw, 0.78rem)", tone: "outline", delay: "-2s" },
+  { label: "interaction mechanics", x: 17, y: 45, rotate: -90, size: "clamp(0.54rem, 0.95vw, 0.68rem)", tone: "outline", delay: "-4.8s" },
+  { label: "mutual care", x: 83, y: 43, rotate: 88, size: "clamp(0.58rem, 1vw, 0.72rem)", tone: "outline", delay: "-1.8s" },
+  { label: "symbiotic", x: 29, y: 80, rotate: -8, size: "clamp(0.72rem, 1.3vw, 0.92rem)", tone: "light", delay: "-3s" },
+  { label: "observance", x: 69, y: 79, rotate: 7, size: "clamp(0.72rem, 1.3vw, 0.92rem)", tone: "light", delay: "-5.2s" },
+  { label: "actualisation", x: 50, y: 86, rotate: -2, size: "clamp(0.58rem, 1vw, 0.72rem)", tone: "muted", delay: "-0.7s" },
+  { label: "gacha · nijigen", x: 51, y: 7, rotate: 2, size: "clamp(0.5rem, 0.85vw, 0.62rem)", tone: "muted", delay: "-2.8s" },
+];
 
 const tools = [
   "SPSS",
@@ -458,19 +486,33 @@ export default function PortfolioPager() {
               <div
                 className="focus-card page-enter"
                 role="img"
-                aria-label="A conceptual map connecting memory, choice, and care in the game Anchor"
+                aria-label="Research word cloud for Anchor: memory, care, choice, identity, character attachment, interaction mechanics, mutual care, symbiotic, observance, and actualisation"
               >
                 <div className="focus-card-top">
                   <span>Current focus</span>
                   <span>2026</span>
                 </div>
-                <div className="focus-orbit" aria-hidden="true">
-                  <span className="orbit-ring orbit-ring-outer" />
-                  <span className="orbit-ring orbit-ring-inner" />
-                  <span className="orbit-core" />
-                  <span className="orbit-label orbit-memory">memory</span>
-                  <span className="orbit-label orbit-choice">choice</span>
-                  <span className="orbit-label orbit-care">care</span>
+                <div className="focus-word-cloud" aria-hidden="true">
+                  <span className="word-cloud-kicker">Research lexicon / Anchor</span>
+                  <span className="word-cloud-grid" />
+                  {anchorResearchWords.map((word) => (
+                    <span
+                      className={`word-cloud-word word-cloud-${word.tone}`}
+                      key={word.label}
+                      style={
+                        {
+                          "--word-x": `${word.x}%`,
+                          "--word-y": `${word.y}%`,
+                          "--word-rotate": `${word.rotate}deg`,
+                          "--word-size": word.size,
+                          "--word-delay": word.delay,
+                        } as CSSProperties
+                      }
+                    >
+                      {word.label}
+                    </span>
+                  ))}
+                  <span className="word-cloud-rule" />
                 </div>
                 <div className="focus-card-bottom">
                   <div>

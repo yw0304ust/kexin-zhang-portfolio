@@ -554,6 +554,138 @@ body {
   justify-self: center;
 }
 
+.focus-word-cloud {
+  position: relative;
+  width: min(94%, 25rem);
+  aspect-ratio: 1.08;
+  align-self: center;
+  justify-self: center;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(238, 106, 69, 0.13), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.035), transparent 46%),
+    rgba(12, 16, 14, 0.4);
+}
+
+.focus-word-cloud::before,
+.focus-word-cloud::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+.focus-word-cloud::before {
+  inset: 11%;
+  border: 1px solid rgba(238, 106, 69, 0.16);
+  border-radius: 50%;
+  transform: rotate(-7deg) scaleX(1.16);
+}
+
+.focus-word-cloud::after {
+  top: 9%;
+  bottom: 9%;
+  left: 50%;
+  border-left: 1px dashed rgba(251, 250, 246, 0.08);
+  transform: translateX(-50%);
+}
+
+.word-cloud-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.38;
+  background-image:
+    linear-gradient(rgba(251, 250, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(251, 250, 246, 0.04) 1px, transparent 1px);
+  background-size: 25% 25%;
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+
+.word-cloud-kicker {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.85rem;
+  color: rgba(251, 250, 246, 0.46);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.45rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.word-cloud-word {
+  position: absolute;
+  top: var(--word-y);
+  left: var(--word-x);
+  display: block;
+  max-width: 48%;
+  color: rgba(251, 250, 246, 0.78);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--word-size);
+  font-weight: 520;
+  letter-spacing: 0.055em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translate(-50%, -50%) rotate(var(--word-rotate));
+  transform-origin: center;
+  transition: color 220ms ease, filter 220ms ease, letter-spacing 220ms ease;
+  animation: word-cloud-drift 7s var(--word-delay) ease-in-out infinite;
+}
+
+.word-cloud-word:hover {
+  z-index: 2;
+  color: #fbfaf6;
+  filter: drop-shadow(0 0 0.65rem rgba(238, 106, 69, 0.34));
+  letter-spacing: 0.08em;
+}
+
+.word-cloud-accent {
+  color: #ee6a45;
+  font-family: var(--font-display), -apple-system, sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.075em;
+  text-transform: lowercase;
+}
+
+.word-cloud-light {
+  color: rgba(251, 250, 246, 0.88);
+}
+
+.word-cloud-muted {
+  color: rgba(251, 250, 246, 0.5);
+}
+
+.word-cloud-outline {
+  color: rgba(251, 250, 246, 0.72);
+  font-size: max(0.5rem, var(--word-size));
+  letter-spacing: 0.09em;
+}
+
+.word-cloud-rule {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.8rem;
+  left: 0.85rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(238, 106, 69, 0.54), transparent);
+}
+
+@keyframes word-cloud-drift {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--word-rotate));
+  }
+
+  50% {
+    transform: translate(-50%, calc(-50% - 2px)) rotate(calc(var(--word-rotate) + 1deg));
+  }
+}
+
 .orbit-ring,
 .orbit-core {
   position: absolute;
@@ -1932,6 +2064,35 @@ body {
     grid-row: 2;
   }
 
+  .focus-word-cloud {
+    width: min(100%, 10.5rem);
+    aspect-ratio: 1;
+    grid-column: 2;
+    grid-row: 2;
+    border-radius: 0.9rem;
+  }
+
+  .word-cloud-kicker {
+    top: 0.5rem;
+    left: 0.55rem;
+    font-size: 0.34rem;
+  }
+
+  .word-cloud-word {
+    max-width: 56%;
+    letter-spacing: 0.035em;
+  }
+
+  .word-cloud-outline {
+    letter-spacing: 0.055em;
+  }
+
+  .word-cloud-rule {
+    right: 0.55rem;
+    bottom: 0.5rem;
+    left: 0.55rem;
+  }
+
   .focus-card-bottom {
     grid-column: 1;
     grid-row: 2;
@@ -2584,6 +2745,18 @@ body {
   .orbit-label {
     padding: 0.28rem 0.45rem;
     font-size: 0.46rem;
+  }
+
+  .focus-word-cloud {
+    width: min(100%, 9.5rem);
+  }
+
+  .word-cloud-kicker {
+    display: none;
+  }
+
+  .word-cloud-word {
+    max-width: 60%;
   }
 
   .pager-project-card {
