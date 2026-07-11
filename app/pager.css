@@ -561,38 +561,136 @@ body {
   background: transparent !important;
 }
 
-.research-sphere {
+.research-portrait {
+  --portrait-reveal: 0%;
   position: relative;
-  width: min(100%, 29rem);
-  aspect-ratio: 1;
+  width: min(100%, 26rem);
+  aspect-ratio: 4 / 5;
+  margin: 0;
   align-self: center;
   justify-self: center;
   overflow: hidden;
+  cursor: ew-resize;
   isolation: isolate;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 38% 31%, rgba(255, 121, 84, 0.1), transparent 34%),
-    radial-gradient(circle at 62% 66%, rgba(174, 187, 255, 0.055), transparent 48%);
-  font-family: var(--font-body), -apple-system, sans-serif;
-}
-
-.research-sphere-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  cursor: grab;
-  outline: none;
   touch-action: none;
 }
 
-.research-sphere-canvas:active {
-  cursor: grabbing;
+.research-scan-layer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
 }
 
-.research-sphere-canvas:focus-visible {
-  border-radius: 50%;
-  outline: 2px solid rgba(238, 106, 69, 0.74);
-  outline-offset: -3px;
+.research-scan-layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+}
+
+.research-scan-wordcloud {
+  z-index: 0;
+  font-family: var(--font-cloud), "Arial Narrow", sans-serif;
+}
+
+.research-wordcloud-fallback,
+.research-wordcloud-chart {
+  transition: opacity 180ms ease;
+}
+
+.research-wordcloud-chart {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.research-scan-wordcloud[data-ready="true"] .research-wordcloud-fallback {
+  opacity: 0;
+}
+
+.research-scan-wordcloud[data-ready="true"] .research-wordcloud-chart {
+  opacity: 1;
+}
+
+.research-scan-outline {
+  z-index: 1;
+  clip-path: inset(0 0 0 var(--portrait-reveal));
+  transition: clip-path 95ms linear;
+  will-change: clip-path;
+}
+
+.research-scan-photo {
+  z-index: 2;
+  clip-path: inset(0 calc(100% - var(--portrait-reveal)) 0 0);
+  transition:
+    clip-path 95ms linear;
+  will-change: clip-path;
+}
+
+.research-scan-photo img {
+  filter: saturate(0.97) contrast(1.025);
+}
+
+.research-scan-line {
+  position: absolute;
+  z-index: 3;
+  top: 4%;
+  bottom: 4%;
+  left: var(--portrait-reveal);
+  width: 1px;
+  background: #f5f1e8;
+  box-shadow:
+    0 0 8px rgba(245, 241, 232, 0.92),
+    0 0 24px rgba(233, 101, 69, 0.66);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-0.5px);
+  transition:
+    left 95ms linear,
+    opacity 160ms ease;
+  will-change: left;
+}
+
+.research-portrait[data-active="true"] .research-scan-line {
+  opacity: 0.92;
+}
+
+.research-scan-prompt {
+  position: absolute;
+  z-index: 4;
+  bottom: 0.45rem;
+  left: 50%;
+  color: rgba(245, 241, 232, 0.58);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.52rem;
+  font-weight: 620;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  transition: opacity 160ms ease;
+  white-space: nowrap;
+}
+
+.research-portrait[data-active="true"] .research-scan-prompt {
+  opacity: 0;
+}
+
+.research-portrait-caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .orbit-ring,
@@ -1968,7 +2066,7 @@ body {
   }
 
   .research-graph-card {
-    min-height: 11.5rem;
+    min-height: 13.25rem;
     padding: 0;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -1980,10 +2078,9 @@ body {
     grid-row: 2;
   }
 
-  .research-sphere {
-    width: min(55vw, 12rem);
-    aspect-ratio: 1;
-    grid-column: 1 / -1;
+  .research-portrait {
+    width: min(56vw, 13.25rem);
+    grid-column: 1;
     grid-row: 1;
   }
 
@@ -2641,8 +2738,8 @@ body {
     font-size: 0.46rem;
   }
 
-  .research-sphere {
-    width: min(56vw, 12rem);
+  .research-portrait {
+    width: min(36vw, 9rem);
   }
 
   .pager-project-card {
@@ -4548,6 +4645,15 @@ body {
   .frequency-stack i,
   .purpose-bubble {
     animation: none !important;
+  }
+
+  .research-scan-photo,
+  .research-scan-outline,
+  .research-scan-line,
+  .research-scan-prompt,
+  .research-wordcloud-fallback,
+  .research-wordcloud-chart {
+    transition: none !important;
   }
 
   .research-viz-grid {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo, Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Archivo, Geist_Mono, Roboto_Condensed, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import "./pager.css";
 
@@ -15,6 +15,11 @@ const spaceGrotesk = Space_Grotesk({
 
 const geistMono = Geist_Mono({
   variable: "--font-mono",
+  subsets: ["latin"],
+});
+
+const robotoCondensed = Roboto_Condensed({
+  variable: "--font-cloud",
   subsets: ["latin"],
 });
 
@@ -66,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${archivo.variable} ${spaceGrotesk.variable} ${geistMono.variable}`}
+        className={`${archivo.variable} ${spaceGrotesk.variable} ${geistMono.variable} ${robotoCondensed.variable}`}
       >
         {children}
       </body>
