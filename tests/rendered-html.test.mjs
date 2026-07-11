@@ -33,13 +33,9 @@ test("server-renders Kexin Zhang's portfolio", async () => {
     html,
     /<title>Kexin Zhang — Game Design &amp; Player Experience Research<\/title>/i,
   );
-  assert.match(html, /Questions made playable/);
+  assert.match(html, /Narrative design/);
   assert.match(html, /Anchor/);
-  assert.match(html, /Character Attachment/);
-  assert.match(html, /FPS Playtime Study/);
-  assert.match(html, /AI × Library Live Chat/);
-  assert.match(html, /97 valid responses/);
-  assert.match(html, /55 survey · 6 interviews/);
+  assert.match(html, /Playable prototype/);
   assert.match(html, /Design as a way of asking/);
   assert.match(html, /Ruihi\.zhang@outlook\.com/);
 });
@@ -55,7 +51,7 @@ test("ships the accessible single-viewport pager", async () => {
 
   assert.match(html, /Skip to current page/);
   assert.match(html, /aria-label="Primary pages"/);
-  assert.match(html, /aria-label="Page controls"/);
+  assert.doesNotMatch(html, /aria-label="Page controls"/);
   assert.match(html, /aria-current="page"/);
   assert.match(html, /id="main-content"/);
   assert.match(html, /<dialog/);
@@ -73,7 +69,7 @@ test("ships the accessible single-viewport pager", async () => {
   assert.match(visuals, /scrollBy\(\{ left:/);
   assert.match(visuals, /Odds ratios and 95 percent confidence intervals/);
   assert.match(visuals, /Survey bases vary by question/);
-  assert.equal(source.match(/pager-glass/g)?.length, 2);
+  assert.equal(source.match(/pager-glass/g)?.length, 1);
   assert.match(css, /\.pager-home\s*\{[\s\S]*?background:\s*#121613/);
   assert.match(css, /\.pager-practice\s*\{[\s\S]*?background:\s*#202722/);
   assert.match(css, /\.pager-ambient\s*\{[\s\S]*?display:\s*none/);

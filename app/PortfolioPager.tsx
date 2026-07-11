@@ -1071,44 +1071,6 @@ export default function PortfolioPager() {
         </section>
       </main>
 
-      <nav className="pager-controls pager-glass" aria-label="Page controls">
-        <button
-          className="pager-arrow"
-          onClick={() => navigateTo(currentPage - 1)}
-          disabled={currentPage === 0}
-          aria-label="Previous page"
-        >
-          <span aria-hidden="true">←</span>
-        </button>
-
-        <span className="pager-count" aria-hidden="true">
-          {String(currentPage + 1).padStart(2, "0")} / {String(pages.length).padStart(2, "0")}
-        </span>
-
-        <div className="pager-steps" aria-label="Choose a page">
-          {pages.map((page, index) => (
-            <button
-              key={page.id}
-              className={currentPage === index ? "is-current" : ""}
-              onClick={() => navigateTo(index)}
-              aria-label={`Go to ${page.label}`}
-              aria-current={currentPage === index ? "page" : undefined}
-            >
-              <span aria-hidden="true" />
-            </button>
-          ))}
-        </div>
-
-        <button
-          className="pager-arrow"
-          onClick={() => navigateTo(currentPage + 1)}
-          disabled={currentPage === pages.length - 1}
-          aria-label="Next page"
-        >
-          <span aria-hidden="true">→</span>
-        </button>
-      </nav>
-
       <div className="pager-live-region" aria-live="polite" aria-atomic="true">
         Page {currentPage + 1} of {pages.length}: {pages[currentPage].label}
       </div>

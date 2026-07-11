@@ -1972,6 +1972,17 @@ body {
   }
 }
 
+/* Bottom glass pagination removed; navigation remains in the header. */
+.pager-screen {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 760px), (max-height: 650px) {
+  .pager-screen {
+    padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
+  }
+}
+
 @media (max-width: 760px) {
   .pager-header {
     top: max(0.65rem, env(safe-area-inset-top));
@@ -2966,9 +2977,20 @@ body {
     grid-column: 1;
   }
 
-  .project-page-overview > p,
+.project-page-overview > p,
   .project-page-tags {
     display: none;
+  }
+}
+
+/* Final spacing after removing the bottom pagination bar. */
+.pager-screen {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+}
+
+@media (max-width: 760px), (max-height: 650px) {
+  .pager-screen {
+    padding-bottom: max(0.65rem, env(safe-area-inset-bottom)) !important;
   }
 }
 
