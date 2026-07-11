@@ -777,13 +777,22 @@ export default function PortfolioPager() {
                 const project = projects[projectIndex];
                 const overviewDetails = project.kind === "character"
                   ? [
-                      { label: "Question", text: "How do fixed characters become felt relationships?" },
-                      { label: "Method", text: "10 interviews across 6 Nijigen games." },
-                      { label: "Finding", text: "Attachment forms through care, response, and everyday presence." },
+                      {
+                        label: "Kaveh · Resonance",
+                        text: "Shared ideals and struggle created a sense of kinship. His growth also helped one player reflect on difficult choices in real life.",
+                      },
+                      {
+                        label: "Ningguang · Observance",
+                        text: "Visual attraction opened the relationship; small rituals—like leaving her seated in Liyue—made her world feel as if it continued off-screen.",
+                      },
+                      {
+                        label: "Necrologist · Emotional support",
+                        text: "Voice, story, and her view of death offered comfort. The attachment moved beyond play into memory, media, and a personal tattoo.",
+                      },
                     ]
                   : project.details;
                 const overviewDescription = project.kind === "character"
-                  ? "Three overlapping attachment modes connect in-game interaction with players’ everyday lives."
+                  ? "10 dedicated players discussed non-customisable characters across six Nijigen games. The study traced how attraction becomes reciprocal care—and then enters everyday life."
                   : project.description;
                 return (
                   <article className="project-page page-enter" data-tone={projectIndex} data-slide={projectSlide}>
