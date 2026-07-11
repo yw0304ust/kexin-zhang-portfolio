@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   root: "github-pages",
   base: "./",
+  publicDir: "../public",
   plugins: [react()],
   build: {
     outDir: "../dist-github-pages",
