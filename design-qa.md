@@ -64,6 +64,13 @@ final result: passed
 - Console errors: none.
 - Final result: passed.
 
+## Attachment dialogue layout — 2026-07-12
+
+- Replaced the repeated card stack with three asymmetric speech-style evidence blocks anchored to the character research context.
+- Moved the project title to the top of the composition and kept the study frame as one compact note.
+- Dialogue content maps directly to the dissertation's Kaveh, Ningguang, and Necrologist interview examples.
+- Final result: passed.
+
 ## Attachment content-grounded overview — 2026-07-12
 
 - Re-read the full MA dissertation and grounded the overview in its actual sample: 10 dedicated players discussing non-customisable characters across Genshin Impact, Fate/Grand Order, Tears of Themis, Ensemble Stars, Reverse: 1999, and Ashes of the Kingdom.

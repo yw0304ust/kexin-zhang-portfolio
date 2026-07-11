@@ -809,6 +809,12 @@ export default function PortfolioPager() {
                             >{project.title}</h2>
                             <p className="project-subtitle">{project.subtitle}</p>
                             {project.kind === "character" && (
+                              <div className="attachment-study-note">
+                                <strong>10 players · 6 games</strong>
+                                <span>Qualitative study of non-customisable character attachment.</span>
+                              </div>
+                            )}
+                            {project.kind === "character" && (
                               <div className="attachment-character-lineup" aria-label="Characters discussed by interview participants">
                                 {[
                                   ["/attachment-kaveh-cutout.webp", "Kaveh", "Genshin Impact"],
@@ -823,10 +829,12 @@ export default function PortfolioPager() {
                               </div>
                             )}
                           </div>
-                          <div className="project-stat-card">
-                            <strong>{project.stat}</strong>
-                            <p>{overviewDescription}</p>
-                          </div>
+                          {project.kind !== "character" && (
+                            <div className="project-stat-card">
+                              <strong>{project.stat}</strong>
+                              <p>{overviewDescription}</p>
+                            </div>
+                          )}
                           <div className="project-mini-grid">
                             {overviewDetails.map((detail) => (
                               <article key={detail.label}>
