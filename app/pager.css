@@ -1663,20 +1663,21 @@ body {
   backdrop-filter: blur(20px) saturate(135%);
 }
 
-.pager-app[data-page="0"] .pager-header,
-.pager-app[data-page="2"] .pager-header {
+.pager-app[data-page="0"] .pager-header {
   border-bottom-color: rgba(251, 250, 246, 0.22);
   color: #fbfaf6;
 }
 
 .pager-app[data-page="1"] .pager-header,
+.pager-app[data-page="2"] .pager-header,
 .pager-app[data-page="3"] .pager-header,
-.pager-app[data-page="4"] .pager-header {
+.pager-app[data-page="4"] .pager-header,
+.pager-app[data-page="5"] .pager-header,
+.pager-app[data-page="6"] .pager-header {
   color: #121613;
 }
 
-.pager-app[data-page="0"] .pager-email,
-.pager-app[data-page="2"] .pager-email {
+.pager-app[data-page="0"] .pager-email {
   border: 1px solid rgba(255, 255, 255, 0.25);
   background: rgba(255, 255, 255, 0.13);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
