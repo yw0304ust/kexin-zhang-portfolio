@@ -54,3 +54,12 @@ The combined comparison image verifies the reference's important visual rules: a
 - P3: future copy changes to the dissertation vocabulary may require minor weight adjustments to retain the current silhouette balance.
 
 final result: passed
+
+## Project-page navigation refactor — 2026-07-12
+
+- Reference: user-provided navigation crop and instruction to replace Work / Practice with four project areas.
+- Implemented: four direct project navigation entries and one full-screen page per project.
+- Verified at 1280 × 720: Anchor route renders as a single project page; document dimensions exactly match the viewport.
+- Navigation order verified: Home, Anchor, Attachment, FPS Study, AI × Library, Profile, Contact.
+- Console errors: none.
+- Final result: passed.

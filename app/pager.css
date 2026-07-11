@@ -2485,6 +2485,308 @@ body {
   }
 }
 
+/* Work page — compact editorial grid */
+.pager-work .work-layout {
+  padding: clamp(0.25rem, 1.2vh, 0.8rem) 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(0.75rem, 1.8vh, 1.25rem);
+}
+
+.pager-work .pager-page-heading {
+  align-items: end;
+  grid-template-columns: minmax(0, 1.65fr) minmax(14rem, 0.55fr);
+  gap: 2rem;
+}
+
+.pager-work .pager-page-heading h2 {
+  max-width: none;
+  margin-top: clamp(0.15rem, 0.6vh, 0.4rem);
+  font-size: clamp(3rem, 5.4vw, 5.8rem);
+  letter-spacing: -0.07em;
+  line-height: 0.88;
+  white-space: nowrap;
+}
+
+.pager-work .pager-page-heading > p {
+  max-width: 25rem;
+  margin-bottom: 0.15rem;
+  font-size: clamp(0.78rem, 1.1vw, 1rem);
+  line-height: 1.4;
+}
+
+.pager-work .pager-project-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(0.6rem, 1vw, 0.95rem);
+}
+
+.pager-work .pager-project-card {
+  min-height: 0;
+  padding: clamp(0.9rem, 1.35vw, 1.25rem);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  border-radius: clamp(1.2rem, 1.8vw, 2rem);
+  box-shadow: 0 14px 34px rgba(42, 50, 62, 0.09);
+}
+
+.pager-work .project-card-topline {
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: clamp(0.52rem, 0.62vw, 0.66rem);
+  letter-spacing: 0.08em;
+}
+
+.pager-work .project-card-copy {
+  display: flex;
+  min-width: 0;
+  padding: clamp(1rem, 3vh, 2.2rem) 0 0.7rem;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.pager-work .project-card-copy h3 {
+  max-width: 10ch;
+  margin: 0;
+  font-size: clamp(1.65rem, 2.55vw, 3.05rem);
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+}
+
+.pager-work .project-tone-3 .project-card-copy h3 {
+  max-width: 9ch;
+  font-size: clamp(1.75rem, 2.7vw, 3.2rem);
+}
+
+.pager-work .project-card-copy > p {
+  max-width: 22ch;
+  margin: 0.8rem 0 0;
+  color: rgba(19, 23, 22, 0.68);
+  font-size: clamp(0.68rem, 0.82vw, 0.86rem);
+  font-weight: 560;
+  line-height: 1.35;
+}
+
+.pager-work .project-card-copy > strong {
+  margin-top: auto;
+  padding-top: 1rem;
+  color: rgba(19, 23, 22, 0.84);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(0.62rem, 0.72vw, 0.76rem);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.pager-work .project-card-open {
+  width: 2rem;
+  min-height: 2rem;
+  margin-left: auto;
+  padding: 0;
+  justify-content: center;
+  border-top: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+  .pager-work .pager-page-heading {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .pager-work .pager-page-heading h2 {
+    font-size: clamp(2.5rem, 7.5vw, 4.6rem);
+  }
+
+  .pager-work .pager-page-heading > p {
+    display: none;
+  }
+
+  .pager-work .pager-project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .pager-work .project-card-copy {
+    padding-top: 0.65rem;
+  }
+
+  .pager-work .project-card-copy h3,
+  .pager-work .project-tone-3 .project-card-copy h3 {
+    max-width: 13ch;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+  }
+}
+
+@media (max-width: 520px), (max-height: 650px) {
+  .pager-work .work-layout {
+    gap: 0.45rem;
+  }
+
+  .pager-work .pager-page-heading h2 {
+    font-size: clamp(2rem, 8vw, 3rem);
+    white-space: normal;
+  }
+
+  .pager-work .pager-project-card {
+    padding: 0.58rem 0.68rem;
+    border-radius: 1rem;
+  }
+
+  .pager-work .project-card-topline {
+    font-size: 0.46rem;
+  }
+
+  .pager-work .project-card-copy > p {
+    display: none;
+  }
+
+  .pager-work .project-card-copy > strong {
+    padding-top: 0.35rem;
+    font-size: 0.5rem;
+  }
+
+  .pager-work .project-card-open {
+    width: 1.45rem;
+    min-height: 1.45rem;
+  }
+}
+
+/* One project per page */
+.project-page-layout {
+  height: 100%;
+  padding: clamp(0.35rem, 1.2vh, 0.8rem) 0;
+}
+
+.project-page {
+  display: grid;
+  height: 100%;
+  min-height: 0;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  grid-template-columns: minmax(0, 1.45fr) minmax(15rem, 0.55fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 1rem clamp(1.5rem, 4vw, 4rem);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: clamp(1.7rem, 3vw, 3.2rem);
+  box-shadow: 0 24px 70px rgba(42, 50, 62, 0.12);
+}
+
+.project-page-topline {
+  display: flex;
+  grid-column: 1 / -1;
+  justify-content: space-between;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(0.62rem, 0.8vw, 0.82rem);
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-page-copy {
+  align-self: center;
+}
+
+.project-page-copy h2 {
+  max-width: 11ch;
+  margin: 0.5rem 0 0;
+  font-family: var(--font-display), -apple-system, sans-serif;
+  font-size: clamp(4rem, 8vw, 8.5rem);
+  font-weight: 680;
+  letter-spacing: -0.075em;
+  line-height: 0.86;
+}
+
+.project-page-copy > p:last-child {
+  max-width: 34rem;
+  margin: 1.2rem 0 0;
+  font-size: clamp(1rem, 1.45vw, 1.45rem);
+  font-weight: 570;
+  line-height: 1.35;
+}
+
+.project-page-summary {
+  display: flex;
+  align-self: end;
+  padding: 1.25rem 0 0;
+  flex-direction: column;
+  border-top: 1px solid rgba(20, 24, 23, 0.22);
+}
+
+.project-page-summary > strong {
+  font-family: var(--font-display), -apple-system, sans-serif;
+  font-size: clamp(1.4rem, 2.2vw, 2.4rem);
+  letter-spacing: -0.045em;
+}
+
+.project-page-summary > p {
+  margin: 0.7rem 0 1.25rem;
+  color: rgba(20, 24, 23, 0.7);
+  font-size: clamp(0.78rem, 1vw, 1rem);
+  line-height: 1.5;
+}
+
+.project-page-summary > button {
+  min-height: 3rem;
+  padding: 0 1rem;
+  border: 1px solid rgba(20, 24, 23, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  font-weight: 680;
+  transition: transform 180ms var(--pager-ease), background 180ms ease;
+}
+
+.project-page-summary > button:hover {
+  background: rgba(255, 255, 255, 0.72);
+  transform: translateY(-2px);
+}
+
+.pager-main-nav {
+  gap: clamp(0.08rem, 0.35vw, 0.35rem);
+}
+
+.pager-main-nav a {
+  padding-inline: clamp(0.55rem, 0.85vw, 0.95rem);
+  font-size: clamp(0.68rem, 0.78vw, 0.82rem);
+}
+
+@media (max-width: 900px) {
+  .project-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  .project-page-copy h2 {
+    font-size: clamp(3rem, 11vw, 6rem);
+  }
+
+  .project-page-summary {
+    padding-top: 0.8rem;
+  }
+
+  .project-page-summary > p {
+    display: none;
+  }
+}
+
+@media (max-width: 640px), (max-height: 650px) {
+  .project-page {
+    padding: 0.9rem;
+    border-radius: 1.35rem;
+  }
+
+  .project-page-copy h2 {
+    font-size: clamp(2.7rem, 10vw, 4.5rem);
+  }
+
+  .project-page-copy > p:last-child {
+    margin-top: 0.7rem;
+    font-size: 0.82rem;
+  }
+
+  .project-page-summary > strong {
+    font-size: 1.2rem;
+  }
+}
+
 /* Strict single-viewport mode: every primary page is fully contained in the browser window. */
 .pager-app {
   height: 100vh;

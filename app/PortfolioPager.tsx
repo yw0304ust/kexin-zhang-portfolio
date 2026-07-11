@@ -14,8 +14,10 @@ import ResearchVisuals from "./ResearchVisuals";
 
 const pages = [
   { id: "home", label: "Home" },
-  { id: "work", label: "Work" },
-  { id: "practice", label: "Practice" },
+  { id: "anchor", label: "Anchor" },
+  { id: "attachment", label: "Attachment" },
+  { id: "fps", label: "FPS Study" },
+  { id: "ai-library", label: "AI × Library" },
   { id: "profile", label: "Profile" },
   { id: "contact", label: "Contact" },
 ] as const;
@@ -106,8 +108,8 @@ const projects = [
   {
     kind: "ai",
     number: "04",
-    title: "AI × Library Live Chat",
-    subtitle: "Student use of AI at King’s College London",
+    title: "AI × King’s Library",
+    subtitle: "Rethinking Library Live Chat",
     period: "2023—24",
     role: "Project lead · User research",
     status: "HCI study",
@@ -739,10 +741,6 @@ export default function PortfolioPager() {
                   <button className="pager-primary-action" onClick={() => navigateTo(1)}>
                     Explore selected work <span aria-hidden="true">→</span>
                   </button>
-                  <div className="home-meta" aria-label="Profile summary">
-                    <span>Research-led creative practice</span>
-                    <span>Chinese · English</span>
-                  </div>
                 </div>
               </div>
 
@@ -757,79 +755,62 @@ export default function PortfolioPager() {
 
         <section
           className={`pager-screen pager-work ${
-            currentPage === 1 ? "is-active" : currentPage < 1 ? "is-after" : "is-before"
+            currentPage >= 1 && currentPage <= 4
+              ? "is-active"
+              : currentPage < 1
+                ? "is-after"
+                : "is-before"
           }`}
-          id="work"
-          aria-hidden={currentPage !== 1}
-          inert={currentPage !== 1}
+          id={currentPage >= 1 && currentPage <= 4 ? pages[currentPage].id : "projects"}
+          aria-hidden={currentPage < 1 || currentPage > 4}
+          inert={currentPage < 1 || currentPage > 4}
           aria-labelledby="work-title"
         >
           <div className="pager-screen-scroll">
-            <div className="pager-shell work-layout">
-              <div className="pager-page-heading page-enter">
-                <div>
-                  <p className="pager-eyebrow">02 / Selected work</p>
-                  <h2
-                    id="work-title"
-                    tabIndex={-1}
-                    ref={(element) => {
-                      headingRefs.current[1] = element;
-                    }}
-                  >
-                    Questions made playable.
-                  </h2>
-                </div>
-                <p>
-                  Four projects across narrative design, game research, player
-                  research, and service-focused HCI.
-                </p>
-              </div>
-
-              <div className="pager-project-grid page-enter">
-                {projects.map((project, index) => (
-                  <button
-                    className={`pager-project-card project-tone-${index}`}
-                    key={project.title}
-                    onClick={() => setActiveDetail(index)}
-                    aria-haspopup="dialog"
-                  >
-                    <div className="project-card-topline">
-                      <span>{project.number}</span>
+            <div className="pager-shell project-page-layout">
+              {(() => {
+                const projectIndex = Math.max(0, Math.min(3, currentPage - 1));
+                const project = projects[projectIndex];
+                return (
+                  <article className={`project-page project-tone-${projectIndex} page-enter`}>
+                    <div className="project-page-topline">
+                      <span>{project.number} / {project.status}</span>
                       <span>{project.period}</span>
                     </div>
-                    <div className={`project-card-signal signal-${index}`} aria-hidden="true">
-                      <span />
-                      <span />
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                    <div className="project-card-copy">
-                      <span className="project-card-status">{project.status}</span>
-                      <h3>{project.title}</h3>
+                    <div className="project-page-copy">
+                      <p className="pager-eyebrow">Selected project</p>
+                      <h2
+                        id="work-title"
+                        tabIndex={-1}
+                        ref={(element) => {
+                          if (currentPage >= 1 && currentPage <= 4) {
+                            headingRefs.current[currentPage] = element;
+                          }
+                        }}
+                      >
+                        {project.title}
+                      </h2>
                       <p>{project.subtitle}</p>
-                      <div>
-                        <span>{project.role}</span>
-                        <strong>{project.stat}</strong>
-                      </div>
                     </div>
-                    <span className="project-card-open">
-                      Open summary <span aria-hidden="true">↗</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
+                    <div className="project-page-summary">
+                      <strong>{project.stat}</strong>
+                      <p>{project.description}</p>
+                      <button onClick={() => setActiveDetail(projectIndex)} aria-haspopup="dialog">
+                        Open project <span aria-hidden="true">↗</span>
+                      </button>
+                    </div>
+                  </article>
+                );
+              })()}
             </div>
           </div>
         </section>
 
         <section
-          className={`pager-screen pager-practice ${
-            currentPage === 2 ? "is-active" : currentPage < 2 ? "is-after" : "is-before"
-          }`}
+          className="pager-screen pager-practice is-before"
           id="practice"
-          aria-hidden={currentPage !== 2}
-          inert={currentPage !== 2}
+          aria-hidden={true}
+          inert={true}
           aria-labelledby="practice-title"
         >
           <div className="pager-screen-scroll">
@@ -901,11 +882,11 @@ export default function PortfolioPager() {
 
         <section
           className={`pager-screen pager-profile ${
-            currentPage === 3 ? "is-active" : currentPage < 3 ? "is-after" : "is-before"
+            currentPage === 5 ? "is-active" : currentPage < 5 ? "is-after" : "is-before"
           }`}
           id="profile"
-          aria-hidden={currentPage !== 3}
-          inert={currentPage !== 3}
+          aria-hidden={currentPage !== 5}
+          inert={currentPage !== 5}
           aria-labelledby="profile-title"
         >
           <div className="pager-screen-scroll">
@@ -917,7 +898,7 @@ export default function PortfolioPager() {
                     id="profile-title"
                     tabIndex={-1}
                     ref={(element) => {
-                      headingRefs.current[3] = element;
+                      headingRefs.current[5] = element;
                     }}
                   >
                     Researcher’s rigour, maker’s curiosity.
@@ -1031,11 +1012,11 @@ export default function PortfolioPager() {
 
         <section
           className={`pager-screen pager-contact ${
-            currentPage === 4 ? "is-active" : "is-after"
+            currentPage === 6 ? "is-active" : "is-after"
           }`}
           id="contact"
-          aria-hidden={currentPage !== 4}
-          inert={currentPage !== 4}
+          aria-hidden={currentPage !== 6}
+          inert={currentPage !== 6}
           aria-labelledby="contact-title"
         >
           <div className="pager-screen-scroll">
@@ -1046,7 +1027,7 @@ export default function PortfolioPager() {
                   id="contact-title"
                   tabIndex={-1}
                   ref={(element) => {
-                    headingRefs.current[4] = element;
+                    headingRefs.current[6] = element;
                   }}
                 >
                   Let’s make systems <span>people can feel.</span>
