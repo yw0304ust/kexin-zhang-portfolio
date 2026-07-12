@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
+import { useRef, useState, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
 
-type ResearchKind = "character" | "fps" | "ai";
+type ResearchKind = "character" | "genshin" | "fps" | "ai";
 
 type ResearchVisualsProps = {
   kind: ResearchKind;
+  view?: string;
 };
 
 const sessionDurations = [
@@ -104,10 +105,12 @@ function VizLane({ children, className = "" }: { children: ReactNode; className?
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
+      event.stopPropagation();
       move(-1);
     }
     if (event.key === "ArrowRight") {
       event.preventDefault();
+      event.stopPropagation();
       move(1);
     }
   };
@@ -124,6 +127,8 @@ function VizLane({ children, className = "" }: { children: ReactNode; className?
         className={`research-viz-grid ${className}`.trim()}
         ref={laneRef}
         tabIndex={0}
+        data-key-scope="inner"
+        data-gesture-scope="inner-x"
         onKeyDown={handleKeyDown}
         onWheel={handleWheel}
         aria-label="Scrollable evidence charts. Use the arrow keys or controls to explore."
@@ -243,28 +248,6 @@ function CharacterResearch() {
           </div>
           <figcaption>Responsive feedback can strengthen—or weaken—the bond.</figcaption>
         </figure>
-        <aside className="research-viz cultural-thread" aria-labelledby="cultural-thread-title">
-        <div className="cultural-thread-copy">
-          <span>Earlier research thread · 2023</span>
-          <h3 id="cultural-thread-title">Genshin Impact across cultures</h3>
-          <p>
-            A text-based case study of how shared values, cultural specificity and distribution strategy can reduce cultural discount.
-          </p>
-        </div>
-        <div
-          className="culture-lens"
-          role="img"
-          aria-label="Six-part qualitative lens: flatter power distance, individual and collective values, flexible gender roles, lower uncertainty avoidance, long-term orientation, and indulgence with restraint"
-        >
-          <div><span>01</span><strong>Flatter power</strong></div>
-          <div><span>02</span><strong>Self + collective</strong></div>
-          <div><span>03</span><strong>Flexible roles</strong></div>
-          <div><span>04</span><strong>Embrace uncertainty</strong></div>
-          <div><span>05</span><strong>Long-term arc</strong></div>
-          <div><span>06</span><strong>Freedom + restraint</strong></div>
-        </div>
-        <p className="culture-lens-note">Qualitative analytical lens — not a score.</p>
-        </aside>
       </VizLane>
     </section>
   );
@@ -522,8 +505,278 @@ function AiResearch() {
   );
 }
 
-export default function ResearchVisuals({ kind }: ResearchVisualsProps) {
+const driverEvidence = [
+  { id: "ev", short: "EV", label: "Experience value", beta: ".12", p: ".045", odds: 1.13, ci: [1.0, 1.26], alpha: [0.5, 0.56], items: "6→4", significant: true },
+  { id: "pu", short: "PU", label: "Perceived usability", beta: ".16", p: ".252", odds: 1.18, ci: [0.89, 1.56], alpha: [0.69, 0.77], items: "3→2", significant: false },
+  { id: "si", short: "SI", label: "Social interaction", beta: ".21", p: ".014", odds: 1.23, ci: [1.04, 1.45], alpha: [0.49, 0.81], items: "4→2", significant: true },
+] as const;
+
+function FpsSessionsEvidence() {
+  const [mode, setMode] = useState<"cleaning" | "sessions">("sessions");
+  const [activeBin, setActiveBin] = useState(1);
+  const bins = [
+    { label: "<1h", count: 7 },
+    { label: "1–2h", count: 31 },
+    { label: "2–3h", count: 29 },
+    { label: "3–4h", count: 18 },
+    { label: ">4h", count: 12 },
+  ] as const;
+  const dots = (() => {
+    return Array.from({ length: 115 }, (_, index) => {
+      if (index >= 104) return { status: "invalid", bin: -1 };
+      if (index >= 97) return { status: "outlier", bin: -1 };
+      let bin = 0;
+      let running = bins[0].count;
+      while (index >= running && bin < bins.length - 1) {
+        bin += 1;
+        running += bins[bin].count;
+      }
+      return { status: "valid", bin };
+    });
+  })();
+  const selected = bins[activeBin];
+  const percent = ((selected.count / 97) * 100).toFixed(1);
+
+  return (
+    <section className="single-evidence-page fps-sessions-evidence" aria-label="FPS response flow and session distribution">
+      <header className="single-evidence-heading">
+        <div><h3>From 115 responses to 97 sessions.</h3><p>The same cases move from cleaning into five single-session bands.</p></div>
+        <div className="evidence-mode-switch" role="group" aria-label="Evidence view">
+          <button type="button" aria-pressed={mode === "cleaning"} onClick={() => setMode("cleaning")}>Sample flow</button>
+          <button type="button" aria-pressed={mode === "sessions"} onClick={() => setMode("sessions")}>Session bands</button>
+        </div>
+      </header>
+      <div className="sample-chamber" data-mode={mode}>
+        <div className="sample-dot-field" aria-hidden="true">
+          {dots.map((dot, index) => (
+            <i
+              key={index}
+              data-status={dot.status}
+              data-bin={dot.bin}
+              className={mode === "sessions" && dot.status === "valid" && dot.bin !== activeBin ? "is-muted" : undefined}
+            />
+          ))}
+        </div>
+        <div className="sample-readout" aria-live="polite">
+          {mode === "cleaning" ? (
+            <><strong>97</strong><span>valid responses</span><p>7 outliers · 11 invalid logic paths</p></>
+          ) : (
+            <><strong>{selected.count}</strong><span>{selected.label}</span><p>{percent}% of valid responses</p></>
+          )}
+        </div>
+        {mode === "sessions" && (
+          <div className="session-band-controls" role="tablist" aria-label="Session duration bands">
+            {bins.map((bin, index) => (
+              <button key={bin.label} type="button" role="tab" aria-selected={index === activeBin} onClick={() => setActiveBin(index)}>
+                <span>{bin.label}</span><strong>{bin.count}</strong>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <p className="single-evidence-note">Source frequencies recalculated against n=97; the printed source percentages were inconsistent.</p>
+    </section>
+  );
+}
+
+function FpsDriversEvidence() {
+  const [mode, setMode] = useState<"model" | "scale">("model");
+  const [active, setActive] = useState(2);
+  const driver = driverEvidence[active];
+  const axisMin = 0.8;
+  const axisMax = 1.6;
+  const position = (value: number) => `${((value - axisMin) / (axisMax - axisMin)) * 100}%`;
+
+  return (
+    <section className="single-evidence-page fps-drivers-evidence" aria-label="FPS regression model and reliability audit">
+      <header className="single-evidence-heading">
+        <div><h3>What moved the odds?</h3><p>Social interaction showed the strongest significant association with a longer category.</p></div>
+        <div className="evidence-mode-switch" role="group" aria-label="Model or scale audit">
+          <button type="button" aria-pressed={mode === "model"} onClick={() => setMode("model")}>Model</button>
+          <button type="button" aria-pressed={mode === "scale"} onClick={() => setMode("scale")}>Scale audit</button>
+        </div>
+      </header>
+      <div className="driver-canvas" data-mode={mode}>
+        <div className="driver-axis" aria-hidden="true"><i style={{ left: position(1) }} /><span>OR 1.0</span></div>
+        <div className="driver-lines" role="tablist" aria-label="Model drivers">
+          {driverEvidence.map((item, index) => (
+            <button key={item.id} type="button" role="tab" aria-selected={index === active} onClick={() => setActive(index)}>
+              <span><strong>{item.short}</strong><small>{item.label}</small></span>
+              {mode === "model" ? (
+                <i className={item.significant ? "is-significant" : undefined} style={{ left: position(item.ci[0]), width: `calc(${position(item.ci[1])} - ${position(item.ci[0])})` }}>
+                  <b style={{ left: `calc(${position(item.odds)} - ${position(item.ci[0])})` }} />
+                </i>
+              ) : (
+                <i className="alpha-line" style={{ left: `${item.alpha[0] * 100}%`, width: `${(item.alpha[1] - item.alpha[0]) * 100}%` }}><b /></i>
+              )}
+            </button>
+          ))}
+        </div>
+        <article aria-live="polite">
+          <span>{driver.label}</span>
+          {mode === "model" ? (
+            <><strong>OR {driver.odds.toFixed(2)}</strong><p>β {driver.beta} · p {driver.p} · 95% CI {driver.ci[0].toFixed(2)}–{driver.ci[1].toFixed(2)}</p></>
+          ) : (
+            <><strong>α {driver.alpha[0].toFixed(2)} → {driver.alpha[1].toFixed(2)}</strong><p>{driver.items} items after removal</p></>
+          )}
+        </article>
+      </div>
+      <p className="single-evidence-note">Associations, not causation. Odds ratios describe movement between ordinal categories—not percent more playtime.</p>
+    </section>
+  );
+}
+
+function AiAdoptionEvidence() {
+  const [mode, setMode] = useState<"adoption" | "frequency">("frequency");
+  const groups = [
+    { id: "daily", label: "Daily", count: 22 },
+    { id: "weekly", label: "Weekly", count: 30 },
+    { id: "monthly", label: "Monthly", count: 2 },
+  ] as const;
+  const [active, setActive] = useState(1);
+  const selected = groups[active];
+
+  return (
+    <section className="single-evidence-page ai-adoption-evidence" aria-label="AI adoption and use frequency">
+      <header className="single-evidence-heading">
+        <div><h3>AI was already routine.</h3><p>Fifty-five survey responses resolve into 54 users, then into a weekly rhythm.</p></div>
+        <div className="evidence-mode-switch" role="group" aria-label="Adoption evidence view">
+          <button type="button" aria-pressed={mode === "adoption"} onClick={() => setMode("adoption")}>Adoption</button>
+          <button type="button" aria-pressed={mode === "frequency"} onClick={() => setMode("frequency")}>Frequency</button>
+        </div>
+      </header>
+      <div className="ai-dot-stage" data-mode={mode}>
+        <div className="ai-dot-matrix" aria-hidden="true">
+          {Array.from({ length: 55 }, (_, index) => {
+            const group = index === 54 ? "never" : index < 22 ? "daily" : index < 52 ? "weekly" : "monthly";
+            const muted = mode === "frequency" && group !== groups[active].id;
+            return <i key={index} data-group={group} className={muted ? "is-muted" : undefined} />;
+          })}
+        </div>
+        <div className="ai-adoption-readout" aria-live="polite">
+          {mode === "adoption" ? <><strong>98.2%</strong><span>54 of 55 had used AI</span></> : <><strong>{selected.count}</strong><span>{selected.label} users</span></>}
+        </div>
+        {mode === "frequency" && (
+          <div className="ai-frequency-tabs" role="tablist" aria-label="AI use frequency">
+            {groups.map((group, index) => (
+              <button key={group.id} type="button" role="tab" aria-selected={index === active} onClick={() => setActive(index)}>{group.label}<strong>{group.count}</strong></button>
+            ))}
+          </div>
+        )}
+      </div>
+      <p className="single-evidence-note">Frequency base: AI users, n=54.</p>
+    </section>
+  );
+}
+
+const aiQuestionViews = {
+  trust: {
+    title: "Conditional trust",
+    lead: "Most students trusted AI somewhat, while complete trust remained rare.",
+    groups: [
+      { label: "Do not trust", count: 7 },
+      { label: "Somewhat", count: 45 },
+      { label: "Completely", count: 2 },
+    ],
+  },
+  concern: {
+    title: "Concern remained high",
+    lead: "Adoption did not remove anxiety about a data breach.",
+    groups: [
+      { label: "None", count: 10 },
+      { label: "Some", count: 34 },
+      { label: "Very", count: 10 },
+    ],
+  },
+  guidance: {
+    title: "Guidance was expected",
+    lead: "Most students wanted clearer official guidance on responsible use.",
+    groups: [
+      { label: "Yes", count: 42 },
+      { label: "No", count: 12 },
+    ],
+  },
+} as const;
+
+function AiTrustEvidence() {
+  const [view, setView] = useState<keyof typeof aiQuestionViews>("trust");
+  const question = aiQuestionViews[view];
+  const boundaries = question.groups.reduce<number[]>((values, group) => {
+    values.push((values.at(-1) ?? 0) + group.count);
+    return values;
+  }, []);
+
+  return (
+    <section className="single-evidence-page ai-trust-evidence" aria-label="AI trust, privacy concern, and guidance expectations">
+      <header className="single-evidence-heading">
+        <div><h3>{question.title}</h3><p>{question.lead}</p></div>
+        <div className="evidence-mode-switch" role="tablist" aria-label="Survey question">
+          {(Object.keys(aiQuestionViews) as Array<keyof typeof aiQuestionViews>).map((key) => (
+            <button key={key} type="button" role="tab" aria-selected={view === key} onClick={() => setView(key)}>{key === "concern" ? "Data concern" : key[0].toUpperCase() + key.slice(1)}</button>
+          ))}
+        </div>
+      </header>
+      <div className="trust-matrix-stage">
+        <div className="trust-dot-matrix" aria-hidden="true">
+          {Array.from({ length: 54 }, (_, index) => {
+            const groupIndex = boundaries.findIndex((boundary) => index < boundary);
+            return <i key={index} data-group={groupIndex} />;
+          })}
+        </div>
+        <div className="trust-legend">
+          {question.groups.map((group, index) => (
+            <div key={group.label} data-group={index}><i /><strong>{group.count}</strong><span>{group.label}</span></div>
+          ))}
+        </div>
+      </div>
+      <p className="single-evidence-note">Question base: n=54. Guidance counts are inferred from the report’s 77.78% / 22.22% split.</p>
+    </section>
+  );
+}
+
+const culturalDimensions = [
+  { label: "Power", statement: "Hierarchy is repeatedly opened to civic participation.", focus: "Liyue" },
+  { label: "Self + collective", statement: "Personal conscience and collective action coexist rather than cancel one another.", focus: "Inazuma" },
+  { label: "Gender roles", statement: "Authority and care move across flexible character roles.", focus: "Liyue" },
+  { label: "Uncertainty", statement: "Change becomes a narrative resource instead of a threat to be removed.", focus: "Mondstadt" },
+  { label: "Long-term", statement: "Sacrifice and stewardship orient societies toward a shared future.", focus: "Sumeru" },
+  { label: "Freedom + restraint", statement: "Pleasure, responsibility, ritual, and governance stay in productive tension.", focus: "Teyvat" },
+] as const;
+
+function GenshinCulturalOrrery() {
+  const [active, setActive] = useState(0);
+  const dimension = culturalDimensions[active];
+  return (
+    <section className="single-evidence-page genshin-orrery-page" aria-label="Qualitative cultural value orrery">
+      <header className="single-evidence-heading">
+        <div><h3>A world designed for translation.</h3><p>Six qualitative lenses orbit one shared cultural space—without inventing scores for Teyvat.</p></div>
+      </header>
+      <div className="cultural-orrery">
+        <svg viewBox="0 0 760 520" aria-hidden="true">
+          <ellipse cx="380" cy="260" rx="292" ry="190" />
+          <ellipse cx="380" cy="260" rx="218" ry="142" />
+          <ellipse cx="380" cy="260" rx="132" ry="88" />
+        </svg>
+        <div className="orrery-core"><strong>{dimension.focus}</strong><span>shared cultural ground</span></div>
+        <div className="orrery-dimensions" role="tablist" aria-label="Cultural dimensions">
+          {culturalDimensions.map((item, index) => (
+            <button key={item.label} type="button" role="tab" aria-selected={index === active} onClick={() => setActive(index)}><i />{item.label}</button>
+          ))}
+        </div>
+        <article aria-live="polite"><span>{dimension.label}</span><p>{dimension.statement}</p><strong>Shared ground + visible difference → lower cultural discount</strong></article>
+        <img className="orrery-kazuha" src="/genshin-kazuha.webp" alt="Kaedehara Kazuha" />
+        <img className="orrery-nahida" src="/genshin-nahida.webp" alt="Nahida" />
+      </div>
+      <p className="single-evidence-note">Qualitative analytical scaffold from the dissertation—not a numeric score or causal model.</p>
+    </section>
+  );
+}
+
+export default function ResearchVisuals({ kind, view }: ResearchVisualsProps) {
   if (kind === "character") return <CharacterResearch />;
-  if (kind === "fps") return <FpsResearch />;
-  return <AiResearch />;
+  if (kind === "genshin") return <GenshinCulturalOrrery />;
+  if (kind === "fps") return view === "drivers" ? <FpsDriversEvidence /> : <FpsSessionsEvidence />;
+  if (kind === "ai") return view === "trust" ? <AiTrustEvidence /> : <AiAdoptionEvidence />;
+  const exhaustive: never = kind;
+  return exhaustive;
 }

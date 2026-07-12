@@ -11,19 +11,12 @@ import {
 } from "react";
 import type { EChartsOption, EChartsType } from "echarts";
 import ResearchVisuals from "./ResearchVisuals";
-
-const pages = [
-  { id: "home", label: "Home" },
-  { id: "anchor", label: "Anchor" },
-  { id: "attachment", label: "Attachment" },
-  { id: "fps", label: "FPS Study" },
-  { id: "ai-library", label: "AI × Library" },
-  { id: "profile", label: "Profile" },
-  { id: "contact", label: "Contact" },
-] as const;
+import ProjectNarratives from "./ProjectNarratives";
 
 const projects = [
   {
+    id: "anchor",
+    navLabel: "Anchor",
     kind: "anchor",
     number: "01",
     title: "Anchor",
@@ -52,6 +45,8 @@ const projects = [
     external: "https://tch.cloud.tencent.com/contest/40",
   },
   {
+    id: "attachment",
+    navLabel: "Attachment",
     kind: "character",
     number: "02",
     title: "Character Attachment",
@@ -79,8 +74,39 @@ const projects = [
     ],
   },
   {
-    kind: "fps",
+    id: "genshin",
+    navLabel: "Genshin",
+    kind: "genshin",
     number: "03",
+    title: "Genshin Across Cultures",
+    subtitle: "How a Chinese open-world RPG turns difference into shared meaning",
+    period: "2023",
+    role: "Dissertation · Cross-cultural game research",
+    status: "Game & media study",
+    stat: "4 connected systems",
+    description:
+      "A qualitative study of how values, narrative, audiovisual language, and character networks make cultural specificity globally legible.",
+    tags: ["Textual analysis", "Cross-cultural communication", "Game worlds"],
+    details: [
+      {
+        label: "Question",
+        text: "How can a game remain culturally specific while inviting players from different backgrounds into the same world?",
+      },
+      {
+        label: "Method",
+        text: "Literature review and comparative textual analysis across values, plot, audiovisual symbols, ritual, and character architecture.",
+      },
+      {
+        label: "Finding",
+        text: "Genshin builds shared cultural ground first, then lets difference return through places, characters, music, translation, and play.",
+      },
+    ],
+  },
+  {
+    id: "fps",
+    navLabel: "FPS Study",
+    kind: "fps",
+    number: "04",
     title: "FPS Playtime Study",
     subtitle: "Factors associated with online playtime",
     period: "2024",
@@ -106,8 +132,10 @@ const projects = [
     ],
   },
   {
+    id: "ai-library",
+    navLabel: "AI × Library",
     kind: "ai",
-    number: "04",
+    number: "05",
     title: "AI × King’s Library",
     subtitle: "Rethinking Library Live Chat",
     period: "2023—24",
@@ -131,6 +159,82 @@ const projects = [
         text: "Students wanted the speed of AI, the traceability of search, and the empathy of human support.",
       },
     ],
+  },
+] as const;
+
+type ProjectKind = (typeof projects)[number]["kind"];
+
+const pages = [
+  { id: "home", label: "Home" },
+  ...projects.map((project) => ({ id: project.id, label: project.navLabel })),
+  { id: "profile", label: "Profile" },
+  { id: "contact", label: "Contact" },
+] as const;
+
+const PROJECT_PAGE_START = 1;
+const PROJECT_PAGE_END = PROJECT_PAGE_START + projects.length - 1;
+const PROFILE_PAGE_INDEX = pages.findIndex((page) => page.id === "profile");
+const CONTACT_PAGE_INDEX = pages.findIndex((page) => page.id === "contact");
+
+const projectSlides: Record<
+  ProjectKind,
+  ReadonlyArray<{ id: string; label: string; type: "overview" | "story" | "method" | "evidence" }>
+> = {
+  anchor: [
+    { id: "overview", label: "Overview", type: "overview" },
+    { id: "prototype", label: "Prototype", type: "evidence" },
+  ],
+  character: [
+    { id: "overview", label: "Overview", type: "overview" },
+    { id: "relationships-a", label: "Portraits I", type: "story" },
+    { id: "relationships-b", label: "Portraits II", type: "story" },
+    { id: "formation", label: "Formation", type: "method" },
+    { id: "evidence", label: "Evidence", type: "evidence" },
+  ],
+  genshin: [
+    { id: "overview", label: "Overview", type: "overview" },
+    { id: "shared-world", label: "Shared world", type: "story" },
+    { id: "living-culture", label: "Living culture", type: "method" },
+    { id: "cultural-orrery", label: "Cultural orrery", type: "evidence" },
+  ],
+  fps: [
+    { id: "overview", label: "Overview", type: "overview" },
+    { id: "method", label: "Method", type: "method" },
+    { id: "sessions", label: "Sessions", type: "evidence" },
+    { id: "drivers", label: "Drivers", type: "evidence" },
+  ],
+  ai: [
+    { id: "overview", label: "Overview", type: "overview" },
+    { id: "service", label: "Service opportunity", type: "story" },
+    { id: "adoption", label: "Adoption", type: "evidence" },
+    { id: "trust", label: "Trust", type: "evidence" },
+  ],
+};
+
+const attachmentFeaturedCases = [
+  {
+    name: "Kaveh",
+    game: "Genshin Impact",
+    mode: "Symbiotic attachment",
+    short: "Resonance / shared ideals",
+    text: "Shared ideals and struggle created a sense of kinship. As Kaveh grew, his choices began to guide the player’s own.",
+    image: "/attachment-kaveh-cutout.webp",
+  },
+  {
+    name: "Ningguang",
+    game: "Genshin Impact",
+    mode: "Observance attachment",
+    short: "Small rituals / a continuing world",
+    text: "A nightly ritual—leaving her seated in Liyue—made her world feel as if it continued after the screen went dark.",
+    image: "/attachment-ningguang-cutout.webp",
+  },
+  {
+    name: "Necrologist",
+    game: "Reverse: 1999",
+    mode: "Actualisation attachment",
+    short: "Emotional support / memory",
+    text: "Voice and story offered comfort around grief. The bond crossed into daily life as friendship, memory and a permanent tattoo.",
+    image: "/attachment-necrologist-cutout.webp",
   },
 ] as const;
 
@@ -486,10 +590,6 @@ export default function PortfolioPager() {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const touchStart = useRef<{ x: number; y: number; time: number } | null>(null);
 
-  useEffect(() => {
-    setProjectSlide(0);
-  }, [currentPage]);
-
   const navigateTo = useCallback(
     (
       requestedPage: number,
@@ -502,6 +602,7 @@ export default function PortfolioPager() {
 
       currentPageRef.current = nextPage;
       focusAfterNavigation.current = options.focus ?? true;
+      setProjectSlide(0);
       setCurrentPage(nextPage);
       setActiveDetail(null);
 
@@ -520,6 +621,8 @@ export default function PortfolioPager() {
   useEffect(() => {
     const initialPage = pageIndexFromHash();
     currentPageRef.current = initialPage;
+    // Hydrate the initial hash after the client owns window.location.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentPage(initialPage);
 
     if (!window.location.hash || window.location.hash !== `#${pages[initialPage].id}`) {
@@ -530,6 +633,7 @@ export default function PortfolioPager() {
       const nextPage = pageIndexFromHash();
       currentPageRef.current = nextPage;
       focusAfterNavigation.current = true;
+      setProjectSlide(0);
       setCurrentPage(nextPage);
       setActiveDetail(null);
     };
@@ -568,8 +672,9 @@ export default function PortfolioPager() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
+      if (event.defaultPrevented) return;
       const isEditing = target?.closest(
-        "input, textarea, select, [contenteditable='true'], [role='slider'], dialog",
+        "input, textarea, select, button, a, summary, [contenteditable='true'], [role='slider'], [role='tab'], [data-key-scope='inner'], dialog",
       );
 
       if (isEditing || event.metaKey || event.ctrlKey || event.altKey) return;
@@ -616,6 +721,9 @@ export default function PortfolioPager() {
   const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== "touch") return;
     if (event.clientX < 24 || event.clientX > window.innerWidth - 24) return;
+    if ((event.target as HTMLElement | null)?.closest(
+      "input, button, a, [role='slider'], [data-gesture-scope='inner-x']",
+    )) return;
 
     touchStart.current = {
       x: event.clientX,
@@ -655,6 +763,12 @@ export default function PortfolioPager() {
   };
 
   const closeDetail = () => setActiveDetail(null);
+  const isProjectPage = currentPage >= PROJECT_PAGE_START && currentPage <= PROJECT_PAGE_END;
+  const activeProjectIndex = isProjectPage ? currentPage - PROJECT_PAGE_START : 0;
+  const activeProject = projects[activeProjectIndex];
+  const activeProjectSlides = projectSlides[activeProject.kind];
+  const safeProjectSlide = Math.min(projectSlide, activeProjectSlides.length - 1);
+  const activeProjectSlide = activeProjectSlides[safeProjectSlide];
 
   return (
     <div className="pager-app" data-page={currentPage}>
@@ -742,7 +856,7 @@ export default function PortfolioPager() {
                   shape the way people experience memory, care, and identity.
                 </p>
                 <div className="home-actions">
-                  <button className="pager-primary-action" onClick={() => navigateTo(1)}>
+                  <button className="pager-primary-action" onClick={() => navigateTo(PROJECT_PAGE_START)}>
                     Explore selected work <span aria-hidden="true">→</span>
                   </button>
                 </div>
@@ -759,112 +873,134 @@ export default function PortfolioPager() {
 
         <section
           className={`pager-screen pager-work ${
-            currentPage >= 1 && currentPage <= 4
+            isProjectPage
               ? "is-active"
-              : currentPage < 1
+              : currentPage < PROJECT_PAGE_START
                 ? "is-after"
                 : "is-before"
           }`}
-          id={currentPage >= 1 && currentPage <= 4 ? pages[currentPage].id : "projects"}
-          aria-hidden={currentPage < 1 || currentPage > 4}
-          inert={currentPage < 1 || currentPage > 4}
+          id={isProjectPage ? pages[currentPage].id : "projects"}
+          aria-hidden={!isProjectPage}
+          inert={!isProjectPage}
           aria-labelledby="work-title"
         >
           <div className="pager-screen-scroll">
             <div className="pager-shell project-page-layout">
-              {(() => {
-                const projectIndex = Math.max(0, Math.min(3, currentPage - 1));
-                const project = projects[projectIndex];
-                const overviewDetails = project.kind === "character"
-                  ? [
-                      {
-                        label: "Kaveh · Resonance",
-                        text: "Shared ideals and struggle created a sense of kinship. His growth also helped one player reflect on difficult choices in real life.",
-                      },
-                      {
-                        label: "Ningguang · Observance",
-                        text: "Visual attraction opened the relationship; small rituals—like leaving her seated in Liyue—made her world feel as if it continued off-screen.",
-                      },
-                      {
-                        label: "Necrologist · Emotional support",
-                        text: "Voice, story, and her view of death offered comfort. The attachment moved beyond play into memory, media, and a personal tattoo.",
-                      },
-                    ]
-                  : project.details;
-                const overviewDescription = project.kind === "character"
-                  ? "10 dedicated players discussed non-customisable characters across six Nijigen games. The study traced how attraction becomes reciprocal care—and then enters everyday life."
-                  : project.description;
-                return (
-                  <article className="project-page page-enter" data-tone={projectIndex} data-slide={projectSlide}>
-                    <div className="project-internal-stage">
-                      {projectSlide === 0 ? (
-                        <section className="project-overview-slide" aria-label={`${project.title} overview`}>
-                          <div className="project-title-card">
-                            <h2
-                              id="work-title"
-                              tabIndex={-1}
-                              ref={(element) => {
-                                if (currentPage >= 1 && currentPage <= 4) headingRefs.current[currentPage] = element;
-                              }}
-                            >{project.title}</h2>
-                            <p className="project-subtitle">{project.subtitle}</p>
-                            {project.kind === "character" && (
-                              <div className="attachment-study-note">
-                                <strong>10 players · 6 games</strong>
-                                <span>Qualitative study of non-customisable character attachment.</span>
+              <article
+                className="project-page page-enter"
+                data-tone={activeProjectIndex}
+                data-project-kind={activeProject.kind}
+                data-slide={safeProjectSlide}
+              >
+                <h2
+                  className="project-focus-heading"
+                  id="work-title"
+                  tabIndex={-1}
+                  ref={(element) => {
+                    if (isProjectPage) headingRefs.current[currentPage] = element;
+                  }}
+                >
+                  {activeProject.title}
+                </h2>
+                <div className="project-internal-stage" key={`${activeProject.id}-${activeProjectSlide.id}`}>
+                  {activeProjectSlide.type === "overview" && activeProject.kind === "character" ? (
+                          <section className="attachment-overview-v2" aria-label={`${activeProject.title} overview`}>
+                            <header className="attachment-overview-header">
+                              <div className="attachment-heading-copy">
+                                <h2>
+                                  Character <span>Attachment</span>
+                                </h2>
+                                <p>{activeProject.subtitle}</p>
                               </div>
-                            )}
-                          </div>
-                          {project.kind === "character" && (
-                            <div className="attachment-character-lineup" aria-label="Characters discussed by interview participants">
-                              {[
-                                ["/attachment-kaveh-cutout.webp", "Kaveh", "Genshin Impact"],
-                                ["/attachment-ningguang-cutout.webp", "Ningguang", "Genshin Impact"],
-                                ["/attachment-necrologist-cutout.webp", "Necrologist", "Reverse: 1999"],
-                              ].map(([src, name, game]) => (
-                                <figure key={name}>
-                                  <img src={src} alt={`${name} from ${game}`} />
-                                  <figcaption><strong>{name}</strong><span>{game}</span></figcaption>
-                                </figure>
+                              <div className="attachment-study-summary">
+                                <strong>10 players <i>·</i> 6 games</strong>
+                                <p>
+                                  Ten dedicated players each introduced one non-customisable
+                                  character—and described when attraction began to feel reciprocal.
+                                </p>
+                              </div>
+                            </header>
+
+                            <div
+                              className="attachment-case-stage"
+                              data-gesture-scope="inner-x"
+                              aria-label="Three featured character attachment cases"
+                            >
+                              {attachmentFeaturedCases.map((caseStudy, index) => (
+                                <article className={`attachment-case attachment-case-${index + 1}`} key={caseStudy.name}>
+                                  <div className="attachment-case-bubble">
+                                    <span>{caseStudy.short}</span>
+                                    <p>{caseStudy.text}</p>
+                                  </div>
+                                  <figure>
+                                    <img src={caseStudy.image} alt={`${caseStudy.name} from ${caseStudy.game}`} />
+                                    <figcaption>
+                                      <strong>{caseStudy.name}</strong>
+                                      <span>{caseStudy.game} · {caseStudy.mode}</span>
+                                    </figcaption>
+                                  </figure>
+                                </article>
                               ))}
                             </div>
-                          )}
-                          {project.kind !== "character" && (
-                            <div className="project-stat-card">
-                              <strong>{project.stat}</strong>
-                              <p>{overviewDescription}</p>
+                          </section>
+                  ) : activeProject.kind === "anchor" && activeProjectSlide.type === "overview" ? (
+                          <section className="project-overview-slide" aria-label={`${activeProject.title} overview`}>
+                            <div className="project-title-card">
+                              <h2>{activeProject.title}</h2>
+                              <p className="project-subtitle">{activeProject.subtitle}</p>
                             </div>
-                          )}
-                          <div className="project-mini-grid">
-                            {overviewDetails.map((detail) => (
-                              <article key={detail.label}>
-                                <span>{detail.label}</span>
-                                <p>{detail.text}</p>
-                              </article>
-                            ))}
-                          </div>
-                        </section>
-                      ) : (
-                        <section className="project-evidence-slide" aria-label={`${project.title} evidence`}>
-                          {project.kind !== "anchor" ? (
-                            <ResearchVisuals kind={project.kind} />
-                          ) : (
+                            <div className="project-stat-card">
+                              <strong>{activeProject.stat}</strong>
+                              <p>{activeProject.description}</p>
+                            </div>
+                            <div className="project-mini-grid">
+                              {activeProject.details.map((detail) => (
+                                <article key={detail.label}>
+                                  <span>{detail.label}</span>
+                                  <p>{detail.text}</p>
+                                </article>
+                              ))}
+                            </div>
+                          </section>
+                  ) : activeProjectSlide.type === "evidence" ? (
+                        <section className="project-evidence-slide" aria-label={`${activeProject.title} evidence`}>
+                          {activeProject.kind === "anchor" ? (
                             <div className="anchor-evidence-grid">
-                              {project.details.map((detail) => (
+                              {activeProject.details.map((detail) => (
                                 <article key={detail.label}><span>{detail.label}</span><h3>{detail.text}</h3></article>
                               ))}
                             </div>
+                          ) : (
+                            <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} />
                           )}
                         </section>
-                      )}
-                    </div>
-                    <div className="project-internal-controls" aria-label="Project pages">
-                      <button type="button" onClick={() => setProjectSlide(0)} disabled={projectSlide === 0} aria-label="Previous project page">←</button>
-                      <button type="button" onClick={() => setProjectSlide(1)} disabled={projectSlide === 1} aria-label="Next project page">→</button>
-                    </div>
-                  </article>
-                );
-              })()}
+                  ) : activeProject.kind !== "anchor" ? (
+                    <ProjectNarratives kind={activeProject.kind} slideId={activeProjectSlide.id} />
+                  ) : null}
+                </div>
+                <div className="project-internal-controls" aria-label="Project pages">
+                  <button
+                    type="button"
+                    onClick={() => setProjectSlide((value) => Math.max(0, value - 1))}
+                    disabled={safeProjectSlide === 0}
+                    aria-label="Previous project page"
+                  >
+                    ←
+                  </button>
+                  <span aria-live="polite">
+                    {safeProjectSlide + 1} / {activeProjectSlides.length}
+                    <small>{activeProjectSlide.label}</small>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setProjectSlide((value) => Math.min(activeProjectSlides.length - 1, value + 1))}
+                    disabled={safeProjectSlide === activeProjectSlides.length - 1}
+                    aria-label="Next project page"
+                  >
+                    →
+                  </button>
+                </div>
+              </article>
             </div>
           </div>
         </section>
@@ -945,11 +1081,15 @@ export default function PortfolioPager() {
 
         <section
           className={`pager-screen pager-profile ${
-            currentPage === 5 ? "is-active" : currentPage < 5 ? "is-after" : "is-before"
+            currentPage === PROFILE_PAGE_INDEX
+              ? "is-active"
+              : currentPage < PROFILE_PAGE_INDEX
+                ? "is-after"
+                : "is-before"
           }`}
           id="profile"
-          aria-hidden={currentPage !== 5}
-          inert={currentPage !== 5}
+          aria-hidden={currentPage !== PROFILE_PAGE_INDEX}
+          inert={currentPage !== PROFILE_PAGE_INDEX}
           aria-labelledby="profile-title"
         >
           <div className="pager-screen-scroll">
@@ -961,7 +1101,7 @@ export default function PortfolioPager() {
                     id="profile-title"
                     tabIndex={-1}
                     ref={(element) => {
-                      headingRefs.current[5] = element;
+                      headingRefs.current[PROFILE_PAGE_INDEX] = element;
                     }}
                   >
                     Researcher’s rigour, maker’s curiosity.
@@ -1075,11 +1215,11 @@ export default function PortfolioPager() {
 
         <section
           className={`pager-screen pager-contact ${
-            currentPage === 6 ? "is-active" : "is-after"
+            currentPage === CONTACT_PAGE_INDEX ? "is-active" : "is-after"
           }`}
           id="contact"
-          aria-hidden={currentPage !== 6}
-          inert={currentPage !== 6}
+          aria-hidden={currentPage !== CONTACT_PAGE_INDEX}
+          inert={currentPage !== CONTACT_PAGE_INDEX}
           aria-labelledby="contact-title"
         >
           <div className="pager-screen-scroll">
@@ -1090,7 +1230,7 @@ export default function PortfolioPager() {
                   id="contact-title"
                   tabIndex={-1}
                   ref={(element) => {
-                    headingRefs.current[6] = element;
+                    headingRefs.current[CONTACT_PAGE_INDEX] = element;
                   }}
                 >
                   Let’s make systems <span>people can feel.</span>
