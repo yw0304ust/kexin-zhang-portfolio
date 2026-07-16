@@ -11,7 +11,7 @@
   background:
     radial-gradient(circle at 50% 16%, #ffffff 0, transparent 34%),
     var(--sites-skeleton-background);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: "Plus Jakarta Sans", Arial, Helvetica, sans-serif;
 }
 
 .sites-skeleton-preview::before {

@@ -1,26 +1,14 @@
 import type { Metadata } from "next";
-import { Archivo, Geist_Mono, Roboto_Condensed, Space_Grotesk } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import "./pager.css";
 
-const archivo = Archivo({
-  variable: "--font-display",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-body",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-});
-
-const robotoCondensed = Roboto_Condensed({
-  variable: "--font-cloud",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -71,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${archivo.variable} ${spaceGrotesk.variable} ${geistMono.variable} ${robotoCondensed.variable}`}
+        className={`${plusJakarta.variable} plus-jakarta-font`}
       >
         {children}
       </body>

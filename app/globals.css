@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 :root {
+  --font-stack-jakarta: "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-stack-jakarta);
+  --font-body: var(--font-stack-jakarta);
+  --font-mono: var(--font-stack-jakarta);
+  --font-cloud: var(--font-stack-jakarta);
   --ink: #121613;
   --ink-soft: #202722;
   --paper: #f3f1ea;
@@ -37,7 +42,13 @@ body {
   font-family: var(--font-body), "Helvetica Neue", sans-serif;
   font-size: 16px;
   line-height: 1.55;
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
+}
+
+/* The app and the static GitHub Pages build share the same type system. */
+body.plus-jakarta-font {
+  --font-stack-jakarta: var(--font-jakarta), "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 body::selection {
