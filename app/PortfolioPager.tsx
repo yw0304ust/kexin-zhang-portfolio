@@ -944,14 +944,26 @@ export default function PortfolioPager() {
                             </div>
                           </section>
                   ) : activeProject.kind === "anchor" && activeProjectSlide.type === "overview" ? (
-                          <section className="project-overview-slide" aria-label={`${activeProject.title} overview`}>
+                          <section className="project-overview-slide anchor-overview-slide" aria-label={`${activeProject.title} overview`}>
                             <div className="project-title-card">
                               <h2>{activeProject.title}</h2>
                               <p className="project-subtitle">{activeProject.subtitle}</p>
                             </div>
-                            <div className="project-stat-card">
-                              <strong>{activeProject.stat}</strong>
-                              <p>{activeProject.description}</p>
+                            <div className="anchor-overview-aside">
+                              <figure className="anchor-demo-video">
+                                <video
+                                  controls
+                                  playsInline
+                                  preload="metadata"
+                                  poster="/anchor-demo-poster.jpg"
+                                  src="/anchor-demo.mp4"
+                                />
+                                <figcaption>Real-device gameplay demo of Anchor</figcaption>
+                              </figure>
+                              <div className="project-stat-card">
+                                <strong>{activeProject.stat}</strong>
+                                <p>{activeProject.description}</p>
+                              </div>
                             </div>
                             <div className="project-mini-grid">
                               {activeProject.details.map((detail) => (
