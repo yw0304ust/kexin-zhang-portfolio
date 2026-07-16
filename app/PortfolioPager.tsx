@@ -947,13 +947,11 @@ export default function PortfolioPager() {
                           <section className="project-overview-slide anchor-overview-slide" aria-label={`${activeProject.title} overview`}>
                             <header className="anchor-overview-header">
                               <div className="anchor-title-block">
-                                <p className="pager-eyebrow">{activeProject.period} · {activeProject.status}</p>
                                 <h2>{activeProject.title}</h2>
                                 <p className="project-subtitle">{activeProject.subtitle}</p>
                               </div>
                               <dl className="anchor-title-meta">
                                 <div><dt>Role</dt><dd>{activeProject.role}</dd></div>
-                                <div><dt>Capture</dt><dd>Real-device · 6:24</dd></div>
                                 <div>
                                   <dt>Showcase</dt>
                                   <dd><a href={activeProject.external} target="_blank" rel="noreferrer">Tencent Cloud hackathon ↗</a></dd>
@@ -1002,10 +1000,6 @@ export default function PortfolioPager() {
                   >
                     ←
                   </button>
-                  <span aria-live="polite">
-                    {safeProjectSlide + 1} / {activeProjectSlides.length}
-                    <small>{activeProjectSlide.label}</small>
-                  </span>
                   <button
                     type="button"
                     onClick={() => setProjectSlide((value) => Math.min(activeProjectSlides.length - 1, value + 1))}

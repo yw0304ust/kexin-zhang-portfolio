@@ -3566,17 +3566,20 @@ body {
   align-items: flex-start;
   justify-content: space-between;
   gap: clamp(1.5rem, 3vw, 3rem);
+  margin-bottom: 3.8rem;
   padding-top: clamp(0.7rem, 1.2vw, 1rem);
   border-top: 1px solid rgba(18, 22, 19, 0.14);
 }
 
-.anchor-title-block .pager-eyebrow {
-  margin: 0;
-  color: var(--project-color);
+.anchor-title-block {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem clamp(0.9rem, 1.8vw, 1.5rem);
 }
 
 .anchor-title-block h2 {
-  margin: 0.3rem 0 0;
+  margin: 0;
   font-family: var(--font-display), sans-serif;
   font-size: clamp(2.2rem, 3.8vw, 3.6rem);
   font-weight: 680;
@@ -3586,10 +3589,11 @@ body {
 
 .anchor-title-block .project-subtitle {
   max-width: 34rem;
-  margin: 0.45rem 0 0;
-  color: rgba(18, 22, 19, 0.62);
-  font-size: clamp(0.85rem, 1.05vw, 1.02rem);
-  font-weight: 550;
+  margin: 0;
+  color: var(--project-color);
+  font-size: clamp(0.9rem, 1.15vw, 1.1rem);
+  font-weight: 650;
+  letter-spacing: -0.01em;
 }
 
 .anchor-title-meta {
@@ -3831,7 +3835,9 @@ body {
   .project-page > .project-page-tags { display: none; }
 
   .anchor-overview-slide { grid-template-rows: minmax(0, 1fr) auto; gap: 0.7rem; }
-  .anchor-overview-header { margin-bottom: 3.1rem; padding-top: 0.7rem; }
+  .anchor-overview-header { padding-top: 0.7rem; }
+  .anchor-title-block { display: block; }
+  .anchor-title-block .project-subtitle { margin-top: 0.2rem; }
   .anchor-title-block h2 { font-size: clamp(2rem, 9vw, 3rem); }
   .anchor-title-block .project-subtitle { font-size: 0.85rem; }
   .anchor-title-meta { display: none; }
@@ -6681,26 +6687,6 @@ body {
   align-items: flex-end;
 }
 
-.project-internal-controls > span {
-  display: grid;
-  align-self: center;
-  color: rgba(24, 29, 26, 0.62);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.56rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.05;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.project-internal-controls > span small {
-  margin-top: 0.28rem;
-  font: inherit;
-  font-size: 0.45rem;
-  letter-spacing: 0.04em;
-}
-
 .narrative-heading,
 .single-evidence-heading {
   position: relative;
@@ -7415,8 +7401,6 @@ body {
   .narrative-heading > strong { position: absolute; top: 0; right: 0; }
   .narrative-source-note,
   .single-evidence-note { right: auto; bottom: 0.72rem; left: 4rem; width: 27%; max-width: 27%; font-size: 0.48rem; }
-  .project-internal-controls > span { font-size: 0.5rem; }
-  .project-internal-controls > span small { display: none; }
 
   .attachment-explorer .narrative-heading > strong {
     display: none;
