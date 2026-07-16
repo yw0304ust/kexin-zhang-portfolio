@@ -3553,20 +3553,21 @@ body {
   line-height: 1.35;
 }
 
-/* Anchor overview: quiet typographic header above the real-device demo. */
+/* Anchor overview: real-device demo first, quiet typographic footer below. */
 .anchor-overview-slide {
   grid-template-columns: 1fr;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
   gap: clamp(0.7rem, 1.4vw, 1.2rem);
 }
 
 .anchor-overview-header {
+  grid-row: 2;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: clamp(1.5rem, 3vw, 3rem);
-  padding-bottom: clamp(0.6rem, 1.1vw, 0.95rem);
-  border-bottom: 1px solid rgba(18, 22, 19, 0.14);
+  padding-top: clamp(0.7rem, 1.2vw, 1rem);
+  border-top: 1px solid rgba(18, 22, 19, 0.14);
 }
 
 .anchor-title-block .pager-eyebrow {
@@ -3631,6 +3632,7 @@ body {
 
 .anchor-demo-video {
   position: relative;
+  grid-row: 1;
   align-self: center;
   justify-self: center;
   height: 100%;
@@ -3828,8 +3830,8 @@ body {
   .project-mini-grid article:nth-child(n + 3) { display: none; }
   .project-page > .project-page-tags { display: none; }
 
-  .anchor-overview-slide { grid-template-rows: auto minmax(0, 1fr); gap: 0.7rem; }
-  .anchor-overview-header { padding-bottom: 0.7rem; }
+  .anchor-overview-slide { grid-template-rows: minmax(0, 1fr) auto; gap: 0.7rem; }
+  .anchor-overview-header { margin-bottom: 3.1rem; padding-top: 0.7rem; }
   .anchor-title-block h2 { font-size: clamp(2rem, 9vw, 3rem); }
   .anchor-title-block .project-subtitle { font-size: 0.85rem; }
   .anchor-title-meta { display: none; }
