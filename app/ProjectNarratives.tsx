@@ -373,19 +373,38 @@ function GenshinLivingCulture() {
   );
 }
 
+const fpsDrivers = [
+  { code: "SI", name: "Social interaction", note: "Strongest driver", className: "driver-si" },
+  { code: "EV", name: "Experience value", note: "Also significant", className: "driver-ev" },
+  { code: "PU", name: "Perceived usability", note: "Not significant", className: "driver-pu" },
+];
+
 function FpsOverview() {
   return (
     <section className="fps-narrative-overview" aria-label="FPS Playtime Study overview">
       <header>
         <span>Quantitative player research</span>
         <h2>What keeps an FPS session going?</h2>
-        <p>97 Chinese FPS players. Three proposed drivers. One ordinal model.</p>
+        <ul className="fps-stats">
+          <li><strong>97</strong><span>Chinese FPS players</span></li>
+          <li><strong>3</strong><span>proposed drivers</span></li>
+          <li><strong>1</strong><span>ordinal model</span></li>
+        </ul>
       </header>
-      <div className="fps-crosshair" aria-label="Three proposed drivers around session duration">
-        <div className="fps-crosshair-ring"><strong>Session</strong><span>duration</span></div>
-        <div className="fps-driver driver-ev"><span>EV</span><strong>Experience value</strong></div>
-        <div className="fps-driver driver-pu"><span>PU</span><strong>Perceived usability</strong></div>
-        <div className="fps-driver driver-si"><span>SI</span><strong>Social interaction</strong></div>
+      <div className="fps-model" role="img" aria-label="Ordinal model: three proposed drivers of session duration">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line className="line-si" x1="50" y1="50" x2="50" y2="12" />
+          <line className="line-ev" x1="50" y1="50" x2="12" y2="80" />
+          <line className="line-pu" x1="50" y1="50" x2="88" y2="80" />
+        </svg>
+        <div className="fps-model-core"><strong>Session</strong><span>duration</span></div>
+        {fpsDrivers.map((driver) => (
+          <div key={driver.code} className={`fps-driver ${driver.className}`}>
+            <span>{driver.code}</span>
+            <strong>{driver.name}</strong>
+            <em>{driver.note}</em>
+          </div>
+        ))}
       </div>
       <blockquote>
         Social interaction emerged as the strongest significant factor; experience value also mattered.

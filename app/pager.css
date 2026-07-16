@@ -6986,20 +6986,43 @@ body {
 .fps-narrative-overview header p,
 .ai-narrative-overview header p { margin: 0.75rem 0 0; color: rgba(26, 32, 29, 0.62); font-size: clamp(0.82rem, 1.2vw, 1.14rem); font-weight: 650; }
 
-.fps-crosshair { position: absolute; top: 7%; right: 3%; bottom: 14%; width: 45%; }
-.fps-crosshair::before,
-.fps-crosshair::after { position: absolute; top: 50%; left: 50%; background: rgba(80, 103, 183, 0.34); content: ""; transform: translate(-50%, -50%); }
-.fps-crosshair::before { width: 94%; height: 1px; }
-.fps-crosshair::after { width: 1px; height: 94%; }
-.fps-crosshair-ring { position: absolute; z-index: 3; top: 50%; left: 50%; display: grid; width: clamp(7rem, 13vw, 12rem); aspect-ratio: 1; place-content: center; border: 2px solid #566fc1; border-radius: 50%; background: rgba(243, 244, 238, 0.9); text-align: center; transform: translate(-50%, -50%); }
-.fps-crosshair-ring strong { font-size: clamp(1.1rem, 1.8vw, 1.8rem); }
-.fps-crosshair-ring span { color: rgba(32, 40, 35, 0.58); font-size: 0.68rem; }
-.fps-driver { position: absolute; z-index: 4; display: grid; max-width: 9rem; gap: 0.12rem; }
-.fps-driver span { color: #566fc1; font: 800 0.68rem var(--font-mono), monospace; }
-.fps-driver strong { font-size: clamp(0.7rem, 0.95vw, 0.9rem); }
-.driver-ev { top: 10%; left: 8%; }
-.driver-pu { right: 3%; bottom: 12%; }
-.driver-si { right: 4%; top: 12%; }
+/* FPS overview: header, stat row, driver model diagram, finding card. */
+.fps-narrative-overview { background: radial-gradient(circle at 74% 42%, rgba(220, 226, 247, 0.66), transparent 48%), #f3f4ee; }
+
+.fps-narrative-overview header { width: 46%; }
+.fps-narrative-overview header h2 { max-width: 13ch; margin-top: 0.6rem; font-size: clamp(2.9rem, 5.6vw, 5.5rem); letter-spacing: -0.05em; line-height: 0.97; }
+
+.fps-stats { display: flex; flex-wrap: wrap; margin: 1.15rem 0 0; padding: 0; list-style: none; }
+.fps-stats li { display: grid; gap: 0.22rem; padding: 0.05rem 1.15rem 0.05rem; border-left: 1px solid rgba(86, 111, 193, 0.38); }
+.fps-stats li:first-child { padding-left: 0; border-left: 0; }
+.fps-stats strong { font-size: clamp(1.3rem, 1.9vw, 1.85rem); letter-spacing: -0.03em; line-height: 1; }
+.fps-stats span { color: rgba(26, 32, 29, 0.56); font-size: clamp(0.6rem, 0.76vw, 0.72rem); font-weight: 620; }
+
+.fps-model { position: absolute; top: 9%; right: 4%; bottom: 13%; width: 45%; }
+.fps-model svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.fps-model line { stroke: rgba(86, 111, 193, 0.5); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+.fps-model .line-pu { stroke: rgba(96, 102, 96, 0.4); stroke-dasharray: 5 4; }
+.fps-model-core { position: absolute; z-index: 3; top: 50%; left: 50%; display: grid; width: clamp(7.5rem, 11vw, 10.5rem); aspect-ratio: 1; place-content: center; border: 2px solid #566fc1; border-radius: 50%; background: #f8f9f4; box-shadow: 0 0 0 0.65rem rgba(86, 111, 193, 0.07), 0 0 0 2.1rem rgba(86, 111, 193, 0.045), 0 18px 42px rgba(43, 58, 107, 0.1); text-align: center; transform: translate(-50%, -50%); }
+.fps-model-core strong { font-size: clamp(1.05rem, 1.6vw, 1.55rem); letter-spacing: -0.02em; }
+.fps-model-core span { margin-top: 0.22rem; color: rgba(32, 40, 35, 0.55); font: 700 0.62rem var(--font-mono), monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+
+.fps-driver { position: absolute; z-index: 4; display: grid; min-width: 9.4rem; gap: 0.16rem; padding: 0.6rem 0.85rem 0.68rem; border: 1px solid rgba(86, 111, 193, 0.3); border-radius: 0.85rem; background: rgba(255, 255, 255, 0.85); box-shadow: 0 10px 26px rgba(43, 58, 107, 0.09); transform: translate(-50%, -50%); }
+.fps-driver span { color: #566fc1; font: 800 0.62rem var(--font-mono), monospace; letter-spacing: 0.08em; }
+.fps-driver strong { font-size: clamp(0.74rem, 0.98vw, 0.92rem); }
+.fps-driver em { color: rgba(28, 35, 31, 0.55); font-size: clamp(0.56rem, 0.7vw, 0.66rem); font-style: normal; font-weight: 620; }
+.fps-driver em::before { margin-right: 0.32rem; color: #566fc1; content: "●"; font-size: 0.5rem; }
+.driver-si { top: 12%; left: 50%; border-color: #566fc1; background: #566fc1; box-shadow: 0 14px 32px rgba(67, 88, 158, 0.32); }
+.driver-si span { color: rgba(255, 255, 255, 0.72); }
+.driver-si strong { color: #ffffff; }
+.driver-si em { color: rgba(255, 255, 255, 0.78); }
+.driver-si em::before { color: rgba(255, 255, 255, 0.85); }
+.driver-ev { top: 80%; left: 12%; }
+.driver-pu { top: 80%; left: 88%; border-color: rgba(96, 102, 96, 0.3); background: rgba(255, 255, 255, 0.6); box-shadow: 0 8px 20px rgba(43, 58, 107, 0.06); }
+.driver-pu span { color: rgba(96, 102, 96, 0.75); }
+.driver-pu em::before { color: rgba(96, 102, 96, 0.6); content: "○"; }
+
+.fps-narrative-overview > blockquote { bottom: 13%; width: min(42%, 31rem); padding: 0.95rem 1.15rem 1.05rem; border: 0; border-left: 3px solid #566fc1; border-radius: 0 0.9rem 0.9rem 0; background: rgba(255, 255, 255, 0.68); box-shadow: 0 12px 30px rgba(43, 58, 107, 0.07); }
+.fps-narrative-overview > blockquote::before { display: block; margin-bottom: 0.42rem; color: #566fc1; content: "Key finding"; font: 760 0.58rem var(--font-mono), monospace; letter-spacing: 0.1em; text-transform: uppercase; }
 
 .fps-narrative-overview blockquote,
 .ai-narrative-overview blockquote { position: absolute; z-index: 6; bottom: 14%; left: clamp(0.85rem, 2.4vw, 2.2rem); width: min(43%, 33rem); margin: 0; padding-top: 0.8rem; border-top: 1px solid color-mix(in srgb, var(--project-color) 48%, transparent); font-size: clamp(0.84rem, 1.25vw, 1.18rem); font-weight: 680; line-height: 1.32; }
@@ -7181,7 +7204,7 @@ body {
   .attachment-case-rail { width: 28%; }
   .genshin-overview header { width: 58%; }
   .genshin-character-arc { left: 40%; }
-  .fps-narrative-overview header,
+  .fps-narrative-overview header { width: 48%; }
   .ai-narrative-overview header { width: 58%; }
   .sample-dot-field { grid-template-columns: repeat(19, minmax(0, 1fr)); }
 
@@ -7287,10 +7310,20 @@ body {
 
   .fps-narrative-overview header,
   .ai-narrative-overview header { width: 100%; }
-  .fps-narrative-overview header h2,
+  .fps-narrative-overview header h2 { max-width: 100%; font-size: clamp(2.1rem, 9.4vw, 3rem); }
   .ai-narrative-overview header h2 { max-width: 90%; font-size: clamp(2.8rem, 12vw, 4rem); }
-  .fps-crosshair { top: 25%; right: -4%; bottom: 14%; width: 58%; }
-  .fps-narrative-overview blockquote,
+  .fps-stats { margin-top: 0.8rem; }
+  .fps-stats li { padding-right: 0.8rem; padding-left: 0.8rem; }
+  .fps-stats li:first-child { padding-left: 0; }
+  .fps-model { top: 30%; right: 1%; bottom: 26%; left: 1%; width: auto; }
+  .fps-model-core { width: clamp(5.4rem, 22vw, 7rem); }
+  .fps-driver { min-width: 0; width: 7.4rem; padding: 0.42rem 0.55rem 0.5rem; gap: 0.08rem; }
+  .fps-driver strong { font-size: 0.64rem; }
+  .fps-driver em { font-size: 0.52rem; }
+  .driver-si { top: 10%; }
+  .driver-ev { left: 16%; }
+  .driver-pu { left: 84%; }
+  .fps-narrative-overview > blockquote { right: 0; bottom: 13%; left: 0; width: auto; padding: 0.7rem 0.85rem 0.78rem; font-size: 0.78rem; }
   .ai-narrative-overview blockquote { bottom: 16%; width: 48%; font-size: 0.78rem; }
   .ai-adoption-signal { top: 28%; right: -4%; width: 57%; height: 48%; }
 
