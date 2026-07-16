@@ -3557,7 +3557,7 @@ body {
 .anchor-overview-slide {
   grid-template-columns: 1fr;
   grid-template-rows: auto minmax(0, 1fr);
-  gap: clamp(1rem, 2.2vw, 1.8rem);
+  gap: clamp(0.7rem, 1.4vw, 1.2rem);
 }
 
 .anchor-overview-header {
@@ -3565,7 +3565,7 @@ body {
   align-items: flex-end;
   justify-content: space-between;
   gap: clamp(1.5rem, 3vw, 3rem);
-  padding-bottom: clamp(0.9rem, 1.8vw, 1.5rem);
+  padding-bottom: clamp(0.6rem, 1.1vw, 0.95rem);
   border-bottom: 1px solid rgba(18, 22, 19, 0.14);
 }
 
@@ -3575,19 +3575,19 @@ body {
 }
 
 .anchor-title-block h2 {
-  margin: 0.4rem 0 0;
+  margin: 0.3rem 0 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(3rem, 5.6vw, 5.6rem);
+  font-size: clamp(2.2rem, 3.8vw, 3.6rem);
   font-weight: 680;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.055em;
   line-height: 0.95;
 }
 
 .anchor-title-block .project-subtitle {
   max-width: 34rem;
-  margin: 0.65rem 0 0;
+  margin: 0.45rem 0 0;
   color: rgba(18, 22, 19, 0.62);
-  font-size: clamp(0.92rem, 1.25vw, 1.2rem);
+  font-size: clamp(0.85rem, 1.05vw, 1.02rem);
   font-weight: 550;
 }
 
@@ -3631,9 +3631,11 @@ body {
 
 .anchor-demo-video {
   position: relative;
-  align-self: stretch;
+  align-self: center;
   justify-self: center;
-  width: min(100%, 68rem);
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: 1136 / 720;
   min-height: 0;
   margin: 0;
   overflow: hidden;
@@ -3826,11 +3828,12 @@ body {
   .project-mini-grid article:nth-child(n + 3) { display: none; }
   .project-page > .project-page-tags { display: none; }
 
-  .anchor-overview-slide { grid-template-rows: auto minmax(0, 1fr); gap: 0.9rem; }
-  .anchor-overview-header { padding-bottom: 0.8rem; }
-  .anchor-title-block h2 { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+  .anchor-overview-slide { grid-template-rows: auto minmax(0, 1fr); gap: 0.7rem; }
+  .anchor-overview-header { padding-bottom: 0.7rem; }
+  .anchor-title-block h2 { font-size: clamp(2rem, 9vw, 3rem); }
   .anchor-title-block .project-subtitle { font-size: 0.85rem; }
   .anchor-title-meta { display: none; }
+  .anchor-demo-video { width: 100%; height: auto; }
   .anchor-prototype-intro { align-items: start; flex-direction: column; gap: 0.45rem; }
   .anchor-prototype-intro strong { font-size: 1.3rem; }
   .anchor-prototype-intro p { text-align: left; }
