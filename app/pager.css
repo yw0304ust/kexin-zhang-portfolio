@@ -3555,8 +3555,66 @@ body {
 
 /* Anchor overview: title card beside a large real-device demo video. */
 .anchor-overview-slide {
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.55fr);
   grid-template-rows: minmax(0, 1fr);
+}
+
+.anchor-overview-slide .project-title-card {
+  justify-content: space-between;
+  background:
+    radial-gradient(120% 85% at 18% 0%, rgba(255, 255, 255, 0.24), transparent 55%),
+    linear-gradient(155deg, #f07447 0%, #ec6b48 48%, #e0522f 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 26px 70px rgba(224, 82, 47, 0.26);
+}
+
+.anchor-overview-slide .project-title-card .pager-eyebrow {
+  margin: 0;
+  color: rgba(18, 22, 19, 0.62);
+}
+
+.anchor-overview-slide .project-title-card .project-subtitle {
+  color: rgba(18, 22, 19, 0.78);
+}
+
+.anchor-title-meta {
+  display: grid;
+  margin: 1.6rem 0 0;
+  padding: 1.05rem 0 0;
+  border-top: 1px solid rgba(18, 22, 19, 0.24);
+  gap: 0.5rem;
+}
+
+.anchor-title-meta div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.anchor-title-meta dt {
+  color: rgba(18, 22, 19, 0.55);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.56rem;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.anchor-title-meta dd {
+  margin: 0;
+  font-size: clamp(0.68rem, 0.85vw, 0.8rem);
+  font-weight: 650;
+  text-align: right;
+}
+
+.anchor-title-meta a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(18, 22, 19, 0.45);
+}
+
+.anchor-title-meta a:hover {
+  border-bottom-color: #121613;
 }
 
 .anchor-demo-video {
@@ -3567,7 +3625,7 @@ body {
   border: 1px solid color-mix(in srgb, var(--project-color) 22%, transparent);
   border-radius: clamp(1.1rem, 2vw, 2rem);
   background: #121613;
-  box-shadow: 0 24px 60px rgba(18, 22, 19, 0.18);
+  box-shadow: 0 30px 80px rgba(224, 82, 47, 0.2), 0 10px 28px rgba(18, 22, 19, 0.22);
 }
 
 .anchor-demo-video video {
@@ -3755,6 +3813,7 @@ body {
   .anchor-overview-slide { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: center; }
   .anchor-overview-slide .project-title-card { padding: 0.9rem 1rem; }
   .anchor-overview-slide .project-title-card h2 { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+  .anchor-title-meta { display: none; }
   .anchor-prototype-intro { align-items: start; flex-direction: column; gap: 0.45rem; }
   .anchor-prototype-intro strong { font-size: 1.3rem; }
   .anchor-prototype-intro p { text-align: left; }
