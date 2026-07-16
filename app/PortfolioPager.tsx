@@ -949,38 +949,30 @@ export default function PortfolioPager() {
                               <h2>{activeProject.title}</h2>
                               <p className="project-subtitle">{activeProject.subtitle}</p>
                             </div>
-                            <div className="anchor-overview-aside">
-                              <figure className="anchor-demo-video">
-                                <video
-                                  controls
-                                  playsInline
-                                  preload="metadata"
-                                  poster="/anchor-demo-poster.jpg"
-                                  src="/anchor-demo.mp4"
-                                />
-                                <figcaption>Real-device gameplay demo of Anchor</figcaption>
-                              </figure>
-                              <div className="project-stat-card">
-                                <strong>{activeProject.stat}</strong>
-                                <p>{activeProject.description}</p>
-                              </div>
-                            </div>
-                            <div className="project-mini-grid">
-                              {activeProject.details.map((detail) => (
-                                <article key={detail.label}>
-                                  <span>{detail.label}</span>
-                                  <p>{detail.text}</p>
-                                </article>
-                              ))}
-                            </div>
+                            <figure className="anchor-demo-video">
+                              <video
+                                controls
+                                playsInline
+                                preload="metadata"
+                                poster="/anchor-demo-poster.jpg"
+                                src="/anchor-demo.mp4"
+                              />
+                              <figcaption>Real-device gameplay demo of Anchor</figcaption>
+                            </figure>
                           </section>
                   ) : activeProjectSlide.type === "evidence" ? (
                         <section className="project-evidence-slide" aria-label={`${activeProject.title} evidence`}>
                           {activeProject.kind === "anchor" ? (
-                            <div className="anchor-evidence-grid">
-                              {activeProject.details.map((detail) => (
-                                <article key={detail.label}><span>{detail.label}</span><h3>{detail.text}</h3></article>
-                              ))}
+                            <div className="anchor-prototype-page">
+                              <header className="anchor-prototype-intro">
+                                <strong>{activeProject.stat}</strong>
+                                <p>{activeProject.description}</p>
+                              </header>
+                              <div className="anchor-evidence-grid">
+                                {activeProject.details.map((detail) => (
+                                  <article key={detail.label}><span>{detail.label}</span><h3>{detail.text}</h3></article>
+                                ))}
+                              </div>
                             </div>
                           ) : (
                             <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} />
