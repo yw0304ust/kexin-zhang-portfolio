@@ -945,9 +945,9 @@ export default function PortfolioPager() {
                           </section>
                   ) : activeProject.kind === "anchor" && activeProjectSlide.type === "overview" ? (
                           <section className="project-overview-slide anchor-overview-slide" aria-label={`${activeProject.title} overview`}>
-                            <div className="project-title-card">
-                              <p className="pager-eyebrow">{activeProject.period} · {activeProject.status}</p>
-                              <div className="anchor-title-hero">
+                            <header className="anchor-overview-header">
+                              <div className="anchor-title-block">
+                                <p className="pager-eyebrow">{activeProject.period} · {activeProject.status}</p>
                                 <h2>{activeProject.title}</h2>
                                 <p className="project-subtitle">{activeProject.subtitle}</p>
                               </div>
@@ -959,7 +959,7 @@ export default function PortfolioPager() {
                                   <dd><a href={activeProject.external} target="_blank" rel="noreferrer">Tencent Cloud hackathon ↗</a></dd>
                                 </div>
                               </dl>
-                            </div>
+                            </header>
                             <figure className="anchor-demo-video">
                               <video
                                 controls

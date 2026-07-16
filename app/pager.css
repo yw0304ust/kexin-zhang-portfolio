@@ -3553,46 +3553,59 @@ body {
   line-height: 1.35;
 }
 
-/* Anchor overview: title card beside a large real-device demo video. */
+/* Anchor overview: quiet typographic header above the real-device demo. */
 .anchor-overview-slide {
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.55fr);
-  grid-template-rows: minmax(0, 1fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(1rem, 2.2vw, 1.8rem);
 }
 
-.anchor-overview-slide .project-title-card {
+.anchor-overview-header {
+  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
-  background:
-    radial-gradient(120% 85% at 18% 0%, rgba(255, 255, 255, 0.24), transparent 55%),
-    linear-gradient(155deg, #f07447 0%, #ec6b48 48%, #e0522f 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 26px 70px rgba(224, 82, 47, 0.26);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  padding-bottom: clamp(0.9rem, 1.8vw, 1.5rem);
+  border-bottom: 1px solid rgba(18, 22, 19, 0.14);
 }
 
-.anchor-overview-slide .project-title-card .pager-eyebrow {
+.anchor-title-block .pager-eyebrow {
   margin: 0;
-  color: rgba(18, 22, 19, 0.62);
+  color: var(--project-color);
 }
 
-.anchor-overview-slide .project-title-card .project-subtitle {
-  color: rgba(18, 22, 19, 0.78);
+.anchor-title-block h2 {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(3rem, 5.6vw, 5.6rem);
+  font-weight: 680;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.anchor-title-block .project-subtitle {
+  max-width: 34rem;
+  margin: 0.65rem 0 0;
+  color: rgba(18, 22, 19, 0.62);
+  font-size: clamp(0.92rem, 1.25vw, 1.2rem);
+  font-weight: 550;
 }
 
 .anchor-title-meta {
-  display: grid;
-  margin: 1.6rem 0 0;
-  padding: 1.05rem 0 0;
-  border-top: 1px solid rgba(18, 22, 19, 0.24);
-  gap: 0.5rem;
+  display: flex;
+  margin: 0 0 0.35rem;
+  padding: 0;
+  gap: clamp(1.4rem, 2.6vw, 2.6rem);
 }
 
 .anchor-title-meta div {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .anchor-title-meta dt {
-  color: rgba(18, 22, 19, 0.55);
+  color: rgba(18, 22, 19, 0.48);
   font-family: var(--font-mono), monospace;
   font-size: 0.56rem;
   font-weight: 750;
@@ -3604,13 +3617,12 @@ body {
   margin: 0;
   font-size: clamp(0.68rem, 0.85vw, 0.8rem);
   font-weight: 650;
-  text-align: right;
 }
 
 .anchor-title-meta a {
   color: inherit;
   text-decoration: none;
-  border-bottom: 1px solid rgba(18, 22, 19, 0.45);
+  border-bottom: 1px solid rgba(18, 22, 19, 0.3);
 }
 
 .anchor-title-meta a:hover {
@@ -3619,19 +3631,23 @@ body {
 
 .anchor-demo-video {
   position: relative;
-  align-self: center;
+  align-self: stretch;
+  justify-self: center;
+  width: min(100%, 68rem);
+  min-height: 0;
   margin: 0;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--project-color) 22%, transparent);
+  border: 1px solid rgba(18, 22, 19, 0.14);
   border-radius: clamp(1.1rem, 2vw, 2rem);
   background: #121613;
-  box-shadow: 0 30px 80px rgba(224, 82, 47, 0.2), 0 10px 28px rgba(18, 22, 19, 0.22);
+  box-shadow: 0 24px 60px rgba(18, 22, 19, 0.14), 0 8px 24px rgba(18, 22, 19, 0.1);
 }
 
 .anchor-demo-video video {
   display: block;
   width: 100%;
-  aspect-ratio: 1136 / 720;
+  height: 100%;
+  object-fit: contain;
 }
 
 .anchor-demo-video figcaption {
@@ -3810,9 +3826,10 @@ body {
   .project-mini-grid article:nth-child(n + 3) { display: none; }
   .project-page > .project-page-tags { display: none; }
 
-  .anchor-overview-slide { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: center; }
-  .anchor-overview-slide .project-title-card { padding: 0.9rem 1rem; }
-  .anchor-overview-slide .project-title-card h2 { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+  .anchor-overview-slide { grid-template-rows: auto minmax(0, 1fr); gap: 0.9rem; }
+  .anchor-overview-header { padding-bottom: 0.8rem; }
+  .anchor-title-block h2 { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+  .anchor-title-block .project-subtitle { font-size: 0.85rem; }
   .anchor-title-meta { display: none; }
   .anchor-prototype-intro { align-items: start; flex-direction: column; gap: 0.45rem; }
   .anchor-prototype-intro strong { font-size: 1.3rem; }
@@ -6791,6 +6808,7 @@ body {
 
 .attachment-explorer-stage > figure.is-framed img {
   object-fit: cover;
+  object-position: 50% 0%;
   filter: none;
 }
 
