@@ -7741,3 +7741,12 @@ html[lang|="zh"] .genshin-region-stage > article > span {
 html[lang|="zh"] :where(h1, h2, h3) {
   text-wrap: balance;
 }
+
+/* zh headings whose spaces/punctuation already give clean break points:
+   forbid breaking inside CJK words ("国王学院图书馆" must not split
+   into "国王学 / 院图书馆"). Long single-clause titles keep anywhere-
+   breaking so they cannot overflow. */
+html[lang|="zh"] .ai-narrative-overview header h2,
+html[lang|="zh"] .pager-profile .pager-page-heading h2 {
+  word-break: keep-all;
+}
