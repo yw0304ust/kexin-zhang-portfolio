@@ -17,6 +17,18 @@ const fill = (template: string, values: Record<string, string>) =>
     template,
   );
 
+/* Wrap one CJK phrase so line breaks land before/after it, never inside. */
+function CjkKeep({ text, phrase }: { text: string; phrase: string }) {
+  const [before, after = ""] = text.split(phrase);
+  return (
+    <>
+      {before}
+      <span className="cjk-keep">{phrase}</span>
+      {after}
+    </>
+  );
+}
+
 const sessionDurations = [
   { label: "<1h", count: 7, width: "22.6%" },
   { label: "1–2h", count: 31, width: "100%" },
@@ -1350,7 +1362,10 @@ function GenshinCulturalOrrery({ lang }: { lang: Language }) {
   return (
     <section className="single-evidence-page genshin-orrery-page" aria-label={c.aria}>
       <header className="single-evidence-heading">
-        <div><h3>{c.heading}</h3><p>{c.sub}</p></div>
+        <div>
+          <h3>{lang === "zh" ? <CjkKeep text={c.heading} phrase="跨文化转译" /> : c.heading}</h3>
+          <p>{c.sub}</p>
+        </div>
       </header>
       <div className="cultural-orrery">
         <svg viewBox="0 0 760 520" aria-hidden="true">

@@ -7810,6 +7810,13 @@ html[lang|="zh"] :where(h1, h2, h3) {
    into "国王学 / 院图书馆"). Long single-clause titles keep anywhere-
    breaking so they cannot overflow. */
 html[lang|="zh"] .ai-narrative-overview header h2,
+html[lang|="zh"] .genshin-overview header h2,
 html[lang|="zh"] .pager-profile .pager-page-heading h2 {
   word-break: keep-all;
+}
+
+/* Atomic CJK phrase inside a long heading (e.g. 跨文化转译): breaks can
+   happen before or after it, never inside. */
+.cjk-keep {
+  display: inline-block;
 }
