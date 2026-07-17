@@ -3887,7 +3887,7 @@ body {
 
 .anchor-evidence-grid {
   display: grid;
-  height: 100%;
+  align-content: center;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
 }
@@ -4675,6 +4675,7 @@ body {
   --viz-secondary: #4f765f;
   margin-top: 0.9rem;
   padding-top: 0.8rem;
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--pager-line);
 }
 
@@ -4983,9 +4984,12 @@ body {
   top: 6.55rem;
   left: 50%;
   display: flex;
+  padding: 0.18rem 0.4rem;
   gap: 0.18rem;
   align-items: center;
   flex-direction: column;
+  border-radius: 999px;
+  background: rgba(251, 250, 246, 0.85);
   font-size: 0.45rem;
   font-weight: 650;
   line-height: 0.9;
@@ -7716,4 +7720,24 @@ html[lang|="zh"] .pager-contact .contact-copy h2 {
    title ("在系统之前，是故事。") fit on one line. */
 html[lang|="zh"] .detail-heading h2 {
   max-width: 100%;
+}
+
+/* zh place-name marks (璃月 / 蒙德 …) use the brush face as decorative
+   labels; English keeps the original Jakarta mono label. */
+html[lang|="zh"] .genshin-region-stage > article > span,
+html[lang|="zh"] .orrery-core strong {
+  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
+  font-weight: 400;
+}
+
+html[lang|="zh"] .genshin-region-stage > article > span {
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+/* zh headings: balance lines so no orphan character drops onto its own
+   line (e.g. "…有效样本。" losing "本。"). */
+html[lang|="zh"] :where(h1, h2, h3) {
+  text-wrap: balance;
 }

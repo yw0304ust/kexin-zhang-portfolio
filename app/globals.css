@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --font-stack-jakarta: "Plus Jakarta Sans", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-stack-jakarta: "Plus Jakarta Sans", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
   --font-display: var(--font-stack-jakarta);
   --font-body: var(--font-stack-jakarta);
   --font-mono: var(--font-stack-jakarta);
@@ -46,9 +46,19 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Decorative brush face for zh place-name marks (璃月 / 蒙德 …).
+   Subset webfont (12KB, region + featured character glyphs) with a
+   system Kai fallback chain while it loads or if it is unavailable. */
+@font-face {
+  font-family: "HY Shangwei Shoushu W";
+  src: url("/fonts/HYShangWeiShouShuW-subset.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
 /* The app and the static GitHub Pages build share the same type system. */
 body.plus-jakarta-font {
-  --font-stack-jakarta: var(--font-jakarta), "Plus Jakarta Sans", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-stack-jakarta: var(--font-jakarta), "Plus Jakarta Sans", var(--font-noto-sc, "Noto Sans SC"), "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
 }
 
 body::selection {
