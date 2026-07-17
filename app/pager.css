@@ -1112,6 +1112,12 @@ body {
   gap: clamp(1rem, 2vw, 2rem);
 }
 
+.timeline-group {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+}
+
 .timeline-group-title {
   display: block;
   margin-bottom: 0.55rem;
@@ -1125,9 +1131,12 @@ body {
 
 .timeline-group article {
   display: grid;
+  min-height: 0;
   padding: clamp(0.7rem, 1.6vh, 1.1rem) 0;
+  flex: 1;
   grid-template-columns: 4.2rem 1fr;
   gap: 0.7rem;
+  align-items: center;
   border-top: 1px solid var(--pager-line);
 }
 
@@ -1195,10 +1204,12 @@ body {
 
 .profile-chip-list {
   display: flex;
+  height: 100%;
   margin: 0;
   padding: 0;
   gap: 0.45rem;
   flex-wrap: wrap;
+  align-content: space-evenly;
   list-style: none;
 }
 
@@ -1209,6 +1220,13 @@ body {
   background: rgba(255, 255, 255, 0.44);
   color: var(--pager-muted);
   font-size: 0.66rem;
+}
+
+.recognition-list {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .recognition-list p {
@@ -1242,7 +1260,7 @@ body {
   max-width: 10ch;
   margin: 0.8rem 0 0;
   font-family: var(--font-display), -apple-system, sans-serif;
-  font-size: clamp(4.2rem, 9vw, 9.5rem);
+  font-size: clamp(3rem, min(8vw, 12vh), 7.5rem);
   font-weight: 690;
   letter-spacing: -0.09em;
   line-height: 0.83;
