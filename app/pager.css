@@ -7809,10 +7809,13 @@ html[lang|="zh"] .genshin-region-stage > article > span {
    讣告人), the signature line, and the home hero name. Sans-serif UI
    labels, kickers, and headings stay untouched. */
 html[lang|="zh"] .genshin-character-arc figcaption {
+  top: calc(100% + 0.3rem);
+  bottom: auto;
   font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
   font-size: clamp(0.9rem, 1.4vw, 1.3rem);
   font-weight: 400;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 html[lang|="zh"] .attachment-case-stage figcaption strong {
