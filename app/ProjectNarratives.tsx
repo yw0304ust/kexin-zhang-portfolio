@@ -808,31 +808,33 @@ function FpsOverview({ lang }: { lang: Language }) {
           ))}
         </ul>
       </header>
-      <div className="fps-model" role="img" aria-label={c.modelAria}>
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line className="line-si" x1="50" y1="50" x2="50" y2="12" />
-          <line className="line-ev" x1="50" y1="50" x2="12" y2="80" />
-          <line className="line-pu" x1="50" y1="50" x2="88" y2="80" />
-        </svg>
-        <div className="fps-model-core"><strong>{c.coreTop}</strong><span>{c.coreBottom}</span></div>
-        {c.drivers.map((driver) => (
-          <div key={driver.code} className={`fps-driver ${driver.className}`}>
-            <span>{driver.code}</span>
-            <strong>{driver.name}</strong>
-            <em>{driver.note}</em>
-          </div>
-        ))}
-      </div>
-      <div className="fps-games" aria-label={c.gamesAria}>
-        <div className="fps-games-rail">
-          {c.games.map((game) => (
-            <figure key={game.name} className={`fps-game fps-game-${game.tone}`}>
-              <img src={game.image} alt={game.name} loading="lazy" decoding="async" />
-              <figcaption>{game.name}</figcaption>
-            </figure>
+      <div className="fps-side">
+        <div className="fps-model" role="img" aria-label={c.modelAria}>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <line className="line-si" x1="50" y1="50" x2="50" y2="12" />
+            <line className="line-ev" x1="50" y1="50" x2="12" y2="80" />
+            <line className="line-pu" x1="50" y1="50" x2="88" y2="80" />
+          </svg>
+          <div className="fps-model-core"><strong>{c.coreTop}</strong><span>{c.coreBottom}</span></div>
+          {c.drivers.map((driver) => (
+            <div key={driver.code} className={`fps-driver ${driver.className}`}>
+              <span>{driver.code}</span>
+              <strong>{driver.name}</strong>
+              <em>{driver.note}</em>
+            </div>
           ))}
         </div>
-        <p className="fps-games-note">{c.gamesNote}</p>
+        <div className="fps-games" aria-label={c.gamesAria}>
+          <div className="fps-games-rail">
+            {c.games.map((game) => (
+              <figure key={game.name} className={`fps-game fps-game-${game.tone}`}>
+                <img src={game.image} alt={game.name} loading="lazy" decoding="async" />
+                <figcaption>{game.name}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="fps-games-note">{c.gamesNote}</p>
+        </div>
       </div>
       <blockquote>
         {c.quote}
