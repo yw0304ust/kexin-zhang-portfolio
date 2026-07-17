@@ -7770,10 +7770,12 @@ html[lang|="zh"] .story-projects p {
 
 /* Keep the zh contact heading on two lines: the 10ch measure assumes
    latin glyphs; CJK glyphs are ~1em wide, so widen the box and shrink
-   the type enough for the second line ("能被人感知的系统。") to fit. */
+   the type enough for the second line ("能被人感知的系统。") to fit.
+   Measured in-browser: the 9-glyph span fits the 753px box up to
+   ~83.5px at 1440x900; min(5.6vw, 9.3vh) lands at ~80px with slack. */
 html[lang|="zh"] .pager-contact .contact-copy h2 {
   max-width: 100%;
-  font-size: clamp(3rem, min(7.5vw, 12.5vh), 7rem);
+  font-size: clamp(2.6rem, min(5.6vw, 9.3vh), 5.3rem);
 }
 
 @media (max-width: 760px) {
@@ -7823,6 +7825,18 @@ html[lang|="zh"] .pager-profile .pager-page-heading h2 {
 html[lang|="zh"] .genshin-overview header h2 {
   letter-spacing: -0.02em;
   line-height: 1.14;
+}
+
+/* zh fps title ("是什么让一次 FPS 游戏持续更久？"): keep-all stops the
+   "一次" split; the spaces around "FPS" are the only break points, and
+   at 4.6vw both unbreakable halves fit the 46%-wide header, settling on
+   two clean lines ("是什么让一次 FPS / 游戏持续更久？"). Measured
+   in-browser: fits up to ~67px at 1440x900. */
+html[lang|="zh"] .fps-narrative-overview header h2 {
+  font-size: clamp(2.5rem, 4.6vw, 4.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  word-break: keep-all;
 }
 
 /* Atomic CJK phrase inside a long heading (e.g. 跨文化转译): breaks can

@@ -27,6 +27,19 @@ const fill = (template: string, values: Record<string, string>) =>
     template,
   );
 
+/* Wrap one CJK phrase so line breaks land before/after it, never inside.
+   Same helper as in ResearchVisuals.tsx, kept local to avoid coupling. */
+function CjkKeep({ text, phrase }: { text: string; phrase: string }) {
+  const [before, after = ""] = text.split(phrase);
+  return (
+    <>
+      {before}
+      <span className="cjk-keep">{phrase}</span>
+      {after}
+    </>
+  );
+}
+
 const en = {
   attachment: {
     railAria: "Choose a character case",
@@ -719,7 +732,7 @@ function GenshinSharedWorld({ lang }: { lang: Language }) {
     <section className="genshin-world-page" aria-label={c.aria}>
       <header className="narrative-heading">
         <div>
-          <h2>{c.heading}</h2>
+          <h2>{lang === "zh" ? <CjkKeep text={c.heading} phrase="单一文化" /> : c.heading}</h2>
           <p>{c.sub}</p>
         </div>
       </header>
@@ -935,7 +948,7 @@ function AiServiceOpportunity({ lang }: { lang: Language }) {
         </div>
         <div className="ai-service-side ai-service-human">
           <span>{c.humanSide.label}</span>
-          <strong>{c.humanSide.strong}</strong>
+          <strong>{lang === "zh" ? <CjkKeep text={c.humanSide.strong} phrase="贴合情境" /> : c.humanSide.strong}</strong>
           <p>{c.humanSide.text}</p>
         </div>
         <label>
