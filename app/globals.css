@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --font-stack-jakarta: "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-stack-jakarta: "Plus Jakarta Sans", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   --font-display: var(--font-stack-jakarta);
   --font-body: var(--font-stack-jakarta);
   --font-mono: var(--font-stack-jakarta);
@@ -39,7 +39,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-body), "Helvetica Neue", sans-serif;
+  font-family: var(--font-body), "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 16px;
   line-height: 1.55;
   font-synthesis: none;
@@ -48,7 +48,7 @@ body {
 
 /* The app and the static GitHub Pages build share the same type system. */
 body.plus-jakarta-font {
-  --font-stack-jakarta: var(--font-jakarta), "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-stack-jakarta: var(--font-jakarta), "Plus Jakarta Sans", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
 
 body::selection {
@@ -1868,4 +1868,27 @@ summary:focus-visible {
   .scroll-progress {
     display: none;
   }
+}
+
+/* ------------------------------------------------------------------
+   Chinese (zh) typography overrides.
+   applyLanguage() sets document.documentElement.lang to "zh-CN",
+   so the [lang|="zh"] attribute-prefix selector is used to match it.
+   ------------------------------------------------------------------ */
+
+html[lang|="zh"] h1,
+html[lang|="zh"] h2,
+html[lang|="zh"] h3,
+html[lang|="zh"] .wordmark,
+html[lang|="zh"] .section-heading h2,
+html[lang|="zh"] .feature-project h3,
+html[lang|="zh"] .research-project h3 {
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+html[lang|="zh"] p,
+html[lang|="zh"] li,
+html[lang|="zh"] blockquote {
+  overflow-wrap: break-word;
 }

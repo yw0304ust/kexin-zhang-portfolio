@@ -12,6 +12,654 @@ import {
 import type { EChartsOption, EChartsType } from "echarts";
 import ResearchVisuals from "./ResearchVisuals";
 import ProjectNarratives from "./ProjectNarratives";
+import { applyLanguage, detectInitialLanguage, type Language } from "./i18n";
+
+const en = {
+  langSwitchAria: "Language",
+  skipToPage: "Skip to current page",
+  wordmarkAria: "Kexin Zhang, home",
+  primaryNavAria: "Primary pages",
+  nav: {
+    home: "Home",
+    profile: "Profile",
+    contact: "Contact",
+  },
+  liveRegion: (page: number, total: number, label: string) =>
+    `Page ${page} of ${total}: ${label}`,
+  home: {
+    eyebrow: "Game design · Player experience · Human-centered HCI",
+    titleA: "Kexin",
+    titleB: "Zhang",
+    statementPre: "I explore how ",
+    statementStrong: "rules, stories, and consequential choices",
+    statementPost: " shape the way people experience memory, care, and identity.",
+    cta: "Explore selected work",
+  },
+  portrait: {
+    ariaLabel: "Compare the Character Attachment word cloud with Kexin's portrait",
+    valueText: (reveal: number) => `${reveal}% portrait, ${100 - reveal}% word cloud`,
+    prompt: "Slide to reveal",
+    caption:
+      "Move horizontally to reveal the portrait. Use the left and right arrow keys when focused.",
+  },
+  projects: {
+    anchor: {
+      subtitle: "A first-person narrative puzzle game",
+      role: "Narrative design · Player experience",
+      status: "In progress",
+      stat: "Playable prototype",
+      description:
+        "A playable inquiry into fragmented memory, caregiver pressure, and the effort to preserve a sense of home.",
+      tags: ["Game mechanics", "Narrative choices", "Prototype"],
+      details: [
+        {
+          label: "Design premise",
+          text: "The game alternates between a daughter’s present and her mother’s fragmented memories across a home, metro station, and hospital psychiatric department.",
+        },
+        {
+          label: "Core mechanics",
+          text: "Object investigation, combination locks, route choices, photo puzzles, and narrative decisions. Retained memory anchors shape what resurfaces and which ending unfolds.",
+        },
+        {
+          label: "My contribution",
+          text: "Narrative and player-experience design, supported by lightweight AI-assisted prototyping of the core flow.",
+        },
+      ],
+    },
+    attachment: {
+      subtitle: "How Nijigen characters begin to feel alive",
+      role: "MA dissertation · Qualitative game research",
+      status: "Game research",
+      stat: "10 players · 6 games",
+      description:
+        "A qualitative study of how character appeal, interaction mechanics, narrative, and real-world objects turn fictional characters into felt relationships.",
+      tags: ["Thematic analysis", "Player interviews", "Game psychology"],
+      details: [
+        {
+          label: "Question",
+          text: "How do players form attachment to non-customisable characters—and how does that attachment move between the game and everyday life?",
+        },
+        {
+          label: "Method",
+          text: "Ten semi-structured interviews with dedicated players across six Nijigen games, followed by thematic analysis.",
+        },
+        {
+          label: "Finding",
+          text: "Three overlapping modes emerged: symbiotic, observance, and actualisation. All centred on perceived mutual care and response.",
+        },
+      ],
+    },
+    genshin: {
+      subtitle: "How a Chinese open-world RPG turns difference into shared meaning",
+      role: "Dissertation · Cross-cultural game research",
+      status: "Game & media study",
+      stat: "4 connected systems",
+      description:
+        "A qualitative study of how values, narrative, audiovisual language, and character networks make cultural specificity globally legible.",
+      tags: ["Textual analysis", "Cross-cultural communication", "Game worlds"],
+      details: [
+        {
+          label: "Question",
+          text: "How can a game remain culturally specific while inviting players from different backgrounds into the same world?",
+        },
+        {
+          label: "Method",
+          text: "Literature review and comparative textual analysis across values, plot, audiovisual symbols, ritual, and character architecture.",
+        },
+        {
+          label: "Finding",
+          text: "Genshin builds shared cultural ground first, then lets difference return through places, characters, music, translation, and play.",
+        },
+      ],
+    },
+    fps: {
+      subtitle: "Factors associated with online playtime",
+      role: "Project lead · Quantitative research",
+      status: "Research study",
+      stat: "97 valid responses",
+      description:
+        "A survey-led study of how game experience, perceived usability, and social interaction relate to FPS session length.",
+      tags: ["Ordinal regression", "SPSS", "Survey design"],
+      details: [
+        {
+          label: "Question",
+          text: "Which experience factors are associated with Chinese FPS players entering longer single-session playtime categories?",
+        },
+        {
+          label: "Methods",
+          text: "WeChat survey, data cleaning and recoding, reliability assessment, and ordinal logistic regression in SPSS.",
+        },
+        {
+          label: "Finding",
+          text: "Social interaction had the strongest significant association with longer categories; game experience was significant, while usability was not.",
+        },
+      ],
+    },
+    "ai-library": {
+      subtitle: "Rethinking Library Live Chat",
+      role: "Project lead · User research",
+      status: "HCI study",
+      stat: "55 survey · 6 interviews",
+      description:
+        "A mixed-method study with KCL Library exploring student AI use, trust, privacy, guidance, and service opportunities.",
+      tags: ["HCI", "Data visualisation", "Service research"],
+      details: [
+        {
+          label: "Context",
+          text: "The study explored student AI use and the potential integration of AI into King’s College London Library Live Chat.",
+        },
+        {
+          label: "Methods",
+          text: "Fifty-five survey responses, six semi-structured interviews, question-level analysis, and evidence visualisation.",
+        },
+        {
+          label: "Insight",
+          text: "Students wanted the speed of AI, the traceability of search, and the empathy of human support.",
+        },
+      ],
+    },
+  },
+  slideLabels: {
+    overview: "Overview",
+    prototype: "Prototype",
+    "relationships-a": "Portraits I",
+    "relationships-b": "Portraits II",
+    formation: "Formation",
+    evidence: "Evidence",
+    "shared-world": "Shared world",
+    "living-culture": "Living culture",
+    "cultural-orrery": "Cultural orrery",
+    method: "Method",
+    sessions: "Sessions",
+    drivers: "Drivers",
+    service: "Service opportunity",
+    adoption: "Adoption",
+    trust: "Trust",
+  },
+  slideAria: {
+    overview: (title: string) => `${title} overview`,
+    evidence: (title: string) => `${title} evidence`,
+  },
+  projectPagerAria: "Project pages",
+  prevProjectAria: "Previous project page",
+  nextProjectAria: "Next project page",
+  attachmentOverview: {
+    statPlayers: "10 players",
+    statGames: "6 games",
+    summary:
+      "Ten dedicated players each introduced one non-customisable character—and described when attraction began to feel reciprocal.",
+    caseStageAria: "Three featured character attachment cases",
+    caseAlt: (name: string, game: string) => `${name} from ${game}`,
+    cases: [
+      {
+        name: "Kaveh",
+        game: "Genshin Impact",
+        mode: "Symbiotic attachment",
+        short: "Resonance / shared ideals",
+        text: "Shared ideals and struggle created a sense of kinship. As Kaveh grew, his choices began to guide the player’s own.",
+        image: "/attachment-kaveh-cutout.webp",
+      },
+      {
+        name: "Ningguang",
+        game: "Genshin Impact",
+        mode: "Observance attachment",
+        short: "Small rituals / a continuing world",
+        text: "A nightly ritual—leaving her seated in Liyue—made her world feel as if it continued after the screen went dark.",
+        image: "/attachment-ningguang-cutout.webp",
+      },
+      {
+        name: "Necrologist",
+        game: "Reverse: 1999",
+        mode: "Actualisation attachment",
+        short: "Emotional support / memory",
+        text: "Voice and story offered comfort around grief. The bond crossed into daily life as friendship, memory and a permanent tattoo.",
+        image: "/attachment-necrologist-cutout.webp",
+      },
+    ],
+  },
+  anchorOverview: {
+    roleLabel: "Role",
+    showcaseLabel: "Showcase",
+    demoCaption: "Real-device gameplay demo of Anchor",
+  },
+  practice: {
+    eyebrow: "03 / Practice",
+    heading: "Design as a way of asking.",
+    lede: "A practice that moves between close observation, system design, and tangible prototypes.",
+    areas: [
+      {
+        number: "01",
+        title: "Narrative systems",
+        text: "Themes become rules, routes, puzzles, and choices.",
+      },
+      {
+        number: "02",
+        title: "Player research",
+        text: "Surveys, interviews, and quantitative analysis.",
+      },
+      {
+        number: "03",
+        title: "Playable inquiry",
+        text: "Prototype core interaction flows early.",
+      },
+    ],
+    processAria: "Creative research process",
+    processSteps: [
+      { title: "Observe", text: "behaviour, context, tension" },
+      { title: "Translate", text: "insight into mechanics" },
+      { title: "Prototype", text: "play, test, refine" },
+    ],
+    storyButton: "Storytelling foundations",
+    storyEvidence: [
+      { value: "17", label: "published works" },
+      { value: "1K+", label: "reads" },
+      { value: "1.267M", label: "livestream traffic" },
+    ],
+  },
+  profile: {
+    eyebrow: "04 / Profile",
+    heading: "Researcher’s rigour, maker’s curiosity.",
+    lede: "Trained across digital media, communication, user research, and hands-on production.",
+    educationLabel: "Education",
+    experienceLabel: "Experience",
+    education: [
+      {
+        time: "2023—25",
+        school: "King’s College London",
+        degree: "MA, Digital Asset & Media Management",
+      },
+      {
+        time: "2019—23",
+        school: "East China University of Political Science and Law",
+        degree: "BA, Journalism and Communication · GPA 3.8 / 4.0",
+      },
+    ],
+    experience: [
+      {
+        time: "2022",
+        company: "Sichuan Newspaper Group · Cover News",
+        job: "Media Intern, Automotive Desk",
+      },
+      {
+        time: "2021",
+        company: "Zigong Daily",
+        job: "New Media Editorial Intern",
+      },
+    ],
+    tablistAria: "Profile details",
+    tabs: ["Methods", "Tools", "Recognition"],
+    methods: [
+      "User research",
+      "Questionnaire design",
+      "Data cleaning & recoding",
+      "Reliability analysis",
+      "Ordinal regression",
+      "Data visualisation",
+      "Interview design",
+      "Narrative prototyping",
+    ],
+    recognition: [
+      "Two Second Prizes at the 7th Hongfeng College Student Journalists Festival—for writing and video.",
+      "ECUPL Comprehensive Scholarship, 2019—20 and 2020—21.",
+    ],
+  },
+  contact: {
+    headingA: "Let’s make systems",
+    headingB: "people can feel.",
+    body: "For research conversations, game collaborations, or portfolio enquiries, send me a note.",
+    signature: "Questions · Evidence · Play",
+    copyright: "© 2026 Kexin Zhang",
+  },
+  dialog: {
+    topbar: "Storytelling",
+    close: "Close",
+    eyebrow: "Media & communication",
+    title: "Before systems, stories.",
+    intro:
+      "Reporting and media production taught me to listen closely, frame a human question, and make complexity legible.",
+    metrics: [
+      { value: "17", label: "published videos & articles" },
+      { value: "1K+", label: "reads on a reported feature" },
+      { value: "1.267M", label: "aggregate livestream traffic" },
+    ],
+    projects: [
+      {
+        tag: "Interview-led feature · 2020",
+        title: "A Dialogue Across Seventeen Years",
+        text: "Interviewed healthcare workers who had lived through both SARS and COVID-19, then wrote the resulting feature.",
+      },
+      {
+        tag: "Documentary video · 2020",
+        title: "A Restaurant During the Pandemic",
+        text: "Wrote the script for a video following a Shanghai restaurant’s two-month recovery through owner and customer interviews.",
+      },
+    ],
+  },
+};
+
+type Copy = typeof en;
+
+const zh: Copy = {
+  langSwitchAria: "语言",
+  skipToPage: "跳到当前页面",
+  wordmarkAria: "张可欣，首页",
+  primaryNavAria: "主要页面",
+  nav: {
+    home: "首页",
+    profile: "简介",
+    contact: "联系",
+  },
+  liveRegion: (page, total, label) => `第 ${page} 页，共 ${total} 页：${label}`,
+  home: {
+    eyebrow: "游戏设计 · 玩家体验 · 以人为本的 HCI",
+    titleA: "张",
+    titleB: "可欣",
+    statementPre: "我探索",
+    statementStrong: "规则、故事与关键选择",
+    statementPost: "如何塑造人们体验记忆、关怀与身份的方式。",
+    cta: "探索精选作品",
+  },
+  portrait: {
+    ariaLabel: "对比「角色依恋」词云与可欣的肖像",
+    valueText: (reveal) => `${reveal}% 肖像，${100 - reveal}% 词云`,
+    prompt: "滑动揭示",
+    caption: "水平移动以揭示肖像。聚焦时可使用左右方向键。",
+  },
+  projects: {
+    anchor: {
+      subtitle: "第一人称叙事解谜游戏",
+      role: "叙事设计 · 玩家体验",
+      status: "进行中",
+      stat: "可玩原型",
+      description:
+        "一场可玩的探索：关于破碎的记忆、照护者的压力，以及努力留住「家」的感觉。",
+      tags: ["游戏机制", "叙事选择", "原型"],
+      details: [
+        {
+          label: "设计前提",
+          text: "游戏在女儿的当下与母亲支离破碎的记忆之间交替，场景横跨家、地铁站与医院精神科。",
+        },
+        {
+          label: "核心机制",
+          text: "物件调查、组合密码锁、路线选择、照片解谜与叙事抉择。保留下来的记忆锚点决定哪些回忆会浮现、走向哪个结局。",
+        },
+        {
+          label: "我的贡献",
+          text: "负责叙事与玩家体验设计，并以轻量级的 AI 辅助原型搭建核心流程。",
+        },
+      ],
+    },
+    attachment: {
+      subtitle: "二次元角色如何开始显得「活着」",
+      role: "硕士毕业论文 · 质性游戏研究",
+      status: "游戏研究",
+      stat: "10 位玩家 · 6 款游戏",
+      description:
+        "一项质性研究，探讨角色魅力、互动机制、叙事与现实物件如何把虚构角色变成真实可感的关系。",
+      tags: ["主题分析", "玩家访谈", "游戏心理学"],
+      details: [
+        {
+          label: "问题",
+          text: "玩家如何对不可自定义的角色产生依恋？这种依恋又如何在游戏与日常生活之间流动？",
+        },
+        {
+          label: "方法",
+          text: "对来自六款二次元游戏的十位核心玩家进行半结构化访谈，随后进行主题分析。",
+        },
+        {
+          label: "发现",
+          text: "呈现出三种交叠的模式：共生、守望与实现，核心都是被感知到的相互关怀与回应。",
+        },
+      ],
+    },
+    genshin: {
+      subtitle: "一款中国开放世界 RPG 如何把差异转化为共享的意义",
+      role: "毕业论文 · 跨文化游戏研究",
+      status: "游戏与媒介研究",
+      stat: "4 个相互关联的系统",
+      description:
+        "一项质性研究，探讨价值观、叙事、视听语言与角色网络如何让文化特异性在全球范围内可被理解。",
+      tags: ["文本分析", "跨文化传播", "游戏世界"],
+      details: [
+        {
+          label: "问题",
+          text: "一款游戏如何在保持文化特异性的同时，邀请不同背景的玩家进入同一个世界？",
+        },
+        {
+          label: "方法",
+          text: "通过文献综述与比较文本分析，考察价值观、剧情、视听符号、仪式与角色架构。",
+        },
+        {
+          label: "发现",
+          text: "《原神》先建立共享的文化地基，再让差异通过地点、角色、音乐、翻译与玩法回归。",
+        },
+      ],
+    },
+    fps: {
+      subtitle: "与在线游戏时长相关的因素",
+      role: "项目负责人 · 量化研究",
+      status: "实证研究",
+      stat: "97 份有效问卷",
+      description:
+        "一项以问卷为主的研究，考察游戏体验、感知易用性与社交互动和 FPS 单局时长的关系。",
+      tags: ["有序回归", "SPSS", "问卷设计"],
+      details: [
+        {
+          label: "问题",
+          text: "哪些体验因素与中国 FPS 玩家进入更长的单局时长类别相关？",
+        },
+        {
+          label: "方法",
+          text: "微信问卷投放、数据清洗与重编码、信度检验，并在 SPSS 中进行有序 Logistic 回归。",
+        },
+        {
+          label: "发现",
+          text: "社交互动与更长时长类别的关联最强且显著；游戏体验显著，而易用性不显著。",
+        },
+      ],
+    },
+    "ai-library": {
+      subtitle: "重新思考图书馆在线实时咨询",
+      role: "项目负责人 · 用户研究",
+      status: "人机交互研究",
+      stat: "55 份问卷 · 6 场访谈",
+      description:
+        "与 KCL 图书馆合作的混合方法研究，探讨学生的 AI 使用、信任、隐私、指引与服务机会。",
+      tags: ["HCI", "数据可视化", "服务研究"],
+      details: [
+        {
+          label: "背景",
+          text: "研究探讨了学生的 AI 使用现状，以及将 AI 引入伦敦国王学院图书馆 Live Chat 的可能性。",
+        },
+        {
+          label: "方法",
+          text: "55 份问卷、6 场半结构化访谈、逐题分析与证据可视化。",
+        },
+        {
+          label: "洞察",
+          text: "学生想要 AI 的速度、检索的可追溯性，以及人工服务的同理心。",
+        },
+      ],
+    },
+  },
+  slideLabels: {
+    overview: "概览",
+    prototype: "原型",
+    "relationships-a": "角色侧写 I",
+    "relationships-b": "角色侧写 II",
+    formation: "形成机制",
+    evidence: "证据",
+    "shared-world": "共享世界",
+    "living-culture": "活的文化",
+    "cultural-orrery": "文化星盘",
+    method: "方法",
+    sessions: "会话",
+    drivers: "驱动因素",
+    service: "服务机会",
+    adoption: "采纳",
+    trust: "信任",
+  },
+  slideAria: {
+    overview: (title) => `${title} · 概览`,
+    evidence: (title) => `${title} · 证据`,
+  },
+  projectPagerAria: "项目分页",
+  prevProjectAria: "上一页项目内容",
+  nextProjectAria: "下一页项目内容",
+  attachmentOverview: {
+    statPlayers: "10 位玩家",
+    statGames: "6 款游戏",
+    summary:
+      "十位核心玩家各自介绍了一位不可自定义的角色——并讲述了吸引何时开始变成一种相互的回应。",
+    caseStageAria: "三个精选角色依恋案例",
+    caseAlt: (name, game) => `《${game}》角色${name}`,
+    cases: [
+      {
+        name: "卡维",
+        game: "原神",
+        mode: "共生式依恋",
+        short: "共鸣 / 共同理想",
+        text: "共同的理想与挣扎带来了同路人的亲近感。随着卡维的成长，他的选择开始指引玩家自己的选择。",
+        image: "/attachment-kaveh-cutout.webp",
+      },
+      {
+        name: "凝光",
+        game: "原神",
+        mode: "守望式依恋",
+        short: "小小的仪式 / 延续运转的世界",
+        text: "每晚的仪式——让她安坐在璃月——让她的世界仿佛在屏幕熄灭之后依然继续运转。",
+        image: "/attachment-ningguang-cutout.webp",
+      },
+      {
+        name: "讣告人",
+        game: "重返未来：1999",
+        mode: "实现式依恋",
+        short: "情感支持 / 记忆",
+        text: "声音与故事在悲伤时给予了安慰。这段羁绊走进了日常生活，成为友谊、记忆与一枚永久的纹身。",
+        image: "/attachment-necrologist-cutout.webp",
+      },
+    ],
+  },
+  anchorOverview: {
+    roleLabel: "职责",
+    showcaseLabel: "展示",
+    demoCaption: "Anchor 实机游玩演示",
+  },
+  practice: {
+    eyebrow: "03 / 实践",
+    heading: "设计是一种提问的方式。",
+    lede: "一种在细致观察、系统设计与可触摸的原型之间来回移动的实践。",
+    areas: [
+      {
+        number: "01",
+        title: "叙事系统",
+        text: "主题化为规则、路线、谜题与选择。",
+      },
+      {
+        number: "02",
+        title: "玩家研究",
+        text: "问卷、访谈与量化分析。",
+      },
+      {
+        number: "03",
+        title: "可玩探索",
+        text: "尽早做出核心交互流程的原型。",
+      },
+    ],
+    processAria: "创作研究流程",
+    processSteps: [
+      { title: "观察", text: "行为、语境与张力" },
+      { title: "转译", text: "把洞察转化为机制" },
+      { title: "原型", text: "试玩、测试、打磨" },
+    ],
+    storyButton: "叙事功底",
+    storyEvidence: [
+      { value: "17", label: "发表作品" },
+      { value: "1K+", label: "阅读量" },
+      { value: "1.267M", label: "直播流量" },
+    ],
+  },
+  profile: {
+    eyebrow: "04 / 简介",
+    heading: "研究者的严谨，创造者的好奇。",
+    lede: "受过数字媒体、传播、用户研究与动手制作的交叉训练。",
+    educationLabel: "教育经历",
+    experienceLabel: "实习经历",
+    education: [
+      {
+        time: "2023—25",
+        school: "伦敦国王学院",
+        degree: "数字资产与媒体管理硕士（MA）",
+      },
+      {
+        time: "2019—23",
+        school: "华东政法大学",
+        degree: "新闻学学士 · GPA 3.8 / 4.0",
+      },
+    ],
+    experience: [
+      {
+        time: "2022",
+        company: "四川日报报业集团 · 封面新闻",
+        job: "汽车频道媒体实习生",
+      },
+      {
+        time: "2021",
+        company: "自贡日报",
+        job: "新媒体编辑实习生",
+      },
+    ],
+    tablistAria: "个人资料详情",
+    tabs: ["研究方法", "工具", "荣誉"],
+    methods: [
+      "用户研究",
+      "问卷设计",
+      "数据清洗与重编码",
+      "信度分析",
+      "有序回归",
+      "数据可视化",
+      "访谈设计",
+      "叙事原型设计",
+    ],
+    recognition: [
+      "第七届红枫大学生记者节二等奖两项——文字类与视频类。",
+      "华东政法大学综合奖学金（2019—20、2020—21 学年）。",
+    ],
+  },
+  contact: {
+    headingA: "让我们做出",
+    headingB: "能被人感知的系统。",
+    body: "无论是研究交流、游戏合作，还是作品集相关咨询，都欢迎给我写信。",
+    signature: "问题 · 证据 · 游戏",
+    copyright: "© 2026 张可欣",
+  },
+  dialog: {
+    topbar: "叙事经历",
+    close: "关闭",
+    eyebrow: "媒体与传播",
+    title: "在系统之前，是故事。",
+    intro: "报道与媒体制作教会我贴近地倾听、提出有人味的问题，并把复杂的事情讲清楚。",
+    metrics: [
+      { value: "17", label: "已发表视频与文章" },
+      { value: "1K+", label: "单篇报道阅读量" },
+      { value: "1.267M", label: "直播累计流量" },
+    ],
+    projects: [
+      {
+        tag: "人物访谈特稿 · 2020",
+        title: "一场跨越十七年的对话",
+        text: "采访了同时经历过非典与新冠的医护人员，并据此撰写特稿。",
+      },
+      {
+        tag: "纪录短片 · 2020",
+        title: "疫情下的一家餐厅",
+        text: "为一部纪录短片撰写脚本：通过店主与顾客的访谈，记录一家上海餐厅两个月的复工历程。",
+      },
+    ],
+  },
+};
+
+const copy: Record<Language, Copy> = { en, zh };
 
 const projects = [
   {
@@ -20,28 +668,7 @@ const projects = [
     kind: "anchor",
     number: "01",
     title: "Anchor",
-    subtitle: "A first-person narrative puzzle game",
     period: "2026—Present",
-    role: "Narrative design · Player experience",
-    status: "In progress",
-    stat: "Playable prototype",
-    description:
-      "A playable inquiry into fragmented memory, caregiver pressure, and the effort to preserve a sense of home.",
-    tags: ["Game mechanics", "Narrative choices", "Prototype"],
-    details: [
-      {
-        label: "Design premise",
-        text: "The game alternates between a daughter’s present and her mother’s fragmented memories across a home, metro station, and hospital psychiatric department.",
-      },
-      {
-        label: "Core mechanics",
-        text: "Object investigation, combination locks, route choices, photo puzzles, and narrative decisions. Retained memory anchors shape what resurfaces and which ending unfolds.",
-      },
-      {
-        label: "My contribution",
-        text: "Narrative and player-experience design, supported by lightweight AI-assisted prototyping of the core flow.",
-      },
-    ],
     external: "https://tch.cloud.tencent.com/contest/40",
   },
   {
@@ -50,28 +677,7 @@ const projects = [
     kind: "character",
     number: "02",
     title: "Character Attachment",
-    subtitle: "How Nijigen characters begin to feel alive",
     period: "2024",
-    role: "MA dissertation · Qualitative game research",
-    status: "Game research",
-    stat: "10 players · 6 games",
-    description:
-      "A qualitative study of how character appeal, interaction mechanics, narrative, and real-world objects turn fictional characters into felt relationships.",
-    tags: ["Thematic analysis", "Player interviews", "Game psychology"],
-    details: [
-      {
-        label: "Question",
-        text: "How do players form attachment to non-customisable characters—and how does that attachment move between the game and everyday life?",
-      },
-      {
-        label: "Method",
-        text: "Ten semi-structured interviews with dedicated players across six Nijigen games, followed by thematic analysis.",
-      },
-      {
-        label: "Finding",
-        text: "Three overlapping modes emerged: symbiotic, observance, and actualisation. All centred on perceived mutual care and response.",
-      },
-    ],
   },
   {
     id: "genshin",
@@ -79,28 +685,7 @@ const projects = [
     kind: "genshin",
     number: "03",
     title: "Genshin Across Cultures",
-    subtitle: "How a Chinese open-world RPG turns difference into shared meaning",
     period: "2023",
-    role: "Dissertation · Cross-cultural game research",
-    status: "Game & media study",
-    stat: "4 connected systems",
-    description:
-      "A qualitative study of how values, narrative, audiovisual language, and character networks make cultural specificity globally legible.",
-    tags: ["Textual analysis", "Cross-cultural communication", "Game worlds"],
-    details: [
-      {
-        label: "Question",
-        text: "How can a game remain culturally specific while inviting players from different backgrounds into the same world?",
-      },
-      {
-        label: "Method",
-        text: "Literature review and comparative textual analysis across values, plot, audiovisual symbols, ritual, and character architecture.",
-      },
-      {
-        label: "Finding",
-        text: "Genshin builds shared cultural ground first, then lets difference return through places, characters, music, translation, and play.",
-      },
-    ],
   },
   {
     id: "fps",
@@ -108,28 +693,7 @@ const projects = [
     kind: "fps",
     number: "04",
     title: "FPS Playtime Study",
-    subtitle: "Factors associated with online playtime",
     period: "2024",
-    role: "Project lead · Quantitative research",
-    status: "Research study",
-    stat: "97 valid responses",
-    description:
-      "A survey-led study of how game experience, perceived usability, and social interaction relate to FPS session length.",
-    tags: ["Ordinal regression", "SPSS", "Survey design"],
-    details: [
-      {
-        label: "Question",
-        text: "Which experience factors are associated with Chinese FPS players entering longer single-session playtime categories?",
-      },
-      {
-        label: "Methods",
-        text: "WeChat survey, data cleaning and recoding, reliability assessment, and ordinal logistic regression in SPSS.",
-      },
-      {
-        label: "Finding",
-        text: "Social interaction had the strongest significant association with longer categories; game experience was significant, while usability was not.",
-      },
-    ],
   },
   {
     id: "ai-library",
@@ -137,32 +701,12 @@ const projects = [
     kind: "ai",
     number: "05",
     title: "AI × King’s Library",
-    subtitle: "Rethinking Library Live Chat",
     period: "2023—24",
-    role: "Project lead · User research",
-    status: "HCI study",
-    stat: "55 survey · 6 interviews",
-    description:
-      "A mixed-method study with KCL Library exploring student AI use, trust, privacy, guidance, and service opportunities.",
-    tags: ["HCI", "Data visualisation", "Service research"],
-    details: [
-      {
-        label: "Context",
-        text: "The study explored student AI use and the potential integration of AI into King’s College London Library Live Chat.",
-      },
-      {
-        label: "Methods",
-        text: "Fifty-five survey responses, six semi-structured interviews, question-level analysis, and evidence visualisation.",
-      },
-      {
-        label: "Insight",
-        text: "Students wanted the speed of AI, the traceability of search, and the empathy of human support.",
-      },
-    ],
   },
 ] as const;
 
 type ProjectKind = (typeof projects)[number]["kind"];
+type ProjectId = (typeof projects)[number]["id"];
 
 const pages = [
   { id: "home", label: "Home" },
@@ -210,62 +754,6 @@ const projectSlides: Record<
     { id: "trust", label: "Trust", type: "evidence" },
   ],
 };
-
-const attachmentFeaturedCases = [
-  {
-    name: "Kaveh",
-    game: "Genshin Impact",
-    mode: "Symbiotic attachment",
-    short: "Resonance / shared ideals",
-    text: "Shared ideals and struggle created a sense of kinship. As Kaveh grew, his choices began to guide the player’s own.",
-    image: "/attachment-kaveh-cutout.webp",
-  },
-  {
-    name: "Ningguang",
-    game: "Genshin Impact",
-    mode: "Observance attachment",
-    short: "Small rituals / a continuing world",
-    text: "A nightly ritual—leaving her seated in Liyue—made her world feel as if it continued after the screen went dark.",
-    image: "/attachment-ningguang-cutout.webp",
-  },
-  {
-    name: "Necrologist",
-    game: "Reverse: 1999",
-    mode: "Actualisation attachment",
-    short: "Emotional support / memory",
-    text: "Voice and story offered comfort around grief. The bond crossed into daily life as friendship, memory and a permanent tattoo.",
-    image: "/attachment-necrologist-cutout.webp",
-  },
-] as const;
-
-const practiceAreas = [
-  {
-    number: "01",
-    title: "Narrative systems",
-    text: "Themes become rules, routes, puzzles, and choices.",
-  },
-  {
-    number: "02",
-    title: "Player research",
-    text: "Surveys, interviews, and quantitative analysis.",
-  },
-  {
-    number: "03",
-    title: "Playable inquiry",
-    text: "Prototype core interaction flows early.",
-  },
-] as const;
-
-const methods = [
-  "User research",
-  "Questionnaire design",
-  "Data cleaning & recoding",
-  "Reliability analysis",
-  "Ordinal regression",
-  "Data visualisation",
-  "Interview design",
-  "Narrative prototyping",
-] as const;
 
 const researchWordCloudTerms = [
   ["CHARACTER ATTACHMENT", 100, "#E96545"],
@@ -427,7 +915,8 @@ function ResearchWordCloud() {
   );
 }
 
-function ResearchPortrait() {
+function ResearchPortrait({ lang }: { lang: Language }) {
+  const portraitCopy = copy[lang].portrait;
   const [reveal, setReveal] = useState(0);
   const [isInteracting, setIsInteracting] = useState(false);
   const portraitRef = useRef<HTMLElement | null>(null);
@@ -476,11 +965,11 @@ function ResearchPortrait() {
       className="research-portrait"
       data-active={isInteracting || reveal > 0 ? "true" : "false"}
       role="slider"
-      aria-label="Compare the Character Attachment word cloud with Kexin's portrait"
+      aria-label={portraitCopy.ariaLabel}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={reveal}
-      aria-valuetext={`${reveal}% portrait, ${100 - reveal}% word cloud`}
+      aria-valuetext={portraitCopy.valueText(reveal)}
       tabIndex={0}
       style={{ "--portrait-reveal": `${reveal}%` } as CSSProperties}
       onKeyDown={handleScanKeyDown}
@@ -546,11 +1035,10 @@ function ResearchPortrait() {
       </div>
       <span className="research-scan-line" aria-hidden="true" />
       <span className="research-scan-prompt" aria-hidden="true">
-        Slide to reveal
+        {portraitCopy.prompt}
       </span>
       <figcaption className="research-portrait-caption">
-        Move horizontally to reveal the portrait. Use the left and right arrow
-        keys when focused.
+        {portraitCopy.caption}
       </figcaption>
     </figure>
   );
@@ -566,8 +1054,6 @@ const tools = [
   "Lightroom",
 ] as const;
 
-const profileTabs = ["Methods", "Tools", "Recognition"] as const;
-
 type Detail = number | "story" | null;
 type HistoryMode = "push" | "replace" | "none";
 
@@ -579,6 +1065,7 @@ function pageIndexFromHash() {
 }
 
 export default function PortfolioPager() {
+  const [lang, setLang] = useState<Language>("en");
   const [currentPage, setCurrentPage] = useState(0);
   const [projectSlide, setProjectSlide] = useState(0);
   const [activeDetail, setActiveDetail] = useState<Detail>(null);
@@ -589,6 +1076,32 @@ export default function PortfolioPager() {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const touchStart = useRef<{ x: number; y: number; time: number } | null>(null);
+
+  const t = copy[lang];
+
+  const switchLanguage = useCallback((nextLanguage: Language) => {
+    applyLanguage(nextLanguage);
+    setLang(nextLanguage);
+  }, []);
+
+  const labelForPage = useCallback(
+    (index: number) => {
+      const page = pages[index];
+      if (page.id === "home") return t.nav.home;
+      if (page.id === "profile") return t.nav.profile;
+      if (page.id === "contact") return t.nav.contact;
+      return page.label;
+    },
+    [t],
+  );
+
+  useEffect(() => {
+    const initialLanguage = detectInitialLanguage();
+    applyLanguage(initialLanguage);
+    // Hydrate the stored/preferred language once the client owns window/document.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLang(initialLanguage);
+  }, []);
 
   const navigateTo = useCallback(
     (
@@ -757,7 +1270,7 @@ export default function PortfolioPager() {
     event.preventDefault();
 
     const delta = event.key === "ArrowRight" ? 1 : -1;
-    const nextTab = (profileTab + delta + profileTabs.length) % profileTabs.length;
+    const nextTab = (profileTab + delta + t.profile.tabs.length) % t.profile.tabs.length;
     setProfileTab(nextTab);
     tabRefs.current[nextTab]?.focus();
   };
@@ -766,14 +1279,18 @@ export default function PortfolioPager() {
   const isProjectPage = currentPage >= PROJECT_PAGE_START && currentPage <= PROJECT_PAGE_END;
   const activeProjectIndex = isProjectPage ? currentPage - PROJECT_PAGE_START : 0;
   const activeProject = projects[activeProjectIndex];
+  const activeProjectText = t.projects[activeProject.id as ProjectId];
   const activeProjectSlides = projectSlides[activeProject.kind];
   const safeProjectSlide = Math.min(projectSlide, activeProjectSlides.length - 1);
   const activeProjectSlide = activeProjectSlides[safeProjectSlide];
+  const activeSlideLabel =
+    t.slideLabels[activeProjectSlide.id as keyof Copy["slideLabels"]] ??
+    activeProjectSlide.label;
 
   return (
     <div className="pager-app" data-page={currentPage}>
       <a className="pager-skip" href={`#${pages[currentPage].id}`}>
-        Skip to current page
+        {t.skipToPage}
       </a>
 
       <div className="pager-ambient" aria-hidden="true">
@@ -786,7 +1303,7 @@ export default function PortfolioPager() {
         <a
           className="pager-wordmark"
           href="#home"
-          aria-label="Kexin Zhang, home"
+          aria-label={t.wordmarkAria}
           onClick={(event) => {
             event.preventDefault();
             navigateTo(0);
@@ -795,7 +1312,7 @@ export default function PortfolioPager() {
           KZ<span aria-hidden="true">.</span>
         </a>
 
-        <nav className="pager-main-nav" aria-label="Primary pages">
+        <nav className="pager-main-nav" aria-label={t.primaryNavAria}>
           {pages.map((page, index) => (
             <a
               key={page.id}
@@ -806,18 +1323,37 @@ export default function PortfolioPager() {
                 navigateTo(index);
               }}
             >
-              {page.label}
+              {labelForPage(index)}
             </a>
           ))}
         </nav>
 
         <span className="pager-mobile-title" aria-hidden="true">
-          {pages[currentPage].label}
+          {labelForPage(currentPage)}
         </span>
 
-        <a className="pager-email" href="mailto:Ruihi.zhang@outlook.com">
-          Email <span aria-hidden="true">↗</span>
-        </a>
+        <div className="pager-header-actions">
+          <div className="pager-lang-switch" role="group" aria-label={t.langSwitchAria}>
+            <button
+              type="button"
+              aria-pressed={lang === "en"}
+              onClick={() => switchLanguage("en")}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              aria-pressed={lang === "zh"}
+              onClick={() => switchLanguage("zh")}
+            >
+              中文
+            </button>
+          </div>
+
+          <a className="pager-email" href="mailto:Ruihi.zhang@outlook.com">
+            Email <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </header>
 
       <main
@@ -840,7 +1376,7 @@ export default function PortfolioPager() {
             <div className="pager-shell home-layout">
               <div className="home-copy page-enter">
                 <p className="pager-eyebrow">
-                  Game design · Player experience · Human-centered HCI
+                  {t.home.eyebrow}
                 </p>
                 <h1
                   id="home-title"
@@ -849,15 +1385,14 @@ export default function PortfolioPager() {
                     headingRefs.current[0] = element;
                   }}
                 >
-                  Kexin <span>Zhang</span>
+                  {t.home.titleA} <span>{t.home.titleB}</span>
                 </h1>
                 <p className="home-statement">
-                  I explore how <strong>rules, stories, and consequential choices</strong>{" "}
-                  shape the way people experience memory, care, and identity.
+                  {t.home.statementPre}<strong>{t.home.statementStrong}</strong>{t.home.statementPost}
                 </p>
                 <div className="home-actions">
                   <button className="pager-primary-action" onClick={() => navigateTo(PROJECT_PAGE_START)}>
-                    Explore selected work <span aria-hidden="true">→</span>
+                    {t.home.cta} <span aria-hidden="true">→</span>
                   </button>
                 </div>
               </div>
@@ -865,7 +1400,7 @@ export default function PortfolioPager() {
               <div
                 className="focus-card research-graph-card page-enter"
               >
-                <ResearchPortrait />
+                <ResearchPortrait lang={lang} />
               </div>
             </div>
           </div>
@@ -904,19 +1439,18 @@ export default function PortfolioPager() {
                 </h2>
                 <div className="project-internal-stage" key={`${activeProject.id}-${activeProjectSlide.id}`}>
                   {activeProjectSlide.type === "overview" && activeProject.kind === "character" ? (
-                          <section className="attachment-overview-v2" aria-label={`${activeProject.title} overview`}>
+                          <section className="attachment-overview-v2" aria-label={t.slideAria.overview(activeProject.title)}>
                             <header className="attachment-overview-header">
                               <div className="attachment-heading-copy">
                                 <h2>
                                   Character <span>Attachment</span>
                                 </h2>
-                                <p>{activeProject.subtitle}</p>
+                                <p>{activeProjectText.subtitle}</p>
                               </div>
                               <div className="attachment-study-summary">
-                                <strong>10 players <i>·</i> 6 games</strong>
+                                <strong>{t.attachmentOverview.statPlayers} <i>·</i> {t.attachmentOverview.statGames}</strong>
                                 <p>
-                                  Ten dedicated players each introduced one non-customisable
-                                  character—and described when attraction began to feel reciprocal.
+                                  {t.attachmentOverview.summary}
                                 </p>
                               </div>
                             </header>
@@ -924,16 +1458,16 @@ export default function PortfolioPager() {
                             <div
                               className="attachment-case-stage"
                               data-gesture-scope="inner-x"
-                              aria-label="Three featured character attachment cases"
+                              aria-label={t.attachmentOverview.caseStageAria}
                             >
-                              {attachmentFeaturedCases.map((caseStudy, index) => (
+                              {t.attachmentOverview.cases.map((caseStudy, index) => (
                                 <article className={`attachment-case attachment-case-${index + 1}`} key={caseStudy.name}>
                                   <div className="attachment-case-bubble">
                                     <span>{caseStudy.short}</span>
                                     <p>{caseStudy.text}</p>
                                   </div>
                                   <figure>
-                                    <img src={caseStudy.image} alt={`${caseStudy.name} from ${caseStudy.game}`} />
+                                    <img src={caseStudy.image} alt={t.attachmentOverview.caseAlt(caseStudy.name, caseStudy.game)} />
                                     <figcaption>
                                       <strong>{caseStudy.name}</strong>
                                       <span>{caseStudy.game} · {caseStudy.mode}</span>
@@ -944,16 +1478,16 @@ export default function PortfolioPager() {
                             </div>
                           </section>
                   ) : activeProject.kind === "anchor" && activeProjectSlide.type === "overview" ? (
-                          <section className="project-overview-slide anchor-overview-slide" aria-label={`${activeProject.title} overview`}>
+                          <section className="project-overview-slide anchor-overview-slide" aria-label={t.slideAria.overview(activeProject.title)}>
                             <header className="anchor-overview-header">
                               <div className="anchor-title-block">
                                 <h2>{activeProject.title}</h2>
-                                <p className="project-subtitle">{activeProject.subtitle}</p>
+                                <p className="project-subtitle">{activeProjectText.subtitle}</p>
                               </div>
                               <dl className="anchor-title-meta">
-                                <div><dt>Role</dt><dd>{activeProject.role}</dd></div>
+                                <div><dt>{t.anchorOverview.roleLabel}</dt><dd>{activeProjectText.role}</dd></div>
                                 <div>
-                                  <dt>Showcase</dt>
+                                  <dt>{t.anchorOverview.showcaseLabel}</dt>
                                   <dd><a href={activeProject.external} target="_blank" rel="noreferrer">Tencent Cloud hackathon ↗</a></dd>
                                 </div>
                               </dl>
@@ -966,37 +1500,37 @@ export default function PortfolioPager() {
                                 poster="/anchor-demo-poster.jpg"
                                 src="/anchor-demo.mp4"
                               />
-                              <figcaption>Real-device gameplay demo of Anchor</figcaption>
+                              <figcaption>{t.anchorOverview.demoCaption}</figcaption>
                             </figure>
                           </section>
                   ) : activeProjectSlide.type === "evidence" ? (
-                        <section className="project-evidence-slide" aria-label={`${activeProject.title} evidence`}>
+                        <section className="project-evidence-slide" aria-label={t.slideAria.evidence(activeProject.title)}>
                           {activeProject.kind === "anchor" ? (
                             <div className="anchor-prototype-page">
                               <header className="anchor-prototype-intro">
-                                <strong>{activeProject.stat}</strong>
-                                <p>{activeProject.description}</p>
+                                <strong>{activeProjectText.stat}</strong>
+                                <p>{activeProjectText.description}</p>
                               </header>
                               <div className="anchor-evidence-grid">
-                                {activeProject.details.map((detail) => (
+                                {activeProjectText.details.map((detail) => (
                                   <article key={detail.label}><span>{detail.label}</span><h3>{detail.text}</h3></article>
                                 ))}
                               </div>
                             </div>
                           ) : (
-                            <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} />
+                            <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} lang={lang} />
                           )}
                         </section>
                   ) : activeProject.kind !== "anchor" ? (
-                    <ProjectNarratives kind={activeProject.kind} slideId={activeProjectSlide.id} />
+                    <ProjectNarratives kind={activeProject.kind} slideId={activeProjectSlide.id} lang={lang} />
                   ) : null}
                 </div>
-                <div className="project-internal-controls" aria-label="Project pages">
+                <div className="project-internal-controls" aria-label={`${t.projectPagerAria} · ${activeSlideLabel}`}>
                   <button
                     type="button"
                     onClick={() => setProjectSlide((value) => Math.max(0, value - 1))}
                     disabled={safeProjectSlide === 0}
-                    aria-label="Previous project page"
+                    aria-label={t.prevProjectAria}
                   >
                     ←
                   </button>
@@ -1004,7 +1538,7 @@ export default function PortfolioPager() {
                     type="button"
                     onClick={() => setProjectSlide((value) => Math.min(activeProjectSlides.length - 1, value + 1))}
                     disabled={safeProjectSlide === activeProjectSlides.length - 1}
-                    aria-label="Next project page"
+                    aria-label={t.nextProjectAria}
                   >
                     →
                   </button>
@@ -1025,7 +1559,7 @@ export default function PortfolioPager() {
             <div className="pager-shell practice-layout">
               <div className="pager-page-heading page-enter">
                 <div>
-                  <p className="pager-eyebrow">03 / Practice</p>
+                  <p className="pager-eyebrow">{t.practice.eyebrow}</p>
                   <h2
                     id="practice-title"
                     tabIndex={-1}
@@ -1033,17 +1567,16 @@ export default function PortfolioPager() {
                       headingRefs.current[2] = element;
                     }}
                   >
-                    Design as a way of asking.
+                    {t.practice.heading}
                   </h2>
                 </div>
                 <p>
-                  A practice that moves between close observation, system design,
-                  and tangible prototypes.
+                  {t.practice.lede}
                 </p>
               </div>
 
               <div className="practice-cards page-enter">
-                {practiceAreas.map((area) => (
+                {t.practice.areas.map((area) => (
                   <article className="practice-card" key={area.number}>
                     <span>{area.number}</span>
                     <h3>{area.title}</h3>
@@ -1053,20 +1586,20 @@ export default function PortfolioPager() {
               </div>
 
               <div className="practice-footer page-enter">
-                <div className="process-strip" aria-label="Creative research process">
+                <div className="process-strip" aria-label={t.practice.processAria}>
                   <div>
-                    <strong>Observe</strong>
-                    <span>behaviour, context, tension</span>
+                    <strong>{t.practice.processSteps[0].title}</strong>
+                    <span>{t.practice.processSteps[0].text}</span>
                   </div>
                   <span aria-hidden="true">→</span>
                   <div>
-                    <strong>Translate</strong>
-                    <span>insight into mechanics</span>
+                    <strong>{t.practice.processSteps[1].title}</strong>
+                    <span>{t.practice.processSteps[1].text}</span>
                   </div>
                   <span aria-hidden="true">→</span>
                   <div>
-                    <strong>Prototype</strong>
-                    <span>play, test, refine</span>
+                    <strong>{t.practice.processSteps[2].title}</strong>
+                    <span>{t.practice.processSteps[2].text}</span>
                   </div>
                 </div>
 
@@ -1075,11 +1608,14 @@ export default function PortfolioPager() {
                   onClick={() => setActiveDetail("story")}
                   aria-haspopup="dialog"
                 >
-                  <span>Storytelling foundations</span>
+                  <span>{t.practice.storyButton}</span>
                   <span className="story-evidence">
-                    <strong>17</strong> published works
-                    <strong>1K+</strong> reads
-                    <strong>1.267M</strong> livestream traffic
+                    <strong>{t.practice.storyEvidence[0].value}</strong>{" "}
+                    {t.practice.storyEvidence[0].label}
+                    <strong>{t.practice.storyEvidence[1].value}</strong>{" "}
+                    {t.practice.storyEvidence[1].label}
+                    <strong>{t.practice.storyEvidence[2].value}</strong>{" "}
+                    {t.practice.storyEvidence[2].label}
                   </span>
                   <span aria-hidden="true">↗</span>
                 </button>
@@ -1105,7 +1641,7 @@ export default function PortfolioPager() {
             <div className="pager-shell profile-layout">
               <div className="pager-page-heading page-enter">
                 <div>
-                  <p className="pager-eyebrow">04 / Profile</p>
+                  <p className="pager-eyebrow">{t.profile.eyebrow}</p>
                   <h2
                     id="profile-title"
                     tabIndex={-1}
@@ -1113,57 +1649,46 @@ export default function PortfolioPager() {
                       headingRefs.current[PROFILE_PAGE_INDEX] = element;
                     }}
                   >
-                    Researcher’s rigour, maker’s curiosity.
+                    {t.profile.heading}
                   </h2>
                 </div>
                 <p>
-                  Trained across digital media, communication, user research, and
-                  hands-on production.
+                  {t.profile.lede}
                 </p>
               </div>
 
               <div className="profile-content page-enter">
                 <div className="profile-timeline">
                   <div className="timeline-group">
-                    <span className="timeline-group-title">Education</span>
-                    <article>
-                      <time>2023—25</time>
-                      <div>
-                        <h3>King’s College London</h3>
-                        <p>MA, Digital Asset & Media Management</p>
-                      </div>
-                    </article>
-                    <article>
-                      <time>2019—23</time>
-                      <div>
-                        <h3>East China University of Political Science and Law</h3>
-                        <p>BA, Journalism and Communication · GPA 3.8 / 4.0</p>
-                      </div>
-                    </article>
+                    <span className="timeline-group-title">{t.profile.educationLabel}</span>
+                    {t.profile.education.map((entry) => (
+                      <article key={entry.time}>
+                        <time>{entry.time}</time>
+                        <div>
+                          <h3>{entry.school}</h3>
+                          <p>{entry.degree}</p>
+                        </div>
+                      </article>
+                    ))}
                   </div>
 
                   <div className="timeline-group">
-                    <span className="timeline-group-title">Experience</span>
-                    <article>
-                      <time>2022</time>
-                      <div>
-                        <h3>Sichuan Newspaper Group · Cover News</h3>
-                        <p>Media Intern, Automotive Desk</p>
-                      </div>
-                    </article>
-                    <article>
-                      <time>2021</time>
-                      <div>
-                        <h3>Zigong Daily</h3>
-                        <p>New Media Editorial Intern</p>
-                      </div>
-                    </article>
+                    <span className="timeline-group-title">{t.profile.experienceLabel}</span>
+                    {t.profile.experience.map((entry) => (
+                      <article key={entry.time}>
+                        <time>{entry.time}</time>
+                        <div>
+                          <h3>{entry.company}</h3>
+                          <p>{entry.job}</p>
+                        </div>
+                      </article>
+                    ))}
                   </div>
                 </div>
 
                 <div className="profile-tabs">
-                  <div className="profile-tab-list" role="tablist" aria-label="Profile details">
-                    {profileTabs.map((tab, index) => (
+                  <div className="profile-tab-list" role="tablist" aria-label={t.profile.tablistAria}>
+                    {t.profile.tabs.map((tab, index) => (
                       <button
                         key={tab}
                         id={`profile-tab-${index}`}
@@ -1190,7 +1715,7 @@ export default function PortfolioPager() {
                   >
                     {profileTab === 0 && (
                       <ul className="profile-chip-list">
-                        {methods.map((method) => (
+                        {t.profile.methods.map((method) => (
                           <li key={method}>{method}</li>
                         ))}
                       </ul>
@@ -1206,13 +1731,9 @@ export default function PortfolioPager() {
 
                     {profileTab === 2 && (
                       <div className="recognition-list">
-                        <p>
-                          Two Second Prizes at the 7th Hongfeng College Student
-                          Journalists Festival—for writing and video.
-                        </p>
-                        <p>
-                          ECUPL Comprehensive Scholarship, 2019—20 and 2020—21.
-                        </p>
+                        {t.profile.recognition.map((item) => (
+                          <p key={item}>{item}</p>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -1234,7 +1755,6 @@ export default function PortfolioPager() {
           <div className="pager-screen-scroll">
             <div className="pager-shell contact-layout">
               <div className="contact-copy page-enter">
-                <p className="pager-eyebrow">05 / Contact</p>
                 <h2
                   id="contact-title"
                   tabIndex={-1}
@@ -1242,11 +1762,10 @@ export default function PortfolioPager() {
                     headingRefs.current[CONTACT_PAGE_INDEX] = element;
                   }}
                 >
-                  Let’s make systems <span>people can feel.</span>
+                  {t.contact.headingA} <span>{t.contact.headingB}</span>
                 </h2>
                 <p>
-                  For research conversations, game collaborations, or portfolio
-                  enquiries, send me a note.
+                  {t.contact.body}
                 </p>
                 <a className="contact-email" href="mailto:Ruihi.zhang@outlook.com">
                   Ruihi.zhang@outlook.com <span aria-hidden="true">↗</span>
@@ -1255,17 +1774,17 @@ export default function PortfolioPager() {
 
               <div className="contact-signature page-enter" aria-hidden="true">
                 <span>KZ</span>
-                <p>Questions · Evidence · Play</p>
+                <p>{t.contact.signature}</p>
               </div>
 
-              <p className="contact-copyright">© 2026 Kexin Zhang</p>
+              <p className="contact-copyright">{t.contact.copyright}</p>
             </div>
           </div>
         </section>
       </main>
 
       <div className="pager-live-region" aria-live="polite" aria-atomic="true">
-        Page {currentPage + 1} of {pages.length}: {pages[currentPage].label}
+        {t.liveRegion(currentPage + 1, pages.length, labelForPage(currentPage))}
       </div>
 
       <dialog
@@ -1280,51 +1799,37 @@ export default function PortfolioPager() {
       >
         <div className="detail-card">
           <div className="detail-topbar">
-            <span>Storytelling</span>
-            <button onClick={closeDetail}>Close</button>
+            <span>{t.dialog.topbar}</span>
+            <button onClick={closeDetail}>{t.dialog.close}</button>
           </div>
 
           {activeDetail === "story" && (
             <div className="detail-content story-detail">
               <div className="detail-heading">
-                <p>Media & communication</p>
-                <h2 id="detail-title">Before systems, stories.</h2>
+                <p>{t.dialog.eyebrow}</p>
+                <h2 id="detail-title">{t.dialog.title}</h2>
                 <span>
-                  Reporting and media production taught me to listen closely,
-                  frame a human question, and make complexity legible.
+                  {t.dialog.intro}
                 </span>
               </div>
               <div className="story-detail-metrics">
-                <div>
-                  <strong>17</strong>
-                  <span>published videos & articles</span>
-                </div>
-                <div>
-                  <strong>1K+</strong>
-                  <span>reads on a reported feature</span>
-                </div>
-                <div>
-                  <strong>1.267M</strong>
-                  <span>aggregate livestream traffic</span>
-                </div>
+                {t.dialog.metrics.map((metric) => (
+                  <div key={metric.label}>
+                    <strong>{metric.value}</strong>
+                    <span>{metric.label}</span>
+                  </div>
+                ))}
               </div>
               <div className="detail-grid story-projects">
-                <article>
-                  <span>Interview-led feature · 2020</span>
-                  <h3>A Dialogue Across Seventeen Years</h3>
-                  <p>
-                    Interviewed healthcare workers who had lived through both
-                    SARS and COVID-19, then wrote the resulting feature.
-                  </p>
-                </article>
-                <article>
-                  <span>Documentary video · 2020</span>
-                  <h3>A Restaurant During the Pandemic</h3>
-                  <p>
-                    Wrote the script for a video following a Shanghai restaurant’s
-                    two-month recovery through owner and customer interviews.
-                  </p>
-                </article>
+                {t.dialog.projects.map((storyProject) => (
+                  <article key={storyProject.title}>
+                    <span>{storyProject.tag}</span>
+                    <h3>{storyProject.title}</h3>
+                    <p>
+                      {storyProject.text}
+                    </p>
+                  </article>
+                ))}
               </div>
             </div>
           )}

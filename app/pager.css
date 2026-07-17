@@ -30,7 +30,7 @@ body {
     linear-gradient(145deg, rgba(255, 255, 255, 0.72), transparent 48%),
     var(--pager-surface);
   color: var(--pager-ink);
-  font-family: var(--font-body), "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-body), "Plus Jakarta Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   transition: background-color 420ms var(--pager-ease);
 }
 
@@ -243,7 +243,7 @@ body {
   min-width: 44px;
   min-height: 44px;
   align-items: center;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 1.2rem;
   font-weight: 740;
   letter-spacing: -0.07em;
@@ -317,6 +317,54 @@ body {
   color: var(--pager-muted);
   font-size: 0.76rem;
   font-weight: 620;
+}
+
+.pager-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-self: end;
+}
+
+.pager-lang-switch {
+  display: flex;
+  padding: 0.2rem;
+  align-items: center;
+  border: 1px solid rgba(26, 31, 38, 0.06);
+  border-radius: 999px;
+  background: rgba(35, 40, 49, 0.045);
+}
+
+.pager-lang-switch button {
+  display: inline-flex;
+  min-height: 40px;
+  padding: 0 0.7rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--pager-muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition:
+    color 180ms ease,
+    background-color 220ms var(--pager-ease),
+    box-shadow 220ms var(--pager-ease);
+}
+
+.pager-lang-switch button:hover {
+  color: var(--pager-ink);
+}
+
+.pager-lang-switch button[aria-pressed="true"] {
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow:
+    0 3px 12px rgba(35, 42, 52, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  color: var(--pager-accent);
 }
 
 .pager-stage {
@@ -419,7 +467,7 @@ body {
 .pager-page-heading h2 {
   max-width: 12ch;
   margin: 0.45rem 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(2.8rem, 5.3vw, 5.6rem);
   font-weight: 660;
   letter-spacing: -0.068em;
@@ -447,7 +495,7 @@ body {
 
 .home-copy h1 {
   margin: clamp(0.8rem, 2vh, 1.6rem) 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(4.8rem, 10.8vw, 10.5rem);
   font-weight: 710;
   letter-spacing: -0.09em;
@@ -594,7 +642,7 @@ body {
 
 .research-scan-wordcloud {
   z-index: 0;
-  font-family: var(--font-cloud), "Plus Jakarta Sans", sans-serif;
+  font-family: var(--font-cloud), "Plus Jakarta Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
 
 .research-wordcloud-fallback,
@@ -762,7 +810,7 @@ body {
 
 .focus-card-bottom strong {
   color: var(--pager-ink);
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   font-weight: 650;
   letter-spacing: -0.055em;
@@ -930,7 +978,7 @@ body {
 .project-card-copy h3 {
   max-width: 9ch;
   margin: 0.45rem 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(2rem, 3.4vw, 3.7rem);
   font-weight: 660;
   letter-spacing: -0.066em;
@@ -998,7 +1046,7 @@ body {
 
 .practice-card h3 {
   margin: 1.1rem 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.35rem, 2.4vw, 2.3rem);
   font-weight: 630;
   letter-spacing: -0.055em;
@@ -1036,7 +1084,7 @@ body {
 }
 
 .process-strip strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1rem, 1.7vw, 1.45rem);
   font-weight: 630;
   letter-spacing: -0.035em;
@@ -1072,7 +1120,7 @@ body {
 }
 
 .story-button > span:first-child {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 1.15rem;
   font-weight: 620;
   letter-spacing: -0.035em;
@@ -1148,7 +1196,7 @@ body {
 
 .timeline-group h3 {
   margin: 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(0.95rem, 1.5vw, 1.25rem);
   font-weight: 630;
   letter-spacing: -0.035em;
@@ -1257,13 +1305,14 @@ body {
 }
 
 .pager-contact .contact-copy h2 {
-  max-width: 10ch;
-  margin: 0.8rem 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
-  font-size: clamp(3rem, min(8vw, 12vh), 7.5rem);
+  max-width: 11ch;
+  margin: 0;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: clamp(3.2rem, min(8.5vw, 14vh), 8.5rem);
   font-weight: 690;
-  letter-spacing: -0.09em;
-  line-height: 0.83;
+  letter-spacing: -0.055em;
+  line-height: 0.86;
+  word-spacing: 0.08em;
 }
 
 .pager-contact .contact-copy h2 span {
@@ -1315,7 +1364,7 @@ body {
 
 .contact-signature > span {
   color: var(--pager-accent);
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(6rem, 11vw, 10rem);
   font-weight: 720;
   letter-spacing: -0.12em;
@@ -1509,7 +1558,7 @@ body {
 .detail-heading h2 {
   max-width: 12ch;
   margin: 0.55rem 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(2.8rem, 6vw, 5.8rem);
   font-weight: 660;
   letter-spacing: -0.072em;
@@ -1614,7 +1663,7 @@ body {
 
 .story-detail-metrics strong {
   display: block;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.8rem, 3vw, 3rem);
   font-weight: 650;
   letter-spacing: -0.055em;
@@ -1635,7 +1684,7 @@ body {
 
 .story-projects h3 {
   margin: 0.55rem 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.35rem, 2.5vw, 2.2rem);
   font-weight: 630;
   letter-spacing: -0.05em;
@@ -1681,7 +1730,8 @@ body {
   backdrop-filter: blur(20px) saturate(135%);
 }
 
-.pager-app[data-page="0"] .pager-header {
+.pager-app[data-page="0"] .pager-header,
+.pager-app[data-page="7"] .pager-header {
   border-bottom-color: rgba(251, 250, 246, 0.22);
   color: #fbfaf6;
 }
@@ -1695,7 +1745,8 @@ body {
   color: #121613;
 }
 
-.pager-app[data-page="0"] .pager-email {
+.pager-app[data-page="0"] .pager-email,
+.pager-app[data-page="7"] .pager-email {
   border: 1px solid rgba(255, 255, 255, 0.25);
   background: rgba(255, 255, 255, 0.13);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
@@ -1722,10 +1773,11 @@ body {
 }
 
 .pager-contact {
-  --pager-accent: #121613;
-  --pager-muted: rgba(18, 22, 19, 0.68);
-  background: #ee6a45;
-  color: #121613;
+  --pager-accent: #ee6a45;
+  --pager-muted: rgba(251, 250, 246, 0.62);
+  --pager-line: rgba(251, 250, 246, 0.16);
+  background: #121613;
+  color: #fbfaf6;
 }
 
 .pager-home .pager-eyebrow {
@@ -1925,34 +1977,26 @@ body {
   background: transparent;
 }
 
-.pager-contact .contact-copy h2 span {
-  color: #fbfaf6;
-}
-
 .pager-contact .contact-email {
-  border: 1px solid rgba(255, 255, 255, 0.38);
-  background: rgba(255, 255, 255, 0.44);
-  box-shadow:
-    0 12px 28px rgba(18, 22, 19, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #fbfaf6;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
   color: #121613 !important;
-  -webkit-backdrop-filter: blur(16px) saturate(120%);
-  backdrop-filter: blur(16px) saturate(120%);
 }
 
 .pager-contact .contact-email:hover {
-  background: #121613;
-  color: #fbfaf6 !important;
+  background: var(--pager-accent);
+  color: #121613 !important;
 }
 
 .contact-signature {
-  border: 1px solid rgba(18, 22, 19, 0.28);
+  border: 1px solid rgba(251, 250, 246, 0.3);
   background: transparent;
   box-shadow: none;
 }
 
 .contact-signature > span {
-  color: #121613;
+  color: #fbfaf6;
 }
 
 .detail-card {
@@ -2023,6 +2067,20 @@ body {
   .pager-email {
     min-height: 44px;
     padding: 0 0.85rem;
+  }
+
+  .pager-header-actions {
+    gap: 0.35rem;
+  }
+
+  .pager-lang-switch {
+    padding: 0.15rem;
+  }
+
+  .pager-lang-switch button {
+    min-height: 38px;
+    padding: 0 0.55rem;
+    font-size: 0.68rem;
   }
 
   .pager-screen {
@@ -2453,7 +2511,7 @@ body {
 }
 
 .attachment-study-note strong {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.1rem, 1.6vw, 1.6rem);
   letter-spacing: -0.04em;
 }
@@ -2820,6 +2878,12 @@ body {
     font-size: 0.7rem;
   }
 
+  .pager-lang-switch button {
+    min-height: 36px;
+    padding: 0 0.45rem;
+    font-size: 0.64rem;
+  }
+
   .pager-count {
     display: none;
   }
@@ -3133,7 +3197,7 @@ body {
 .project-page-copy h2 {
   max-width: 11ch;
   margin: 0.5rem 0 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(4rem, 8vw, 8.5rem);
   font-weight: 680;
   letter-spacing: -0.075em;
@@ -3157,7 +3221,7 @@ body {
 }
 
 .project-page-summary > strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.4rem, 2.2vw, 2.4rem);
   letter-spacing: -0.045em;
 }
@@ -3249,7 +3313,7 @@ body {
 }
 
 .project-page-overview > strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.3rem, 2vw, 2.15rem);
   letter-spacing: -0.045em;
   line-height: 1;
@@ -3493,7 +3557,7 @@ body {
 .project-title-card h2 {
   max-width: 11ch;
   margin: 0.45rem 0 0;
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(3.3rem, 7.3vw, 7.2rem);
   font-weight: 680;
   letter-spacing: -0.075em;
@@ -3524,7 +3588,7 @@ body {
 }
 
 .project-stat-card strong {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.8rem, 3.2vw, 3.5rem);
   letter-spacing: -0.055em;
   line-height: 0.95;
@@ -3598,7 +3662,7 @@ body {
 
 .anchor-title-block h2 {
   margin: 0;
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(2.2rem, 3.8vw, 3.6rem);
   font-weight: 680;
   letter-spacing: -0.055em;
@@ -3714,7 +3778,7 @@ body {
 }
 
 .anchor-prototype-intro strong {
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.5rem, 2.6vw, 2.8rem);
   letter-spacing: -0.05em;
   line-height: 0.95;
@@ -4657,7 +4721,7 @@ body {
 .research-section-heading h3,
 .cultural-thread h3 {
   margin: 0;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-weight: 650;
   letter-spacing: -0.045em;
 }
@@ -4696,7 +4760,7 @@ body {
 }
 
 .research-metric strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.25rem, 2.1vw, 2rem);
   font-weight: 670;
   letter-spacing: -0.055em;
@@ -4883,7 +4947,7 @@ body {
 }
 
 .attachment-circle strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 0.9rem;
   letter-spacing: -0.03em;
 }
@@ -5025,7 +5089,7 @@ body {
 
 .formation-node > strong {
   margin-top: 0.25rem;
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 1.1rem;
 }
 
@@ -5174,7 +5238,7 @@ body {
 }
 
 .flow-stage strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 2rem;
   letter-spacing: -0.06em;
 }
@@ -5429,7 +5493,7 @@ body {
 }
 
 .adoption-ring strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 1.6rem;
   letter-spacing: -0.055em;
 }
@@ -5484,7 +5548,7 @@ body {
 }
 
 .purpose-bubble strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   letter-spacing: -0.04em;
 }
 
@@ -5638,7 +5702,7 @@ body {
 }
 
 .guidance-core strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 1.35rem;
 }
 
@@ -5687,7 +5751,7 @@ body {
 }
 
 .library-core strong {
-  font-family: var(--font-display), -apple-system, sans-serif;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: 1.55rem;
 }
 
@@ -6335,7 +6399,7 @@ body {
   max-width: 11ch;
   margin: 0;
   color: #152019;
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(2.8rem, 5.2vw, 5.3rem);
   font-weight: 500;
   letter-spacing: -0.075em;
@@ -6350,7 +6414,7 @@ body {
   max-width: 32rem;
   margin: clamp(0.65rem, 1.25vw, 1rem) 0 0;
   color: #708578;
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-body), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(0.86rem, 1.25vw, 1.2rem);
   line-height: 1.25;
 }
@@ -6379,7 +6443,7 @@ body {
 .attachment-study-summary strong {
   display: block;
   color: #162019;
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(1.25rem, 2.2vw, 2.1rem);
   font-weight: 500;
   letter-spacing: -0.04em;
@@ -6720,7 +6784,7 @@ body {
   max-width: 16ch;
   margin: 0;
   color: #111612;
-  font-family: var(--font-display), sans-serif;
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   font-size: clamp(2.1rem, 4.4vw, 4.8rem);
   font-weight: 720;
   letter-spacing: -0.075em;
@@ -7574,4 +7638,82 @@ body {
   .ai-retrieval-anchor {
     transition: none;
   }
+}
+
+/* ------------------------------------------------------------------
+   Chinese (zh) typography overrides.
+   applyLanguage() sets document.documentElement.lang to "zh-CN",
+   so the [lang|="zh"] attribute-prefix selector is used to match it.
+   ------------------------------------------------------------------ */
+
+html[lang|="zh"] .home-copy h1,
+html[lang|="zh"] .pager-page-heading h2,
+html[lang|="zh"] .pager-contact .contact-copy h2,
+html[lang|="zh"] .project-card-copy h3,
+html[lang|="zh"] .practice-card h3,
+html[lang|="zh"] .profile-timeline h3,
+html[lang|="zh"] .detail-heading h2,
+html[lang|="zh"] .story-projects h3 {
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+/* These two display headings stay latin in zh mode; restore their
+   original tight metrics so the surrounding grid layout is unchanged. */
+html[lang|="zh"] .attachment-heading-copy h2 {
+  letter-spacing: -0.075em;
+  line-height: 0.79;
+}
+
+html[lang|="zh"] .anchor-title-block h2 {
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+}
+
+@media (max-width: 1050px) {
+  html[lang|="zh"] .attachment-heading-copy h2 {
+    line-height: 0.83;
+  }
+}
+
+html[lang|="zh"] .home-copy h1,
+html[lang|="zh"] .pager-page-heading h2,
+html[lang|="zh"] .pager-contact .contact-copy h2 {
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+
+html[lang|="zh"] .home-statement,
+html[lang|="zh"] .project-subtitle,
+html[lang|="zh"] .pager-page-heading > p,
+html[lang|="zh"] .contact-copy > p,
+html[lang|="zh"] .attachment-case-bubble p,
+html[lang|="zh"] .anchor-prototype-intro p,
+html[lang|="zh"] .anchor-evidence-grid h3,
+html[lang|="zh"] .practice-card p,
+html[lang|="zh"] .profile-timeline p,
+html[lang|="zh"] .recognition-list p,
+html[lang|="zh"] .detail-heading span,
+html[lang|="zh"] .story-projects p {
+  overflow-wrap: break-word;
+}
+
+/* Keep the zh contact heading on two lines: the 10ch measure assumes
+   latin glyphs; CJK glyphs are ~1em wide, so widen the box and shrink
+   the type enough for the second line ("能被人感知的系统。") to fit. */
+html[lang|="zh"] .pager-contact .contact-copy h2 {
+  max-width: 100%;
+  font-size: clamp(3rem, min(7.5vw, 12.5vh), 7rem);
+}
+
+@media (max-width: 760px) {
+  html[lang|="zh"] .pager-contact .contact-copy h2 {
+    font-size: clamp(2.2rem, 9vw, 3.4rem);
+  }
+}
+
+/* The dialog heading's 12ch measure assumes latin glyphs; let the zh
+   title ("在系统之前，是故事。") fit on one line. */
+html[lang|="zh"] .detail-heading h2 {
+  max-width: 100%;
 }
