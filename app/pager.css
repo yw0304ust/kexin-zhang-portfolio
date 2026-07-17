@@ -7239,7 +7239,7 @@ body {
 .fps-stats strong { font-size: clamp(1.3rem, 1.9vw, 1.85rem); letter-spacing: -0.03em; line-height: 1; }
 .fps-stats span { color: rgba(26, 32, 29, 0.56); font-size: clamp(0.6rem, 0.76vw, 0.72rem); font-weight: 620; }
 
-.fps-model { position: absolute; top: 9%; right: 4%; bottom: 13%; width: 45%; }
+.fps-model { position: absolute; top: 9%; right: 4%; bottom: calc(13% + 14.6rem); width: 45%; }
 .fps-model svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .fps-model line { stroke: rgba(86, 111, 193, 0.5); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
 .fps-model .line-pu { stroke: rgba(96, 102, 96, 0.4); stroke-dasharray: 5 4; }
@@ -7264,6 +7264,64 @@ body {
 
 .fps-narrative-overview > blockquote { bottom: 13%; width: min(42%, 31rem); padding: 0.95rem 1.15rem 1.05rem; border: 0; border-left: 3px solid #566fc1; border-radius: 0 0.9rem 0.9rem 0; background: rgba(255, 255, 255, 0.68); box-shadow: 0 12px 30px rgba(43, 58, 107, 0.07); }
 .fps-narrative-overview > blockquote::before { display: block; margin-bottom: 0.42rem; color: #566fc1; content: "Key finding"; font: 760 0.58rem var(--font-mono), monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* Representative FPS key-art rail below the driver model. */
+.fps-games { position: absolute; z-index: 5; right: 4%; bottom: 13%; width: 45%; }
+
+.fps-games-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.fps-game {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  border: 1px solid rgba(86, 111, 193, 0.22);
+  border-radius: 0.85rem;
+  background: #151a24;
+  box-shadow: 0 10px 24px rgba(43, 58, 107, 0.1);
+}
+
+.fps-game img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fps-game-valorant {
+  background: linear-gradient(165deg, #ff4655 0%, #6d1f2c 78%);
+}
+
+.fps-game-valorant img {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.fps-game figcaption {
+  position: absolute;
+  right: 0.45rem;
+  bottom: 0.4rem;
+  left: 0.45rem;
+  padding: 0.16rem 0.35rem;
+  border-radius: 999px;
+  background: rgba(10, 12, 16, 0.55);
+  color: rgba(255, 255, 255, 0.92);
+  font: 700 0.5rem var(--font-mono), monospace;
+  letter-spacing: 0.04em;
+  text-align: center;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.fps-games-note {
+  margin: 0.4rem 0 0;
+  color: rgba(28, 35, 31, 0.45);
+  font-size: 0.5rem;
+  text-align: right;
+}
 
 .fps-narrative-overview blockquote,
 .ai-narrative-overview blockquote { position: absolute; z-index: 6; bottom: 14%; left: clamp(0.85rem, 2.4vw, 2.2rem); width: min(43%, 33rem); margin: 0; padding-top: 0.8rem; border-top: 1px solid color-mix(in srgb, var(--project-color) 48%, transparent); font-size: clamp(0.84rem, 1.25vw, 1.18rem); font-weight: 680; line-height: 1.32; }
@@ -7554,7 +7612,7 @@ body {
   .fps-stats { margin-top: 0.8rem; }
   .fps-stats li { padding-right: 0.8rem; padding-left: 0.8rem; }
   .fps-stats li:first-child { padding-left: 0; }
-  .fps-model { top: 30%; right: 1%; bottom: 26%; left: 1%; width: auto; }
+  .fps-model { top: 30%; right: 1%; bottom: calc(13% + 13.4rem); left: 1%; width: auto; }
   .fps-model-core { width: clamp(5.4rem, 22vw, 7rem); }
   .fps-driver { min-width: 0; width: 7.4rem; padding: 0.42rem 0.55rem 0.5rem; gap: 0.08rem; }
   .fps-driver strong { font-size: 0.64rem; }
@@ -7563,6 +7621,11 @@ body {
   .driver-ev { left: 16%; }
   .driver-pu { left: 84%; }
   .fps-narrative-overview > blockquote { right: 0; bottom: 13%; left: 0; width: auto; padding: 0.7rem 0.85rem 0.78rem; font-size: 0.78rem; }
+  .fps-games { right: 1%; bottom: calc(13% + 5.4rem); left: 1%; width: auto; }
+  .fps-games-rail { gap: 0.4rem; }
+  .fps-game { border-radius: 0.6rem; }
+  .fps-game figcaption { right: 0.25rem; bottom: 0.3rem; left: 0.25rem; font-size: 0.4rem; }
+  .fps-games-note { display: none; }
   .ai-narrative-overview blockquote { bottom: 16%; width: 48%; font-size: 0.78rem; }
   .ai-adoption-signal { top: 28%; right: -4%; width: 57%; height: 48%; }
 

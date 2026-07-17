@@ -243,6 +243,14 @@ const en = {
       ],
       quote: "Social interaction emerged as the strongest significant factor; experience value also mattered.",
       cite: "Perceived usability was not significant.",
+      gamesAria: "Representative FPS titles",
+      gamesNote: "Key art © Valve · Riot Games · EA · TiMi Studio Group",
+      games: [
+        { name: "Delta Force", image: "/fps-delta-force.webp", tone: "delta" },
+        { name: "Counter-Strike 2", image: "/fps-cs2.webp", tone: "cs2" },
+        { name: "VALORANT", image: "/fps-valorant.webp", tone: "valorant" },
+        { name: "Apex Legends", image: "/fps-apex.webp", tone: "apex" },
+      ],
     },
     method: {
       aria: "FPS study method",
@@ -512,6 +520,14 @@ const zh: typeof en = {
       ],
       quote: "社交互动是最强的显著因素；体验价值同样重要。",
       cite: "感知易用性不显著。",
+      gamesAria: "代表性 FPS 游戏",
+      gamesNote: "游戏宣传素材版权归 Valve、Riot Games、EA、天美工作室群所有",
+      games: [
+        { name: "三角洲行动", image: "/fps-delta-force.webp", tone: "delta" },
+        { name: "反恐精英 2", image: "/fps-cs2.webp", tone: "cs2" },
+        { name: "瓦罗兰特", image: "/fps-valorant.webp", tone: "valorant" },
+        { name: "Apex 英雄", image: "/fps-apex.webp", tone: "apex" },
+      ],
     },
     method: {
       aria: "FPS 研究方法",
@@ -806,6 +822,17 @@ function FpsOverview({ lang }: { lang: Language }) {
             <em>{driver.note}</em>
           </div>
         ))}
+      </div>
+      <div className="fps-games" aria-label={c.gamesAria}>
+        <div className="fps-games-rail">
+          {c.games.map((game) => (
+            <figure key={game.name} className={`fps-game fps-game-${game.tone}`}>
+              <img src={game.image} alt={game.name} loading="lazy" decoding="async" />
+              <figcaption>{game.name}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="fps-games-note">{c.gamesNote}</p>
       </div>
       <blockquote>
         {c.quote}
