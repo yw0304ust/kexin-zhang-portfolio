@@ -7804,6 +7804,42 @@ html[lang|="zh"] .genshin-region-stage > article > span {
   text-transform: none;
 }
 
+/* Extend the same brush face to the other short zh name marks. The
+   subset woff2 covers exactly these names (钟离/胡桃/云堇/卡维/凝光/
+   讣告人), the signature line, and the home hero name. Sans-serif UI
+   labels, kickers, and headings stay untouched. */
+html[lang|="zh"] .genshin-character-arc figcaption {
+  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
+  font-size: clamp(0.9rem, 1.4vw, 1.3rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+html[lang|="zh"] .attachment-case-stage figcaption strong {
+  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
+  font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+html[lang|="zh"] .contact-signature p {
+  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
+  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: none;
+}
+
+/* zh hero name as a calligraphic signature: brush strokes run loose, so
+   drop the latin tight tracking and give the two lines real leading. */
+html[lang|="zh"] .home-copy h1 {
+  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
+  font-size: clamp(4.6rem, 10.2vw, 9.8rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.02;
+}
+
 /* zh headings: balance lines so no orphan character drops onto its own
    line (e.g. "…有效样本。" losing "本。"). */
 html[lang|="zh"] :where(h1, h2, h3) {

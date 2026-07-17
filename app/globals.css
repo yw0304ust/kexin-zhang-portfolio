@@ -47,8 +47,9 @@ body {
 }
 
 /* Decorative brush face for zh place-name marks (璃月 / 蒙德 …).
-   Subset webfont (12KB, region + featured character glyphs) with a
-   system Kai fallback chain while it loads or if it is unavailable. */
+   Subset webfont (~25KB: region, featured character, signature, and
+   hero-name glyphs) with a system Kai fallback chain while it loads
+   or if it is unavailable. */
 @font-face {
   font-family: "HY Shangwei Shoushu W";
   src: url("/fonts/HYShangWeiShouShuW-subset.woff2") format("woff2");
