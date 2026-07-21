@@ -282,6 +282,8 @@ const en = {
         label: "Constrained AI agents",
         title: "Two dialogue paradigms on a deterministic core",
         text: "Guidance agents layer hints from discovered facts; interrogation agents can be challenged with evidence. Agents output text only — story state, puzzle progress, saves, and endings never leave the local FSM.",
+        image: "/anchor-agents-duo.webp",
+        alt: "Portraits of two Anchor dialogue agents, a duty officer and a nurse",
       },
     ],
   },
