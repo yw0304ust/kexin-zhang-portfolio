@@ -241,12 +241,12 @@ const en = {
       worldA: "Readable — medication times, the steamer, shoes by the door: objects, habits and routes line up into “this is who I am”.",
       worldB: "Unstable — the familiar room turns strange; the 03/12 date and the door handle must be pieced back together before home opens.",
       images: [
-        { src: "/anchor-space-home.webp", alt: "A warm lamp lighting a bookshelf in Anchor's home chapter", slot: "a" },
-        { src: "/anchor-home-table.webp", alt: "Sunlight and dust over the living-room table", slot: "b" },
-        { src: "/anchor-home-mirror.webp", alt: "A mirror with vanity lamps reflecting the boy", slot: "c" },
-        { src: "/anchor-home-bedroom.webp", alt: "The bedroom: bookshelf, pendant lamp, and a family photo on the wall", slot: "d" },
-        { src: "/anchor-home-livingroom.webp", alt: "The living room under the chandelier, dust drifting in the light", slot: "e" },
-        { src: "/anchor-world-home.webp", alt: "The locked front door of the home", slot: "f" },
+        { src: "/anchor-space-home.webp", alt: "A warm lamp lighting a bookshelf in Anchor's home chapter", row: 1, w: 1152, h: 648 },
+        { src: "/anchor-home-bedroom.webp", alt: "The bedroom: bookshelf, pendant lamp, and a family photo on the wall", row: 1, w: 2344, h: 1280 },
+        { src: "/anchor-home-table.webp", alt: "Sunlight and dust over the living-room table", row: 2, w: 1152, h: 648 },
+        { src: "/anchor-home-mirror.webp", alt: "A mirror with vanity lamps reflecting the boy", row: 2, w: 1152, h: 648 },
+        { src: "/anchor-home-livingroom.webp", alt: "The living room under the chandelier, dust drifting in the light", row: 2, w: 2344, h: 1280 },
+        { src: "/anchor-world-home.webp", alt: "The locked front door of the home", row: 2, w: 1400, h: 900 },
       ],
     },
     {
@@ -260,9 +260,9 @@ const en = {
       worldA: "Readable — visitor logs, clocks and camera feeds agree with one another.",
       worldB: "Unstable — every timestamp is four minutes off, until the offset itself becomes the evidence.",
       images: [
-        { src: "/anchor-space-property.webp", alt: "The property investigation terminal replaying CCTV footage", slot: "a" },
-        { src: "/anchor-property-gate-night.webp", alt: "CCTV still of the east gate on a rainy night", slot: "b" },
-        { src: "/anchor-property-lobby-live.webp", alt: "In-game view of the property lobby, surveillance cameras overhead", slot: "c" },
+        { src: "/anchor-space-property.webp", alt: "The property investigation terminal replaying CCTV footage", row: 1, w: 1280, h: 720 },
+        { src: "/anchor-property-gate-night.webp", alt: "CCTV still of the east gate on a rainy night", row: 2, w: 1672, h: 941 },
+        { src: "/anchor-property-lobby-live.webp", alt: "In-game view of the property lobby, surveillance cameras overhead", row: 2, w: 2559, h: 1398 },
       ],
     },
     {
@@ -276,10 +276,10 @@ const en = {
       worldA: "Readable — announcements, signs and exits point somewhere real.",
       worldB: "Unstable — syllables, reflections and faces blur, until the player reassembles them into Guixiang Road.",
       images: [
-        { src: "/anchor-subway-fog.webp", alt: "The metro exit in heavy fog, the station name reduced to question marks", slot: "a" },
-        { src: "/anchor-space-subway.webp", alt: "A metro gate area with a staff member whose face is unreadable", slot: "b" },
-        { src: "/anchor-world-subway.webp", alt: "Ticket gates and escalators under fluorescent light", slot: "c" },
-        { src: "/anchor-subway-barrier.webp", alt: "Platform screen doors along the yellow tactile paving", slot: "d" },
+        { src: "/anchor-subway-fog.webp", alt: "The metro exit in heavy fog, the station name reduced to question marks", row: 1, w: 2559, h: 1398 },
+        { src: "/anchor-space-subway.webp", alt: "A metro gate area with a staff member whose face is unreadable", row: 2, w: 1152, h: 648 },
+        { src: "/anchor-world-subway.webp", alt: "Ticket gates and escalators under fluorescent light", row: 2, w: 1152, h: 648 },
+        { src: "/anchor-subway-barrier.webp", alt: "Platform screen doors along the yellow tactile paving", row: 2, w: 1152, h: 648 },
       ],
     },
     {
@@ -293,11 +293,11 @@ const en = {
       worldA: "Readable — corridor, records, diagnosis: the follow-up visit as a calm review of what happened.",
       worldB: "Unstable — the room seals itself; only the mechanical chain, step by visible step, opens it again.",
       images: [
-        { src: "/anchor-hospital-exterior.webp", alt: "The hospital building seen from above, between the city and the sea", slot: "a" },
-        { src: "/anchor-space-hospital.webp", alt: "The hospital corridor at night with scattered papers", slot: "b" },
-        { src: "/anchor-hospital-mri.webp", alt: "The MRI review room", slot: "c" },
-        { src: "/anchor-hospital-sink.webp", alt: "The returned hand sanitizer by the sink", slot: "d" },
-        { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", slot: "e" },
+        { src: "/anchor-hospital-exterior.webp", alt: "The hospital building seen from above, between the city and the sea", row: 1, w: 2559, h: 1398 },
+        { src: "/anchor-space-hospital.webp", alt: "The hospital corridor at night with scattered papers", row: 1, w: 1152, h: 648 },
+        { src: "/anchor-hospital-mri.webp", alt: "The MRI review room", row: 2, w: 1152, h: 648 },
+        { src: "/anchor-hospital-sink.webp", alt: "The returned hand sanitizer by the sink", row: 2, w: 1280, h: 720 },
+        { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", row: 2, w: 1152, h: 648 },
       ],
     },
   ],
@@ -871,10 +871,20 @@ function AnchorSpacePage({
       </header>
       <div className="anchor-space-body">
         <div className="anchor-space-wall">
-          {space.images.map((image) => (
-            <figure className={`anchor-space-photo anchor-space-photo-${image.slot}`} key={image.src}>
-              <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
-            </figure>
+          {[1, 2].map((row) => (
+            <div className="anchor-space-wall-row" key={row}>
+              {space.images
+                .filter((image) => image.row === row)
+                .map((image) => (
+                  <figure
+                    className="anchor-space-photo"
+                    key={image.src}
+                    style={{ aspectRatio: `${image.w} / ${image.h}`, flexGrow: image.w / image.h }}
+                  >
+                    <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                  </figure>
+                ))}
+            </div>
           ))}
         </div>
         <aside className="anchor-space-panel">
