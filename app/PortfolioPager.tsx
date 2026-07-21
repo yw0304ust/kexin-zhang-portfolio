@@ -164,7 +164,10 @@ const en = {
   slideLabels: {
     overview: "Overview",
     prototype: "Design notes",
-    worlds: "Four spaces",
+    "world-home": "Home",
+    "world-property": "Property",
+    "world-subway": "Metro",
+    "world-hospital": "Hospital",
     systems: "Systems",
     "relationships-a": "Portraits I",
     "relationships-b": "Portraits II",
@@ -226,40 +229,75 @@ const en = {
     showcaseLabel: "Showcase",
     demoCaption: "Real-device gameplay demo of Anchor",
   },
-  anchorWorlds: {
-    heading: "One game, four spaces",
-    lede: "The spaces keep expanding; the relationship is re-anchored in each. Every space is both a narrative beat and a playable evidence field.",
-    spaces: [
-      {
-        index: "01",
-        name: "Home",
-        caption: "Household objects double as clues and mechanisms — medication schedules, a kitchen steamer, photos, and the threshold of the front door.",
-        image: "/anchor-world-home.webp",
-        alt: "In-game view of the home entrance in Anchor, with a locked front door",
-      },
-      {
-        index: "02",
-        name: "Property office",
-        caption: "An investigation built without facial recognition: visitor logs, parcels, access records, and CCTV time offsets cross-verify each other.",
-        image: "/anchor-world-property.webp",
-        alt: "Property management lobby in Anchor with CCTV room, mailboxes, and east gate",
-      },
-      {
-        index: "03",
-        name: "Metro station",
-        caption: "Direction and location become puzzles — broadcast syllables assemble into a station name, and a triptych mirror aligns into a route.",
-        image: "/anchor-world-subway.webp",
-        alt: "Metro station interior in Anchor with ticket gates and escalators",
-      },
-      {
-        index: "04",
-        name: "Hospital",
-        caption: "The follow-up visit turns “going home” into a playable review, ending in a seven-stage mechanical escape inside an observation room.",
-        image: "/anchor-world-hospital.webp",
-        alt: "Hospital corridor in Anchor with a character resting on a bench",
-      },
-    ],
-  },
+  anchorSpaces: [
+    {
+      id: "world-home",
+      index: "01",
+      name: "Home",
+      styleLabel: "Art direction",
+      styleTitle: "Warm light as a narrative grammar",
+      styleText:
+        "The home chapter is staged the way memory works: five warm lamps make fragments of a childhood visible one by one, and when light reaches the photographs, their order becomes the puzzle itself. Same furniture, same scale — only recognisability changes. In this light, care quietly reverses: the one who was cared for becomes the caregiver.",
+      worldA: "Readable — medication times, the steamer, shoes by the door: objects, habits and routes line up into “this is who I am”.",
+      worldB: "Unstable — the familiar room turns strange; the 03/12 date and the door handle must be pieced back together before home opens.",
+      images: [
+        { src: "/anchor-space-home.webp", alt: "A warm lamp lighting a bookshelf in Anchor's home chapter", slot: "a" },
+        { src: "/anchor-home-table.webp", alt: "Sunlight and dust over the living-room table", slot: "b" },
+        { src: "/anchor-home-mirror.webp", alt: "A mirror with vanity lamps reflecting the boy", slot: "c" },
+        { src: "/anchor-home-living.webp", alt: "The armchair and window of the family living room", slot: "d" },
+        { src: "/anchor-world-home.webp", alt: "The locked front door of the home", slot: "e" },
+      ],
+    },
+    {
+      id: "world-property",
+      index: "02",
+      name: "Property office",
+      styleLabel: "Art direction",
+      styleTitle: "A documentary aesthetic of public evidence",
+      styleText:
+        "The property lobby is shot like a case file: mailboxes, notice boards, a glass CCTV booth, timestamps everywhere. There is no facial recognition in this chapter — two independent paper logs and the footage drift by the same four minutes, landmarks re-check the route, and a deduction only becomes real when it is returned to the physical east gate.",
+      worldA: "Readable — visitor logs, clocks and camera feeds agree with one another.",
+      worldB: "Unstable — every timestamp is four minutes off, until the offset itself becomes the evidence.",
+      images: [
+        { src: "/anchor-space-property.webp", alt: "The property investigation terminal replaying CCTV footage", slot: "a" },
+        { src: "/anchor-property-gate-night.webp", alt: "CCTV still of the east gate on a rainy night", slot: "b" },
+        { src: "/anchor-world-property.webp", alt: "The property management lobby with mailboxes and notice boards", slot: "c" },
+      ],
+    },
+    {
+      id: "world-subway",
+      index: "03",
+      name: "Metro station",
+      styleLabel: "Art direction",
+      styleTitle: "Sound and mirrors assemble a place",
+      styleText:
+        "In the metro, direction itself is the puzzle. Broadcast syllables lock into a station name, a lost-property code is built out of time, and a triptych mirror aligns moving points into one continuous route. The visual rule stays honest: same position, same scale, only legibility shifts — identity here is proven by still knowing the way.",
+      worldA: "Readable — announcements, signs and exits point somewhere real.",
+      worldB: "Unstable — syllables, reflections and faces blur, until the player reassembles them into Guixiang Road.",
+      images: [
+        { src: "/anchor-space-subway.webp", alt: "A metro gate area with a staff member whose face is unreadable", slot: "a" },
+        { src: "/anchor-world-subway.webp", alt: "Ticket gates and escalators under fluorescent light", slot: "b" },
+        { src: "/anchor-subway-barrier.webp", alt: "Platform screen doors along the yellow tactile paving", slot: "c" },
+      ],
+    },
+    {
+      id: "world-hospital",
+      index: "04",
+      name: "Hospital",
+      styleLabel: "Art direction",
+      styleTitle: "A clinical landscape that tells the story",
+      styleText:
+        "The hospital speaks through its scenery: long corridors, benches, windows — the same hallway bright at admission and dim at night. Behind the observation room's closed door, seven mechanical stages must be read from physical states alone, before consultation and an MRI review re-read the anchors the player actually kept.",
+      worldA: "Readable — corridor, records, diagnosis: the follow-up visit as a calm review of what happened.",
+      worldB: "Unstable — the room seals itself; only the mechanical chain, step by visible step, opens it again.",
+      images: [
+        { src: "/anchor-space-hospital.webp", alt: "The hospital corridor at night with scattered papers", slot: "a" },
+        { src: "/anchor-hospital-nurse-station.webp", alt: "The psychiatry nurse station with doctor and nurse", slot: "b" },
+        { src: "/anchor-hospital-sink.webp", alt: "The returned hand sanitizer by the sink", slot: "c" },
+        { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", slot: "d" },
+      ],
+    },
+  ],
   anchorSystems: {
     heading: "Systems that hold the story",
     lede: "Puzzles are not decoration on the narrative — they are how memory, care, and direction become playable. Each system is deterministic, observable, and recoverable.",
@@ -469,7 +507,10 @@ const projectSlides: Record<
 > = {
   anchor: [
     { id: "overview", label: "Overview", type: "overview" },
-    { id: "worlds", label: "Four spaces", type: "story" },
+    { id: "world-home", label: "Home", type: "story" },
+    { id: "world-property", label: "Property", type: "story" },
+    { id: "world-subway", label: "Metro", type: "story" },
+    { id: "world-hospital", label: "Hospital", type: "story" },
     { id: "systems", label: "Systems", type: "method" },
     { id: "prototype", label: "Design notes", type: "evidence" },
   ],
@@ -807,6 +848,49 @@ function pageIndexFromHash() {
   const id = window.location.hash.replace("#", "");
   const index = pages.findIndex((page) => page.id === id);
   return index >= 0 ? index : 0;
+}
+
+function AnchorSpacePage({
+  space,
+  label,
+}: {
+  space: (typeof en.anchorSpaces)[number];
+  label: string;
+}) {
+  return (
+    <section className="anchor-space-slide" data-space={space.id} aria-label={`Anchor · ${label}`}>
+      <header className="anchor-slide-intro">
+        <h2>
+          <span className="anchor-space-index">{space.index}</span>
+          {space.name}
+        </h2>
+        <p>{space.styleTitle}</p>
+      </header>
+      <div className="anchor-space-body">
+        <div className="anchor-space-wall">
+          {space.images.map((image) => (
+            <figure className={`anchor-space-photo anchor-space-photo-${image.slot}`} key={image.src}>
+              <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+            </figure>
+          ))}
+        </div>
+        <aside className="anchor-space-panel">
+          <span className="anchor-space-style-label">{space.styleLabel}</span>
+          <p className="anchor-space-style-text">{space.styleText}</p>
+          <div className="anchor-space-ab">
+            <article>
+              <span>World A · Readable</span>
+              <p>{space.worldA}</p>
+            </article>
+            <article>
+              <span>World B · Unstable</span>
+              <p>{space.worldB}</p>
+            </article>
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
 }
 
 export default function PortfolioPager() {
@@ -1217,24 +1301,11 @@ export default function PortfolioPager() {
                               <figcaption>{t.anchorOverview.demoCaption}</figcaption>
                             </figure>
                           </section>
-                  ) : activeProject.kind === "anchor" && activeProjectSlide.id === "worlds" ? (
-                          <section className="anchor-worlds-slide" aria-label={`${activeProject.title} · ${t.slideLabels.worlds}`}>
-                            <header className="anchor-slide-intro">
-                              <h2>{t.anchorWorlds.heading}</h2>
-                              <p>{t.anchorWorlds.lede}</p>
-                            </header>
-                            <div className="anchor-worlds-grid">
-                              {t.anchorWorlds.spaces.map((space) => (
-                                <figure className="anchor-world-card" key={space.index}>
-                                  <img src={space.image} alt={space.alt} loading="lazy" decoding="async" />
-                                  <figcaption>
-                                    <strong><span>{space.index}</span>{space.name}</strong>
-                                    <p>{space.caption}</p>
-                                  </figcaption>
-                                </figure>
-                              ))}
-                            </div>
-                          </section>
+                  ) : activeProject.kind === "anchor" && activeProjectSlide.type === "story" ? (
+                          <AnchorSpacePage
+                            space={t.anchorSpaces.find((space) => space.id === activeProjectSlide.id) ?? t.anchorSpaces[0]}
+                            label={activeSlideLabel}
+                          />
                   ) : activeProject.kind === "anchor" && activeProjectSlide.id === "systems" ? (
                           <section className="anchor-systems-slide" aria-label={`${activeProject.title} · ${t.slideLabels.systems}`}>
                             <header className="anchor-slide-intro">
