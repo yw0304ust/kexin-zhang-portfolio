@@ -277,9 +277,8 @@ const en = {
       worldB: "Unstable — syllables, reflections and faces blur, until the player reassembles them into Guixiang Road.",
       images: [
         { src: "/anchor-subway-fog.webp", alt: "The metro exit in heavy fog, the station name reduced to question marks", row: 1, w: 2559, h: 1398 },
+        { src: "/anchor-subway-platform.webp", alt: "The foggy platform: a train, empty benches, and an unreadable figure", row: 2, w: 2559, h: 1398 },
         { src: "/anchor-space-subway.webp", alt: "A metro gate area with a staff member whose face is unreadable", row: 2, w: 1152, h: 648 },
-        { src: "/anchor-world-subway.webp", alt: "Ticket gates and escalators under fluorescent light", row: 2, w: 1152, h: 648 },
-        { src: "/anchor-subway-barrier.webp", alt: "Platform screen doors along the yellow tactile paving", row: 2, w: 1152, h: 648 },
       ],
     },
     {
