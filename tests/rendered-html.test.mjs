@@ -34,7 +34,7 @@ test("server-renders Kexin Zhang's portfolio", async () => {
     /<title>Kexin Zhang — Game Design &amp; Player Experience Research<\/title>/i,
   );
   assert.match(html, /Anchor/);
-  assert.match(html, /Playable prototype/);
+  assert.match(html, /FPS Study/);
   assert.match(html, /Design as a way of asking/);
   assert.match(html, /Ruihi\.zhang@outlook\.com/);
 });

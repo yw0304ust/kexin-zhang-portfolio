@@ -1,14 +1,12 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
-import type { Language } from "./i18n";
 
 type ResearchKind = "character" | "genshin" | "fps" | "ai";
 
 type ResearchVisualsProps = {
   kind: ResearchKind;
   view?: string;
-  lang?: Language;
 };
 
 const fill = (template: string, values: Record<string, string>) =>
@@ -16,18 +14,6 @@ const fill = (template: string, values: Record<string, string>) =>
     (text, [key, value]) => text.replaceAll(`{${key}}`, value),
     template,
   );
-
-/* Wrap one CJK phrase so line breaks land before/after it, never inside. */
-function CjkKeep({ text, phrase }: { text: string; phrase: string }) {
-  const [before, after = ""] = text.split(phrase);
-  return (
-    <>
-      {before}
-      <span className="cjk-keep">{phrase}</span>
-      {after}
-    </>
-  );
-}
 
 const sessionDurations = [
   { label: "<1h", count: 7, width: "22.6%" },
@@ -395,366 +381,6 @@ const en = {
   },
 };
 
-const zh: typeof en = {
-  lane: {
-    ariaLabel: "可滚动的证据图表。使用方向键或按钮浏览。",
-    explore: "浏览证据",
-    prevAria: "上一张证据图表",
-    nextAria: "下一张证据图表",
-  },
-  character: {
-    aria: "角色依恋研究证据",
-    kicker: "证据地图",
-    heading: "一个角色如何开始显得鲜活。",
-    sub: "访谈主题被提炼为玩家—角色关系框架。",
-    metricsAria: "研究概览",
-    metrics: [
-      { value: "10", label: "深度玩家" },
-      { value: "6", label: "二次元游戏" },
-      { value: "10–15h", label: "访谈素材" },
-      { value: "3", label: "依恋模式" },
-    ],
-    model: {
-      aria: "三种相互重叠的依恋模式：共生型、守望型与实现型，共享着相互关怀与互动",
-      kicker: "关系模型",
-      title: "三种模式，一个共同核心",
-      symbiotic: { name: "共生型", tag: "共同成长" },
-      observance: { name: "守望型", tag: "静静见证" },
-      actualisation: { name: "实现型", tag: "日常中的“我们”" },
-      centreA: "相互关怀",
-      centreB: "互动",
-      caption: "三种模式相互重叠，并非固定的玩家类型。",
-    },
-    mentions: {
-      aria: "十位受访者的主题提及：抽卡动机 10 次，角色个性 8 次，周边商品 8 次，功能强度 2 次",
-      kicker: "主题提及",
-      title: "情感压过功用",
-      rows: [
-        { label: "抽卡动机", value: 10, width: "100%" },
-        { label: "角色个性", value: 8, width: "80%" },
-        { label: "周边商品", value: 8, width: "80%" },
-        { label: "功能强度", value: 2, width: "20%" },
-      ],
-      caption: "计数为访谈提及次数，并非总体估计。",
-    },
-    formation: {
-      aria: "角色吸引发展为依恋，并由游戏互动机制与现实世界因素强化",
-      kicker: "形成路径",
-      title: "依恋在游戏内外被共同设计",
-      attraction: { title: "吸引", tag: "个性 · 故事 · 形象" },
-      attachment: { title: "依恋", tag: "角色成为社会性他者" },
-      game: { title: "游戏", tag: "反馈 · 资源 · 拍照" },
-      life: { title: "生活", tag: "周边 · 媒介 · 日常选择" },
-      caption: "回应式反馈可以加深——也可能削弱——这种联结。",
-    },
-  },
-  fpsResearch: {
-    aria: "FPS 游戏时长研究证据",
-    kicker: "证据地图",
-    heading: "共同游戏最为关键。",
-    sub: "社交互动与更长时长类别的关联最强。",
-    metricsAria: "研究概览",
-    metrics: [
-      { value: "115", label: "收集回复" },
-      { value: "97", label: "有效回复" },
-      { value: "84.3%", label: "样本保留率" },
-      { value: "p<.001", label: "整体模型" },
-    ],
-    sample: {
-      aria: "样本流转：收集 115 份回复，7 个离群值按缺失处理，11 份无效回复被剔除，保留 97 份",
-      kicker: "样本流转",
-      title: "从收集到分析",
-      collected: "已收集",
-      outliers: "离群值",
-      invalid: "无效",
-      retained: "保留",
-      caption: "离群值按缺失处理；逻辑路径无效的问卷被剔除。",
-    },
-    session: {
-      aria: "97 名玩家的单次游戏时长：不足 1 小时 7 人，1–2 小时 31 人，2–3 小时 29 人，3–4 小时 18 人，超过 4 小时 12 人",
-      kicker: "时长分布",
-      title: "61.9% 的玩家单次游戏 1–3 小时",
-      caption: "百分比根据原始频数重新计算，n=97。",
-    },
-    forest: {
-      aria: "优势比与 95% 置信区间：体验价值 1.13（1.00–1.26），感知易用性 1.18（0.89–1.56），社交互动 1.23（1.04–1.45）",
-      kicker: "有序逻辑回归",
-      title: "进入更长时长类别的优势比",
-      rows: [
-        {
-          label: "体验价值",
-          short: "EV",
-          value: "1.13",
-          ci: "1.00–1.26",
-          left: "25%",
-          width: "32.5%",
-          point: "41.25%",
-          significant: true,
-        },
-        {
-          label: "感知易用性",
-          short: "PU",
-          value: "1.18",
-          ci: "0.89–1.56",
-          left: "11.25%",
-          width: "83.75%",
-          point: "47.5%",
-          significant: false,
-        },
-        {
-          label: "社交互动",
-          short: "SI",
-          value: "1.23",
-          ci: "1.04–1.45",
-          left: "30%",
-          width: "51.25%",
-          point: "53.75%",
-          significant: true,
-        },
-      ],
-      caption: "PU 跨过 OR=1 参考线；EV 与 SI 显著。",
-    },
-    reliability: {
-      aria: "删除题项前后的信度：体验价值 .50 升至 .56，感知易用性 .69 升至 .77，社交互动 .49 升至 .81",
-      kicker: "量表检验",
-      title: "信度：删题前 → 后",
-      threshold: "α .70",
-      rows: [
-        {
-          label: "EV",
-          before: ".50",
-          after: ".56",
-          start: "20%",
-          end: "32%",
-          itemChange: "6→4 题",
-        },
-        {
-          label: "PU",
-          before: ".69",
-          after: ".77",
-          start: "58%",
-          end: "74%",
-          itemChange: "3→2 题",
-        },
-        {
-          label: "SI",
-          before: ".49",
-          after: ".81",
-          start: "18%",
-          end: "82%",
-          itemChange: "4→2 题",
-        },
-      ],
-      caption: "EV 在删除题项后仍然偏弱，因此保留这一局限提示。",
-    },
-    note: "这是相关关系，而非因果关系。OR=1.23 描述的是进入更长时长类别的优势比——而非游戏时间多出 23%。",
-  },
-  aiResearch: {
-    aria: "学生 AI 使用研究证据",
-    kicker: "证据地图",
-    heading: "高使用率。有条件的信任。",
-    sub: "学生们既想要 AI 的速度，也想要可溯源的检索和人的共情。",
-    metricsAria: "研究概览",
-    metrics: [
-      { value: "55", label: "问卷回复" },
-      { value: "6", label: "完成访谈" },
-      { value: "98.2%", label: "使用过 AI" },
-      { value: "77.8%", label: "希望获得官方指导" },
-    ],
-    adoption: {
-      aria: "AI 使用率为 98.2%。在 54 名 AI 使用者中，40.7% 每天使用，55.6% 每周使用，3.7% 每月使用",
-      kicker: "使用率速览",
-      title: "AI 已成日常",
-      ringLabel: "使用过 AI",
-      frequencies: [
-        { label: "每天", pct: "40.7%", width: "40.7%" },
-        { label: "每周", pct: "55.6%", width: "55.6%" },
-        { label: "每月", pct: "3.7%", width: "3.7%" },
-      ],
-      caption: "频率以 54 名使用过 AI 的受访者为基数。",
-    },
-    purpose: {
-      aria: "所选 AI 功能的占比：文本与写作 36.2%，翻译 30.5%，效率工具 11.3%，绘画与设计 11.3%，社交辅助 10.6%",
-      kicker: "用途分布",
-      title: "写作与翻译领先",
-      bubbles: [
-        { className: "bubble-writing", pct: "36.2%", label: "写作" },
-        { className: "bubble-translate", pct: "30.5%", label: "翻译" },
-        { className: "bubble-efficiency", pct: "11.3%", label: "效率" },
-        { className: "bubble-design", pct: "11.3%", label: "设计" },
-        { className: "bubble-social", pct: "10.6%", label: "社交" },
-      ],
-      caption: "为所选功能的占比，而非学生人数的占比。",
-    },
-    tension: {
-      aria: "信任与隐私的张力：83.3% 的学生对 AI 抱有部分信任；81.5% 对数据泄露有一定或高度担忧；98.1% 只会有保留地分享个人数据或完全不愿分享",
-      kicker: "信任—隐私的张力",
-      title: "使用并未消除顾虑",
-      rows: [
-        {
-          barClass: "trust-bar",
-          label: "信任",
-          n: "n=54",
-          bars: [
-            { basis: "13%", text: "13.0" },
-            { basis: "83.3%", text: "83.3 部分信任" },
-            { basis: "3.7%", text: "3.7" },
-          ],
-        },
-        {
-          barClass: "concern-bar",
-          label: "数据泄露担忧",
-          n: "n=54",
-          bars: [
-            { basis: "18.5%", text: "18.5 无" },
-            { basis: "63%", text: "63.0 有些" },
-            { basis: "18.5%", text: "18.5 高" },
-          ],
-        },
-        {
-          barClass: "sharing-bar",
-          label: "个人数据分享",
-          n: "n=54",
-          bars: [
-            { basis: "1.9%", text: "1.9" },
-            { basis: "61.1%", text: "61.1 有保留" },
-            { basis: "37%", text: "37.0 不愿" },
-          ],
-        },
-      ],
-      caption: "直接标注保留了各量表的不同含义。",
-    },
-    guidance: {
-      aria: "77.8% 的学生希望获得官方防抄袭指导。偏好的指导形式为工作坊 45.7%、手册 35.8%、一对一辅导 18.5%",
-      kicker: "指导形式偏好",
-      title: "学习应当动手实践",
-      core: { pct: "77.8%", label: "希望获得官方指导" },
-      petals: [
-        { className: "petal-workshop", pct: "45.7%", label: "工作坊" },
-        { className: "petal-handbook", pct: "35.8%", label: "手册" },
-        { className: "petal-tutorial", pct: "18.5%", label: "一对一" },
-      ],
-      caption: "数值为各形式被选择的占比。",
-    },
-    library: {
-      aria: "访谈中关于图书馆 AI 服务的想法：数据或图书检索 6 人中 5 人，AI 服务台 6 人中 1 人，专题馆藏 6 人中 1 人，阅读清单 6 人中 1 人",
-      kicker: "图书馆服务机会",
-      title: "先检索，再谈替代",
-      core: { count: "5/6", label: "数据与图书检索" },
-      satellites: [
-        { className: "satellite-desk", count: "1/6", label: "服务台" },
-        { className: "satellite-collections", count: "1/6", label: "专题馆藏" },
-        { className: "satellite-reading", count: "1/6", label: "阅读清单" },
-      ],
-      caption: "访谈提及次数；受访者可以提出多个想法。",
-    },
-    note: "各题基数不同（n=55、54 或 50）。每张图都保留了原始分母，或标注了选择占比。",
-  },
-  fpsSessions: {
-    aria: "FPS 回复流转与时长分布",
-    heading: "从 115 份回复到 97 个有效样本。",
-    sub: "同一批样本从数据清洗进入五个单次时长分组。",
-    switchAria: "证据视图",
-    tabCleaning: "样本流转",
-    tabSessions: "时长分布",
-    validLabel: "有效回复",
-    cleaningNote: "7 个离群值 · 11 条无效逻辑路径",
-    percentTemplate: "占有效样本的 {percent}%",
-    bandsAria: "单次时长分组",
-    note: "百分比按 n=97 由原始频数重新计算；原文报告的百分比存在不一致。",
-  },
-  fpsDrivers: {
-    aria: "FPS 回归模型与信度检验",
-    heading: "什么推动了优势比？",
-    sub: "社交互动与更长时长类别的关联最强且显著。",
-    switchAria: "模型或信度检验",
-    tabModel: "模型",
-    tabScale: "信度检验",
-    driversAria: "模型驱动因素",
-    drivers: [
-      { id: "ev", short: "EV", label: "体验价值", beta: ".12", p: ".045", odds: 1.13, ci: [1.0, 1.26], alpha: [0.5, 0.56], items: "6→4", significant: true },
-      { id: "pu", short: "PU", label: "感知易用性", beta: ".16", p: ".252", odds: 1.18, ci: [0.89, 1.56], alpha: [0.69, 0.77], items: "3→2", significant: false },
-      { id: "si", short: "SI", label: "社交互动", beta: ".21", p: ".014", odds: 1.23, ci: [1.04, 1.45], alpha: [0.49, 0.81], items: "4→2", significant: true },
-    ],
-    itemsTemplate: "删题后 {items} 题",
-    note: "这是相关关系，而非因果关系。优势比描述的是在有序类别之间的移动——而非游戏时间多出的百分比。",
-  },
-  aiAdoption: {
-    aria: "AI 使用情况与使用频率",
-    heading: "AI 早已成为日常。",
-    sub: "55 份问卷回复析出 54 名使用者，进而呈现出以周为单位的使用节奏。",
-    switchAria: "使用证据视图",
-    tabAdoption: "使用情况",
-    tabFrequency: "使用频率",
-    adoptionReadout: "55 人中有 54 人使用过 AI",
-    usersTemplate: "{label}用户",
-    groups: [
-      { id: "daily", label: "每日", count: 22 },
-      { id: "weekly", label: "每周", count: 30 },
-      { id: "monthly", label: "每月", count: 2 },
-    ],
-    freqAria: "AI 使用频率",
-    note: "频率基数：AI 使用者，n=54。",
-  },
-  aiTrust: {
-    aria: "AI 信任、隐私担忧与指导期待",
-    switchAria: "问卷题目",
-    views: {
-      trust: {
-        tab: "信任",
-        title: "有条件的信任",
-        lead: "多数学生对 AI 抱有部分信任，完全信任仍然少见。",
-        groups: [
-          { label: "不信任", count: 7 },
-          { label: "部分信任", count: 45 },
-          { label: "完全信任", count: 2 },
-        ],
-      },
-      concern: {
-        tab: "数据担忧",
-        title: "担忧仍然偏高",
-        lead: "高使用率并未消除对数据泄露的焦虑。",
-        groups: [
-          { label: "无", count: 10 },
-          { label: "有一些", count: 34 },
-          { label: "非常", count: 10 },
-        ],
-      },
-      guidance: {
-        tab: "指导",
-        title: "期待官方指导",
-        lead: "多数学生希望获得更明确的负责任使用官方指导。",
-        groups: [
-          { label: "是", count: 42 },
-          { label: "否", count: 12 },
-        ],
-      },
-    },
-    note: "题目基数：n=54。指导意愿人数由报告的 77.78% / 22.22% 比例推算。",
-  },
-  genshin: {
-    aria: "定性文化价值星盘",
-    heading: "一个为跨文化转译而设计的世界。",
-    sub: "六个定性视角围绕同一片共享文化空间运转——而不为提瓦特虚构分数。",
-    coreLabel: "共享文化基底",
-    dimensionsAria: "文化维度",
-    dimensions: [
-      { label: "权力", statement: "等级秩序反复向公民参与敞开。", focus: "璃月" },
-      { label: "个人与集体", statement: "个人良知与集体行动共存，而非相互抵消。", focus: "稻妻" },
-      { label: "性别角色", statement: "权威与关怀在灵活的角色设定之间流动。", focus: "璃月" },
-      { label: "不确定性", statement: "变化成为叙事资源，而非必须消除的威胁。", focus: "蒙德" },
-      { label: "长期导向", statement: "牺牲与守护将社会引向共同的未来。", focus: "须弥" },
-      { label: "自由与约束", statement: "享乐、责任、仪式与治理保持着富有建设性的张力。", focus: "提瓦特" },
-    ],
-    takeaway: "共同基底 + 可见差异 → 更低的文化折扣",
-    kazuhaAlt: "枫原万叶",
-    nahidaAlt: "纳西妲",
-    note: "这是来自学位论文的定性分析框架——并非数值评分或因果模型。",
-  },
-};
-
-const copy: Record<Language, typeof en> = { en, zh };
-
 function Metric({ value, label }: { value: string; label: string }) {
   return (
     <div className="research-metric">
@@ -764,8 +390,8 @@ function Metric({ value, label }: { value: string; label: string }) {
   );
 }
 
-function VizLane({ children, className = "", lang }: { children: ReactNode; className?: string; lang: Language }) {
-  const l = copy[lang].lane;
+function VizLane({ children, className = "" }: { children: ReactNode; className?: string }) {
+  const l = en.lane;
   const laneRef = useRef<HTMLDivElement>(null);
 
   const move = (direction: -1 | 1) => {
@@ -816,8 +442,8 @@ function VizLane({ children, className = "", lang }: { children: ReactNode; clas
   );
 }
 
-function CharacterResearch({ lang }: { lang: Language }) {
-  const c = copy[lang].character;
+function CharacterResearch() {
+  const c = en.character;
   return (
     <section className="research-evidence evidence-character" aria-label={c.aria}>
       <div className="research-section-heading">
@@ -832,7 +458,7 @@ function CharacterResearch({ lang }: { lang: Language }) {
         ))}
       </div>
 
-      <VizLane className="character-viz-grid" lang={lang}>
+      <VizLane className="character-viz-grid">
         <figure
           className="research-viz research-viz-wide attachment-figure"
           role="img"
@@ -925,8 +551,8 @@ function CharacterResearch({ lang }: { lang: Language }) {
   );
 }
 
-function FpsResearch({ lang }: { lang: Language }) {
-  const c = copy[lang].fpsResearch;
+function FpsResearch() {
+  const c = en.fpsResearch;
   return (
     <section className="research-evidence evidence-fps" aria-label={c.aria}>
       <div className="research-section-heading">
@@ -941,7 +567,7 @@ function FpsResearch({ lang }: { lang: Language }) {
         ))}
       </div>
 
-      <VizLane lang={lang}>
+      <VizLane>
         <figure
           className="research-viz research-viz-wide sample-flow-figure"
           role="img"
@@ -1040,8 +666,8 @@ function FpsResearch({ lang }: { lang: Language }) {
   );
 }
 
-function AiResearch({ lang }: { lang: Language }) {
-  const c = copy[lang].aiResearch;
+function AiResearch() {
+  const c = en.aiResearch;
   return (
     <section className="research-evidence evidence-ai" aria-label={c.aria}>
       <div className="research-section-heading">
@@ -1056,7 +682,7 @@ function AiResearch({ lang }: { lang: Language }) {
         ))}
       </div>
 
-      <VizLane className="ai-viz-grid" lang={lang}>
+      <VizLane className="ai-viz-grid">
         <figure
           className="research-viz adoption-figure"
           role="img"
@@ -1161,8 +787,8 @@ function AiResearch({ lang }: { lang: Language }) {
   );
 }
 
-function FpsSessionsEvidence({ lang }: { lang: Language }) {
-  const c = copy[lang].fpsSessions;
+function FpsSessionsEvidence() {
+  const c = en.fpsSessions;
   const [mode, setMode] = useState<"cleaning" | "sessions">("sessions");
   const [activeBin, setActiveBin] = useState(1);
   const bins = [
@@ -1230,8 +856,8 @@ function FpsSessionsEvidence({ lang }: { lang: Language }) {
   );
 }
 
-function FpsDriversEvidence({ lang }: { lang: Language }) {
-  const c = copy[lang].fpsDrivers;
+function FpsDriversEvidence() {
+  const c = en.fpsDrivers;
   const [mode, setMode] = useState<"model" | "scale">("model");
   const [active, setActive] = useState(2);
   const driver = c.drivers[active];
@@ -1278,8 +904,8 @@ function FpsDriversEvidence({ lang }: { lang: Language }) {
   );
 }
 
-function AiAdoptionEvidence({ lang }: { lang: Language }) {
-  const c = copy[lang].aiAdoption;
+function AiAdoptionEvidence() {
+  const c = en.aiAdoption;
   const [mode, setMode] = useState<"adoption" | "frequency">("frequency");
   const groups = c.groups;
   const [active, setActive] = useState(1);
@@ -1318,8 +944,8 @@ function AiAdoptionEvidence({ lang }: { lang: Language }) {
   );
 }
 
-function AiTrustEvidence({ lang }: { lang: Language }) {
-  const c = copy[lang].aiTrust;
+function AiTrustEvidence() {
+  const c = en.aiTrust;
   const [view, setView] = useState<keyof typeof c.views>("trust");
   const question = c.views[view];
   const boundaries = question.groups.reduce<number[]>((values, group) => {
@@ -1355,15 +981,15 @@ function AiTrustEvidence({ lang }: { lang: Language }) {
   );
 }
 
-function GenshinCulturalOrrery({ lang }: { lang: Language }) {
-  const c = copy[lang].genshin;
+function GenshinCulturalOrrery() {
+  const c = en.genshin;
   const [active, setActive] = useState(0);
   const dimension = c.dimensions[active];
   return (
     <section className="single-evidence-page genshin-orrery-page" aria-label={c.aria}>
       <header className="single-evidence-heading">
         <div>
-          <h3>{lang === "zh" ? <CjkKeep text={c.heading} phrase="跨文化转译" /> : c.heading}</h3>
+          <h3>{c.heading}</h3>
           <p>{c.sub}</p>
         </div>
       </header>
@@ -1388,11 +1014,11 @@ function GenshinCulturalOrrery({ lang }: { lang: Language }) {
   );
 }
 
-export default function ResearchVisuals({ kind, view, lang = "en" }: ResearchVisualsProps) {
-  if (kind === "character") return <CharacterResearch lang={lang} />;
-  if (kind === "genshin") return <GenshinCulturalOrrery lang={lang} />;
-  if (kind === "fps") return view === "drivers" ? <FpsDriversEvidence lang={lang} /> : <FpsSessionsEvidence lang={lang} />;
-  if (kind === "ai") return view === "trust" ? <AiTrustEvidence lang={lang} /> : <AiAdoptionEvidence lang={lang} />;
+export default function ResearchVisuals({ kind, view }: ResearchVisualsProps) {
+  if (kind === "character") return <CharacterResearch />;
+  if (kind === "genshin") return <GenshinCulturalOrrery />;
+  if (kind === "fps") return view === "drivers" ? <FpsDriversEvidence /> : <FpsSessionsEvidence />;
+  if (kind === "ai") return view === "trust" ? <AiTrustEvidence /> : <AiAdoptionEvidence />;
   const exhaustive: never = kind;
   return exhaustive;
 }

@@ -12,10 +12,8 @@ import {
 import type { EChartsOption, EChartsType } from "echarts";
 import ResearchVisuals from "./ResearchVisuals";
 import ProjectNarratives from "./ProjectNarratives";
-import { applyLanguage, detectInitialLanguage, type Language } from "./i18n";
 
 const en = {
-  langSwitchAria: "Language",
   skipToPage: "Skip to current page",
   wordmarkAria: "Kexin Zhang, home",
   primaryNavAria: "Primary pages",
@@ -44,25 +42,29 @@ const en = {
   },
   projects: {
     anchor: {
-      subtitle: "A first-person narrative puzzle game",
-      role: "Narrative design · Player experience",
-      status: "In progress",
-      stat: "Playable prototype",
+      subtitle: "A first-person narrative puzzle game about memory and care",
+      role: "Narrative & puzzle design · Player experience · AI-assisted build",
+      status: "Web build released",
+      stat: "4 chapters · playable on web",
       description:
-        "A playable inquiry into fragmented memory, caregiver pressure, and the effort to preserve a sense of home.",
-      tags: ["Game mechanics", "Narrative choices", "Prototype"],
+        "A playable inquiry into fragmented memory, caregiver pressure, and the effort to preserve a sense of home — told across four spaces: a home, a property office, a metro station, and a hospital.",
+      tags: ["Deterministic puzzle FSM", "Narrative systems", "Godot 4 · WebGL2", "Constrained AI agents"],
       details: [
         {
           label: "Design premise",
-          text: "The game alternates between a daughter’s present and her mother’s fragmented memories across a home, metro station, and hospital psychiatric department.",
+          text: "When memory fails, identity is proven by objects, habits, routes, and how others respond. A daughter’s present and her mother’s fragmented memories re-anchor each other across four spaces.",
         },
         {
-          label: "Core mechanics",
-          text: "Object investigation, combination locks, route choices, photo puzzles, and narrative decisions. Retained memory anchors shape what resurfaces and which ending unfolds.",
+          label: "Puzzle systems",
+          text: "Every puzzle is a verifiable causal loop: a kitchen steaming FSM, dual-track CCTV time calibration, a triptych-mirror alignment, and a seven-stage mechanical escape — deterministic and recoverable.",
+        },
+        {
+          label: "AI agent design",
+          text: "Guidance agents layer hints from discovered facts; interrogation agents can be challenged with evidence. Agents output text only — truth, saves, and endings stay with the local FSM.",
         },
         {
           label: "My contribution",
-          text: "Narrative and player-experience design, supported by lightweight AI-assisted prototyping of the core flow.",
+          text: "Narrative, puzzle, and player-experience design end to end — from script to a playable Godot 4 / WebGL2 web build through an AI-assisted workflow, including the Blender asset pipeline and chaptered web packs.",
         },
       ],
     },
@@ -161,7 +163,9 @@ const en = {
   },
   slideLabels: {
     overview: "Overview",
-    prototype: "Prototype",
+    prototype: "Design notes",
+    worlds: "Four spaces",
+    systems: "Systems",
     "relationships-a": "Portraits I",
     "relationships-b": "Portraits II",
     formation: "Formation",
@@ -221,6 +225,65 @@ const en = {
     roleLabel: "Role",
     showcaseLabel: "Showcase",
     demoCaption: "Real-device gameplay demo of Anchor",
+  },
+  anchorWorlds: {
+    heading: "One game, four spaces",
+    lede: "The spaces keep expanding; the relationship is re-anchored in each. Every space is both a narrative beat and a playable evidence field.",
+    spaces: [
+      {
+        index: "01",
+        name: "Home",
+        caption: "Household objects double as clues and mechanisms — medication schedules, a kitchen steamer, photos, and the threshold of the front door.",
+        image: "/anchor-world-home.webp",
+        alt: "In-game view of the home entrance in Anchor, with a locked front door",
+      },
+      {
+        index: "02",
+        name: "Property office",
+        caption: "An investigation built without facial recognition: visitor logs, parcels, access records, and CCTV time offsets cross-verify each other.",
+        image: "/anchor-world-property.webp",
+        alt: "Property management lobby in Anchor with CCTV room, mailboxes, and east gate",
+      },
+      {
+        index: "03",
+        name: "Metro station",
+        caption: "Direction and location become puzzles — broadcast syllables assemble into a station name, and a triptych mirror aligns into a route.",
+        image: "/anchor-world-subway.webp",
+        alt: "Metro station interior in Anchor with ticket gates and escalators",
+      },
+      {
+        index: "04",
+        name: "Hospital",
+        caption: "The follow-up visit turns “going home” into a playable review, ending in a seven-stage mechanical escape inside an observation room.",
+        image: "/anchor-world-hospital.webp",
+        alt: "Hospital corridor in Anchor with a character resting on a bench",
+      },
+    ],
+  },
+  anchorSystems: {
+    heading: "Systems that hold the story",
+    lede: "Puzzles are not decoration on the narrative — they are how memory, care, and direction become playable. Each system is deterministic, observable, and recoverable.",
+    cards: [
+      {
+        label: "Puzzle FSM",
+        title: "A kitchen steamer as a full 3D state machine",
+        text: "Temperature thresholds, a water-separated steaming structure, and a safe reset sequence. Wrong actions feed back only the current mechanism — earlier progress is never wiped.",
+        image: "/anchor-puzzle-kitchen.webp",
+        alt: "Kitchen puzzle area in Anchor with stove, steamer pot, and countertop props",
+      },
+      {
+        label: "Environmental forensics",
+        title: "A threshold timeline from shoes, sensors, and wet prints",
+        text: "Who came home, when, and how to walk together safely next time — time is locked to one doorway through physical traces the player reads and verifies.",
+        image: "/anchor-puzzle-threshold.webp",
+        alt: "Entryway evidence in Anchor: shoes, cabinet, and footprints by the door",
+      },
+      {
+        label: "Constrained AI agents",
+        title: "Two dialogue paradigms on a deterministic core",
+        text: "Guidance agents layer hints from discovered facts; interrogation agents can be challenged with evidence. Agents output text only — story state, puzzle progress, saves, and endings never leave the local FSM.",
+      },
+    ],
   },
   practice: {
     eyebrow: "03 / Practice",
@@ -337,329 +400,7 @@ const en = {
   },
 };
 
-type Copy = typeof en;
 
-const zh: Copy = {
-  langSwitchAria: "语言",
-  skipToPage: "跳到当前页面",
-  wordmarkAria: "张可欣，首页",
-  primaryNavAria: "主要页面",
-  nav: {
-    home: "首页",
-    profile: "简介",
-    contact: "联系",
-  },
-  liveRegion: (page, total, label) => `第 ${page} 页，共 ${total} 页：${label}`,
-  home: {
-    eyebrow: "游戏设计 · 玩家体验 · 以人为本的 HCI",
-    titleA: "张",
-    titleB: "可欣",
-    statementPre: "我探索",
-    statementStrong: "规则、故事与关键选择",
-    statementPost: "如何塑造人们体验记忆、关怀与身份的方式。",
-    cta: "探索精选作品",
-  },
-  portrait: {
-    ariaLabel: "对比「角色依恋」词云与可欣的肖像",
-    valueText: (reveal) => `${reveal}% 肖像，${100 - reveal}% 词云`,
-    prompt: "滑动揭示",
-    caption: "水平移动以揭示肖像。聚焦时可使用左右方向键。",
-  },
-  projects: {
-    anchor: {
-      subtitle: "第一人称叙事解谜游戏",
-      role: "叙事设计 · 玩家体验",
-      status: "进行中",
-      stat: "可玩原型",
-      description:
-        "一场可玩的探索：关于破碎的记忆、照护者的压力，以及努力留住「家」的感觉。",
-      tags: ["游戏机制", "叙事选择", "原型"],
-      details: [
-        {
-          label: "设计前提",
-          text: "游戏在女儿的当下与母亲支离破碎的记忆之间交替，场景横跨家、地铁站与医院精神科。",
-        },
-        {
-          label: "核心机制",
-          text: "物件调查、组合密码锁、路线选择、照片解谜与叙事抉择。保留下来的记忆锚点决定哪些回忆会浮现、走向哪个结局。",
-        },
-        {
-          label: "我的贡献",
-          text: "负责叙事与玩家体验设计，并以轻量级的 AI 辅助原型搭建核心流程。",
-        },
-      ],
-    },
-    attachment: {
-      subtitle: "二次元角色如何开始显得「活着」",
-      role: "硕士毕业论文 · 质性游戏研究",
-      status: "游戏研究",
-      stat: "10 位玩家 · 6 款游戏",
-      description:
-        "一项质性研究，探讨角色魅力、互动机制、叙事与现实物件如何把虚构角色变成真实可感的关系。",
-      tags: ["主题分析", "玩家访谈", "游戏心理学"],
-      details: [
-        {
-          label: "问题",
-          text: "玩家如何对不可自定义的角色产生依恋？这种依恋又如何在游戏与日常生活之间流动？",
-        },
-        {
-          label: "方法",
-          text: "对来自六款二次元游戏的十位核心玩家进行半结构化访谈，随后进行主题分析。",
-        },
-        {
-          label: "发现",
-          text: "呈现出三种交叠的模式：共生、守望与实现，核心都是被感知到的相互关怀与回应。",
-        },
-      ],
-    },
-    genshin: {
-      subtitle: "一款中国开放世界 RPG 如何把差异转化为共享的意义",
-      role: "毕业论文 · 跨文化游戏研究",
-      status: "游戏与媒介研究",
-      stat: "4 个相互关联的系统",
-      description:
-        "一项质性研究，探讨价值观、叙事、视听语言与角色网络如何让文化特异性在全球范围内可被理解。",
-      tags: ["文本分析", "跨文化传播", "游戏世界"],
-      details: [
-        {
-          label: "问题",
-          text: "一款游戏如何在保持文化特异性的同时，邀请不同背景的玩家进入同一个世界？",
-        },
-        {
-          label: "方法",
-          text: "通过文献综述与比较文本分析，考察价值观、剧情、视听符号、仪式与角色架构。",
-        },
-        {
-          label: "发现",
-          text: "《原神》先建立共享的文化地基，再让差异通过地点、角色、音乐、翻译与玩法回归。",
-        },
-      ],
-    },
-    fps: {
-      subtitle: "与在线游戏时长相关的因素",
-      role: "项目负责人 · 量化研究",
-      status: "实证研究",
-      stat: "97 份有效问卷",
-      description:
-        "一项以问卷为主的研究，考察游戏体验、感知易用性与社交互动和 FPS 单局时长的关系。",
-      tags: ["有序回归", "SPSS", "问卷设计"],
-      details: [
-        {
-          label: "问题",
-          text: "哪些体验因素与中国 FPS 玩家进入更长的单局时长类别相关？",
-        },
-        {
-          label: "方法",
-          text: "微信问卷投放、数据清洗与重编码、信度检验，并在 SPSS 中进行有序 Logistic 回归。",
-        },
-        {
-          label: "发现",
-          text: "社交互动与更长时长类别的关联最强且显著；游戏体验显著，而易用性不显著。",
-        },
-      ],
-    },
-    "ai-library": {
-      subtitle: "重新思考图书馆在线实时咨询",
-      role: "项目负责人 · 用户研究",
-      status: "人机交互研究",
-      stat: "55 份问卷 · 6 场访谈",
-      description:
-        "与 KCL 图书馆合作的混合方法研究，探讨学生的 AI 使用、信任、隐私、指引与服务机会。",
-      tags: ["HCI", "数据可视化", "服务研究"],
-      details: [
-        {
-          label: "背景",
-          text: "研究探讨了学生的 AI 使用现状，以及将 AI 引入伦敦国王学院图书馆 Live Chat 的可能性。",
-        },
-        {
-          label: "方法",
-          text: "55 份问卷、6 场半结构化访谈、逐题分析与证据可视化。",
-        },
-        {
-          label: "洞察",
-          text: "学生想要 AI 的速度、检索的可追溯性，以及人工服务的同理心。",
-        },
-      ],
-    },
-  },
-  slideLabels: {
-    overview: "概览",
-    prototype: "原型",
-    "relationships-a": "角色侧写 I",
-    "relationships-b": "角色侧写 II",
-    formation: "形成机制",
-    evidence: "证据",
-    "shared-world": "共享世界",
-    "living-culture": "活的文化",
-    "cultural-orrery": "文化星盘",
-    method: "方法",
-    sessions: "会话",
-    drivers: "驱动因素",
-    service: "服务机会",
-    adoption: "采纳",
-    trust: "信任",
-  },
-  slideAria: {
-    overview: (title) => `${title} · 概览`,
-    evidence: (title) => `${title} · 证据`,
-  },
-  projectPagerAria: "项目分页",
-  prevProjectAria: "上一页项目内容",
-  nextProjectAria: "下一页项目内容",
-  attachmentOverview: {
-    statPlayers: "10 位玩家",
-    statGames: "6 款游戏",
-    summary:
-      "十位核心玩家各自介绍了一位不可自定义的角色——并讲述了吸引何时开始变成一种相互的回应。",
-    caseStageAria: "三个精选角色依恋案例",
-    caseAlt: (name, game) => `《${game}》角色${name}`,
-    cases: [
-      {
-        name: "卡维",
-        game: "原神",
-        mode: "共生式依恋",
-        short: "共鸣 / 共同理想",
-        text: "共同的理想与挣扎带来了同路人的亲近感。随着卡维的成长，他的选择开始指引玩家自己的选择。",
-        image: "/attachment-kaveh-cutout.webp",
-      },
-      {
-        name: "凝光",
-        game: "原神",
-        mode: "守望式依恋",
-        short: "小小的仪式 / 延续运转的世界",
-        text: "每晚的仪式——让她安坐在璃月——让她的世界仿佛在屏幕熄灭之后依然继续运转。",
-        image: "/attachment-ningguang-cutout.webp",
-      },
-      {
-        name: "讣告人",
-        game: "重返未来：1999",
-        mode: "实现式依恋",
-        short: "情感支持 / 记忆",
-        text: "声音与故事在悲伤时给予了安慰。这段羁绊走进了日常生活，成为友谊、记忆与一枚永久的纹身。",
-        image: "/attachment-necrologist-cutout.webp",
-      },
-    ],
-  },
-  anchorOverview: {
-    roleLabel: "职责",
-    showcaseLabel: "展示",
-    demoCaption: "Anchor 实机游玩演示",
-  },
-  practice: {
-    eyebrow: "03 / 实践",
-    heading: "设计是一种提问的方式。",
-    lede: "一种在细致观察、系统设计与可触摸的原型之间来回移动的实践。",
-    areas: [
-      {
-        number: "01",
-        title: "叙事系统",
-        text: "主题化为规则、路线、谜题与选择。",
-      },
-      {
-        number: "02",
-        title: "玩家研究",
-        text: "问卷、访谈与量化分析。",
-      },
-      {
-        number: "03",
-        title: "可玩探索",
-        text: "尽早做出核心交互流程的原型。",
-      },
-    ],
-    processAria: "创作研究流程",
-    processSteps: [
-      { title: "观察", text: "行为、语境与张力" },
-      { title: "转译", text: "把洞察转化为机制" },
-      { title: "原型", text: "试玩、测试、打磨" },
-    ],
-    storyButton: "叙事功底",
-    storyEvidence: [
-      { value: "17", label: "发表作品" },
-      { value: "1K+", label: "阅读量" },
-      { value: "1.267M", label: "直播流量" },
-    ],
-  },
-  profile: {
-    eyebrow: "04 / 简介",
-    heading: "研究者的严谨，创造者的好奇。",
-    lede: "受过数字媒体、传播、用户研究与动手制作的交叉训练。",
-    educationLabel: "教育经历",
-    experienceLabel: "实习经历",
-    education: [
-      {
-        time: "2023—25",
-        school: "伦敦国王学院",
-        degree: "数字资产与媒体管理硕士（MA）",
-      },
-      {
-        time: "2019—23",
-        school: "华东政法大学",
-        degree: "新闻学学士 · GPA 3.8 / 4.0",
-      },
-    ],
-    experience: [
-      {
-        time: "2022",
-        company: "四川日报报业集团 · 封面新闻",
-        job: "汽车频道媒体实习生",
-      },
-      {
-        time: "2021",
-        company: "自贡日报",
-        job: "新媒体编辑实习生",
-      },
-    ],
-    tablistAria: "个人资料详情",
-    tabs: ["研究方法", "工具", "荣誉"],
-    methods: [
-      "用户研究",
-      "问卷设计",
-      "数据清洗与重编码",
-      "信度分析",
-      "有序回归",
-      "数据可视化",
-      "访谈设计",
-      "叙事原型设计",
-    ],
-    recognition: [
-      "第七届红枫大学生记者节二等奖两项——文字类与视频类。",
-      "华东政法大学综合奖学金（2019—20、2020—21 学年）。",
-    ],
-  },
-  contact: {
-    headingA: "让我们做出",
-    headingB: "能被人感知的系统。",
-    body: "无论是研究交流、游戏合作，还是作品集相关咨询，都欢迎给我写信。",
-    signature: "问题 · 证据 · 游戏",
-    copyright: "© 2026 张可欣",
-  },
-  dialog: {
-    topbar: "叙事经历",
-    close: "关闭",
-    eyebrow: "媒体与传播",
-    title: "在系统之前，是故事。",
-    intro: "报道与媒体制作教会我贴近地倾听、提出有人味的问题，并把复杂的事情讲清楚。",
-    metrics: [
-      { value: "17", label: "已发表视频与文章" },
-      { value: "1K+", label: "单篇报道阅读量" },
-      { value: "1.267M", label: "直播累计流量" },
-    ],
-    projects: [
-      {
-        tag: "人物访谈特稿 · 2020",
-        title: "一场跨越十七年的对话",
-        text: "采访了同时经历过非典与新冠的医护人员，并据此撰写特稿。",
-      },
-      {
-        tag: "纪录短片 · 2020",
-        title: "疫情下的一家餐厅",
-        text: "为一部纪录短片撰写脚本：通过店主与顾客的访谈，记录一家上海餐厅两个月的复工历程。",
-      },
-    ],
-  },
-};
-
-const copy: Record<Language, Copy> = { en, zh };
 
 const projects = [
   {
@@ -726,7 +467,9 @@ const projectSlides: Record<
 > = {
   anchor: [
     { id: "overview", label: "Overview", type: "overview" },
-    { id: "prototype", label: "Prototype", type: "evidence" },
+    { id: "worlds", label: "Four spaces", type: "story" },
+    { id: "systems", label: "Systems", type: "method" },
+    { id: "prototype", label: "Design notes", type: "evidence" },
   ],
   character: [
     { id: "overview", label: "Overview", type: "overview" },
@@ -915,8 +658,8 @@ function ResearchWordCloud() {
   );
 }
 
-function ResearchPortrait({ lang }: { lang: Language }) {
-  const portraitCopy = copy[lang].portrait;
+function ResearchPortrait() {
+  const portraitCopy = en.portrait;
   const [reveal, setReveal] = useState(0);
   const [isInteracting, setIsInteracting] = useState(false);
   const portraitRef = useRef<HTMLElement | null>(null);
@@ -1065,7 +808,6 @@ function pageIndexFromHash() {
 }
 
 export default function PortfolioPager() {
-  const [lang, setLang] = useState<Language>("en");
   const [currentPage, setCurrentPage] = useState(0);
   const [projectSlide, setProjectSlide] = useState(0);
   const [activeDetail, setActiveDetail] = useState<Detail>(null);
@@ -1077,12 +819,7 @@ export default function PortfolioPager() {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const touchStart = useRef<{ x: number; y: number; time: number } | null>(null);
 
-  const t = copy[lang];
-
-  const switchLanguage = useCallback((nextLanguage: Language) => {
-    applyLanguage(nextLanguage);
-    setLang(nextLanguage);
-  }, []);
+  const t = en;
 
   const labelForPage = useCallback(
     (index: number) => {
@@ -1094,14 +831,6 @@ export default function PortfolioPager() {
     },
     [t],
   );
-
-  useEffect(() => {
-    const initialLanguage = detectInitialLanguage();
-    applyLanguage(initialLanguage);
-    // Hydrate the stored/preferred language once the client owns window/document.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLang(initialLanguage);
-  }, []);
 
   const navigateTo = useCallback(
     (
@@ -1333,23 +1062,6 @@ export default function PortfolioPager() {
         </span>
 
         <div className="pager-header-actions">
-          <div className="pager-lang-switch" role="group" aria-label={t.langSwitchAria}>
-            <button
-              type="button"
-              aria-pressed={lang === "en"}
-              onClick={() => switchLanguage("en")}
-            >
-              EN
-            </button>
-            <button
-              type="button"
-              aria-pressed={lang === "zh"}
-              onClick={() => switchLanguage("zh")}
-            >
-              中文
-            </button>
-          </div>
-
           <a className="pager-email" href="mailto:Ruihi.zhang@outlook.com">
             Email <span aria-hidden="true">↗</span>
           </a>
@@ -1400,7 +1112,7 @@ export default function PortfolioPager() {
               <div
                 className="focus-card research-graph-card page-enter"
               >
-                <ResearchPortrait lang={lang} />
+                <ResearchPortrait />
               </div>
             </div>
           </div>
@@ -1503,6 +1215,45 @@ export default function PortfolioPager() {
                               <figcaption>{t.anchorOverview.demoCaption}</figcaption>
                             </figure>
                           </section>
+                  ) : activeProject.kind === "anchor" && activeProjectSlide.id === "worlds" ? (
+                          <section className="anchor-worlds-slide" aria-label={`${activeProject.title} · ${t.slideLabels.worlds}`}>
+                            <header className="anchor-slide-intro">
+                              <h2>{t.anchorWorlds.heading}</h2>
+                              <p>{t.anchorWorlds.lede}</p>
+                            </header>
+                            <div className="anchor-worlds-grid">
+                              {t.anchorWorlds.spaces.map((space) => (
+                                <figure className="anchor-world-card" key={space.index}>
+                                  <img src={space.image} alt={space.alt} loading="lazy" decoding="async" />
+                                  <figcaption>
+                                    <strong><span>{space.index}</span>{space.name}</strong>
+                                    <p>{space.caption}</p>
+                                  </figcaption>
+                                </figure>
+                              ))}
+                            </div>
+                          </section>
+                  ) : activeProject.kind === "anchor" && activeProjectSlide.id === "systems" ? (
+                          <section className="anchor-systems-slide" aria-label={`${activeProject.title} · ${t.slideLabels.systems}`}>
+                            <header className="anchor-slide-intro">
+                              <h2>{t.anchorSystems.heading}</h2>
+                              <p>{t.anchorSystems.lede}</p>
+                            </header>
+                            <div className="anchor-systems-grid">
+                              {t.anchorSystems.cards.map((card) => (
+                                <article className="anchor-system-card" key={card.label}>
+                                  {"image" in card && card.image ? (
+                                    <img src={card.image} alt={card.alt} loading="lazy" decoding="async" />
+                                  ) : null}
+                                  <div className="anchor-system-card-body">
+                                    <span>{card.label}</span>
+                                    <h3>{card.title}</h3>
+                                    <p>{card.text}</p>
+                                  </div>
+                                </article>
+                              ))}
+                            </div>
+                          </section>
                   ) : activeProjectSlide.type === "evidence" ? (
                         <section className="project-evidence-slide" aria-label={t.slideAria.evidence(activeProject.title)}>
                           {activeProject.kind === "anchor" ? (
@@ -1518,11 +1269,11 @@ export default function PortfolioPager() {
                               </div>
                             </div>
                           ) : (
-                            <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} lang={lang} />
+                            <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} />
                           )}
                         </section>
                   ) : activeProject.kind !== "anchor" ? (
-                    <ProjectNarratives kind={activeProject.kind} slideId={activeProjectSlide.id} lang={lang} />
+                    <ProjectNarratives kind={activeProject.kind} slideId={activeProjectSlide.id} />
                   ) : null}
                 </div>
                 <div className="project-internal-controls" aria-label={`${t.projectPagerAria} · ${activeSlideLabel}`}>

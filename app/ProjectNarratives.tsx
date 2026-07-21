@@ -1,14 +1,12 @@
 "use client";
 
 import { useMemo, useState, type CSSProperties } from "react";
-import type { Language } from "./i18n";
 
 export type NarrativeKind = "character" | "genshin" | "fps" | "ai";
 
 type ProjectNarrativesProps = {
   kind: NarrativeKind;
   slideId: string;
-  lang?: Language;
 };
 
 type AttachmentCase = {
@@ -26,19 +24,6 @@ const fill = (template: string, values: Record<string, string>) =>
     (text, [key, value]) => text.replaceAll(`{${key}}`, value),
     template,
   );
-
-/* Wrap one CJK phrase so line breaks land before/after it, never inside.
-   Same helper as in ResearchVisuals.tsx, kept local to avoid coupling. */
-function CjkKeep({ text, phrase }: { text: string; phrase: string }) {
-  const [before, after = ""] = text.split(phrase);
-  return (
-    <>
-      {before}
-      <span className="cjk-keep">{phrase}</span>
-      {after}
-    </>
-  );
-}
 
 const en = {
   attachment: {
@@ -317,285 +302,6 @@ const en = {
   },
 };
 
-const zh: typeof en = {
-  attachment: {
-    railAria: "选择一个角色案例",
-    altTemplate: "《{game}》中的{name}",
-    casesA: {
-      title: "当关心追随角色的人生。",
-      lead: "五个案例呈现了依恋的样貌：共鸣、守望，以及让角色自由成长的余地。",
-      cases: [
-        {
-          name: "卡维",
-          game: "原神",
-          mode: "共生型",
-          cue: "灵魂同路人",
-          text: "共同的理想与挣扎让玩家感到被理解。卡维后来的成长，成为玩家自己面对艰难抉择时的参照。",
-          image: "/attachment-kaveh-cutout.webp",
-        },
-        {
-          name: "礼濑真宵",
-          game: "偶像梦幻祭",
-          mode: "共生型 → 守望型",
-          cue: "在成长中被治愈",
-          text: "他从自我厌弃走向与人联结的过程，让玩家重新审视了自己。当他逐渐绽放，关心也变成了希望他在没有自己参与的世界里继续发光。",
-          image: "/attachment-ayase-mayoi-cutout.webp",
-        },
-        {
-          name: "凝光",
-          game: "原神",
-          mode: "守望型",
-          cue: "下线之后仍在的世界",
-          text: "每晚的仪式——让她端坐在璃月——让游戏世界在屏幕熄灭之后依然显得连续、独立而安心。",
-          image: "/attachment-ningguang-cutout.webp",
-        },
-        {
-          name: "斋宫宗",
-          game: "偶像梦幻祭",
-          mode: "守望型",
-          cue: "超越外表的欣赏",
-          text: "剧情与演出推翻了最初略显不适的第一印象。他的艺术坚持让他更像一位人生导师，而非一张可供收藏的卡面。",
-          image: "/attachment-itsuki-shu-cutout-v2.webp",
-        },
-        {
-          name: "荒泷一斗",
-          game: "原神",
-          mode: "守望型",
-          cue: "反差带来的快乐",
-          text: "玩世不恭与可靠忠诚之间的反差让人心生喜爱。只是看到他，就能打断坏心情。",
-          image: "/attachment-arataki-itto-cutout.webp",
-        },
-      ] as AttachmentCase[],
-    },
-    casesB: {
-      title: "当联结变得可触可感。",
-      lead: "五个案例呈现了依恋如何穿过收集、日常仪式、确认感与生活中的物件。",
-      cases: [
-        {
-          name: "左然",
-          game: "未定事件簿",
-          mode: "实现型",
-          cue: "收集册成为一段关系",
-          text: "集齐每一张卡、解锁每一段剧情，让这段关系有了累积感——一部分是回忆，一部分是约会，一部分是日常陪伴。",
-          image: "/attachment-artem-wing-cutout.webp",
-        },
-        {
-          name: "讣告人",
-          game: "重返未来：1999",
-          mode: "实现型",
-          cue: "被带进生活的安慰",
-          text: "语音重新诠释了悲伤，好感度让亲密变得可见。这段关系通过记忆、媒介和一枚纹身走进了日常生活。",
-          image: "/attachment-necrologist-cutout.webp",
-        },
-        {
-          name: "孙策",
-          game: "代号鸢",
-          mode: "实现型",
-          cue: "设计一个共同的家",
-          text: "家具、触碰反馈、服装与语音，让玩家得以经营一段关系——想象一个按照他的喜好来设计的家。",
-          image: "/attachment-sun-ce.jpg",
-          framed: true,
-        },
-        {
-          name: "阿尔托莉雅·潘德拉贡",
-          game: "Fate/Grand Order",
-          mode: "守望型",
-          cue: "有边界的亲密",
-          text: "玩家可以称她为伴侣，同时清楚她的忠诚属于主人公。依恋依然亲密，却刻意保持着旁观。",
-          image: "/attachment-artoria-pendragon-render.webp",
-        },
-        {
-          name: "Alter",
-          game: "Fate/Grand Order",
-          mode: "功用 → 陪伴",
-          cue: "习惯成为存在",
-          text: "她最初因为实用而进入队伍。一次次并肩作战，把功用变成了安心——玩家可以想象，在久别之后她会说一句“欢迎回来”。",
-          image: "/attachment-alter-render.webp",
-        },
-      ] as AttachmentCase[],
-    },
-    formation: {
-      aria: "角色依恋如何形成",
-      heading: "吸引只是开始。",
-      sub: "研究追踪了一条在角色设计、回应式游玩与日常生活之间循环的路径。",
-      stages: [
-        {
-          title: "吸引",
-          kicker: "最初的入口",
-          text: "外表与声音可以唤起注意；而个性、经历与成就，更多时候才让角色在社会意义上显得真实。",
-        },
-        {
-          title: "回应",
-          kicker: "关系的试金石",
-          text: "触碰反馈、语音、资源投入、照片与变化的好感度，让玩家得以寻找证据，确认这段关系是相互的。",
-        },
-        {
-          title: "屏幕之外",
-          kicker: "依恋变得可以携带",
-          text: "周边、同人媒介、日常仪式与个人选择，把这段关系带进了生活——也会反过来重塑角色在游戏中的感受。",
-        },
-      ],
-      note: "10 次半结构化访谈 · 6 款二次元游戏 · 主题分析",
-    },
-  },
-  genshin: {
-    overview: {
-      aria: "《原神》跨文化研究概览",
-      titleLead: "原神",
-      titleAccent: "跨文化之旅",
-      lede: "一款中国开放世界 RPG，如何把文化差异转化为共享的意义。",
-      strong: "文化通过系统传播，而非孤立的符号。",
-      body: "通过文献综述与比较文本分析，追溯四个相互关联的系统：价值观、叙事、视听表达与角色关系。",
-      arcAria: "《原神》代表角色",
-      characters: {
-        zhongli: "钟离",
-        yunJin: "云堇",
-        huTao: "胡桃",
-      },
-      note: "阐释性单案例研究 · 不含原创问卷或玩家访谈 · 图像 © HoYoverse",
-    },
-    shared: {
-      aria: "一个不属于任何单一文化的世界",
-      heading: "一个不属于任何单一文化的世界。",
-      sub: "选择一个地区，看看这个共享世界如何让差异变得可读。",
-      altTemplate: "{region}地区角色形象",
-      routeAria: "提瓦特各地区",
-      regions: [
-        {
-          name: "蒙德",
-          principle: "以抗争守护自由",
-          text: "更扁平的城邦秩序，让个人行动嵌入集体叙事之中。",
-          image: "/genshin-yun-jin.webp",
-        },
-        {
-          name: "璃月",
-          principle: "治理由神交还给人",
-          text: "本土的山水、仪式与融合的角色设计，让这场权力交接具有鲜明的文化特殊性。",
-          image: "/genshin-zhongli.webp",
-        },
-        {
-          name: "稻妻",
-          principle: "因倾听而改写的永恒",
-          text: "当封闭让位于对话，个人良知重新进入集体生活。",
-          image: "/genshin-kazuha.webp",
-        },
-        {
-          name: "须弥",
-          principle: "知识成为权力的问题",
-          text: "等级秩序在集体行动、牺牲与对未来的照拂中受到挑战。",
-          image: "/genshin-nahida.webp",
-        },
-      ],
-    },
-    living: {
-      aria: "文化成为可亲历的体验",
-      heading: "文化成为可亲历的体验。",
-      sub: "胡桃由仪式、关系、声音与游玩共同拼合而成——而不是由一段生平讲完。",
-      buttonsAria: "角色证据层次",
-      evidence: [
-        {
-          label: "命之座",
-          text: "诗意的命名让成长系统成为角色书写的第二层。",
-        },
-        {
-          label: "仪式",
-          text: "丧葬实践通过手势、幽默与日常责任被重新讲述。",
-        },
-        {
-          label: "关系",
-          text: "其他角色的反应让她的身份在社会关系中浮现，而非依赖一段自述。",
-        },
-        {
-          label: "传说任务",
-          text: "关于爷爷的记忆，把个人的哀伤连接到更开阔的生死观。",
-        },
-      ],
-      strong: "玩家把碎片拼合成情感性的认知。",
-    },
-  },
-  fps: {
-    overview: {
-      aria: "FPS 游戏时长研究概览",
-      kicker: "定量玩家研究",
-      heading: "是什么让一次 FPS 游戏持续更久？",
-      stats: [
-        { value: "97", label: "中国 FPS 玩家" },
-        { value: "3", label: "候选驱动因素" },
-        { value: "1", label: "有序模型" },
-      ],
-      modelAria: "有序模型：单次时长的三个候选驱动因素",
-      coreTop: "单次",
-      coreBottom: "时长",
-      drivers: [
-        { code: "SI", name: "社交互动", note: "最强驱动因素", className: "driver-si" },
-        { code: "EV", name: "体验价值", note: "同样显著", className: "driver-ev" },
-        { code: "PU", name: "感知易用性", note: "不显著", className: "driver-pu" },
-      ],
-      quote: "社交互动是最强的显著因素；体验价值同样重要。",
-      cite: "感知易用性不显著。",
-      gamesAria: "代表性 FPS 游戏",
-      gamesNote: "游戏宣传素材版权归 Valve、Riot Games、EA、天美工作室群所有",
-      games: [
-        { name: "三角洲行动", image: "/fps-delta-force.webp", tone: "delta" },
-        { name: "反恐精英 2", image: "/fps-cs2.webp", tone: "cs2" },
-        { name: "瓦罗兰特", image: "/fps-valorant.webp", tone: "valorant" },
-        { name: "Apex 英雄", image: "/fps-apex.webp", tone: "apex" },
-      ],
-    },
-    method: {
-      aria: "FPS 研究方法",
-      heading: "从 115 份回复到 97 个有效样本。",
-      sub: "在模型开口之前，每一次剔除都保持可见。",
-      stepsAria: "样本处理步骤",
-      steps: [
-        { value: "115", label: "收集回复", note: "微信便利抽样" },
-        { value: "−7", label: "离群值", note: "由 IQR 识别" },
-        { value: "−11", label: "无效路径", note: "逻辑检验剔除" },
-        { value: "97", label: "有效样本", note: "有序逻辑回归" },
-      ],
-      note: "5 点量表 · 信度检验 · 有序逻辑回归",
-    },
-  },
-  ai: {
-    overview: {
-      aria: "AI 与国王学院图书馆研究概览",
-      kicker: "混合方法 HCI 研究",
-      titleName: "国王学院图书馆",
-      lede: "高使用率。有条件的信任。",
-      usedAi: "使用过 AI",
-      survey: "55 份问卷",
-      interviews: "6 次访谈",
-      quote: "学生们既想要 AI 的速度，也想要可溯源的检索和人的共情。",
-      cite: "设计机会：检索交给 AI，分寸留给人。",
-    },
-    service: {
-      aria: "AI 与人工图书馆服务的机会点",
-      heading: "检索交给 AI，分寸留给人。",
-      sub: "移动交接点，看看自动化在哪里有帮助——以及哪里更需要人的判断。",
-      aiSide: {
-        label: "AI 支持",
-        strong: "即时、广泛、低成本",
-        text: "最适合检索、引导与可重复的问题。",
-      },
-      humanSide: {
-        label: "在线客服",
-        strong: "有共情、够及时、贴合情境",
-        text: "最适合模糊、情绪化与需要判断的问题。",
-      },
-      leaning: {
-        aiFirst: "AI 优先",
-        humanFirst: "人工优先",
-        hybrid: "混合交接",
-      },
-      sliderAria: "AI 与人工服务的交接点",
-      anchor: "的受访者提到检索",
-      note: "定性服务属性 · 访谈提及，n=6",
-    },
-  },
-};
-
-const copy: Record<Language, typeof en> = { en, zh };
-
 function AttachmentCaseExplorer({
   cases,
   title,
@@ -660,8 +366,8 @@ function AttachmentCaseExplorer({
   );
 }
 
-function AttachmentFormation({ lang }: { lang: Language }) {
-  const c = copy[lang].attachment.formation;
+function AttachmentFormation() {
+  const c = en.attachment.formation;
   const [active, setActive] = useState(1);
   const stages = c.stages;
 
@@ -699,8 +405,8 @@ function AttachmentFormation({ lang }: { lang: Language }) {
   );
 }
 
-function GenshinOverview({ lang }: { lang: Language }) {
-  const c = copy[lang].genshin.overview;
+function GenshinOverview() {
+  const c = en.genshin.overview;
   return (
     <section className="genshin-overview" aria-label={c.aria}>
       <header>
@@ -723,8 +429,8 @@ function GenshinOverview({ lang }: { lang: Language }) {
   );
 }
 
-function GenshinSharedWorld({ lang }: { lang: Language }) {
-  const c = copy[lang].genshin.shared;
+function GenshinSharedWorld() {
+  const c = en.genshin.shared;
   const [active, setActive] = useState(1);
   const region = c.regions[active];
 
@@ -732,7 +438,7 @@ function GenshinSharedWorld({ lang }: { lang: Language }) {
     <section className="genshin-world-page" aria-label={c.aria}>
       <header className="narrative-heading">
         <div>
-          <h2>{lang === "zh" ? <CjkKeep text={c.heading} phrase="单一文化" /> : c.heading}</h2>
+          <h2>{c.heading}</h2>
           <p>{c.sub}</p>
         </div>
       </header>
@@ -765,8 +471,8 @@ function GenshinSharedWorld({ lang }: { lang: Language }) {
   );
 }
 
-function GenshinLivingCulture({ lang }: { lang: Language }) {
-  const c = copy[lang].genshin.living;
+function GenshinLivingCulture() {
+  const c = en.genshin.living;
   const [active, setActive] = useState(0);
 
   return (
@@ -778,7 +484,7 @@ function GenshinLivingCulture({ lang }: { lang: Language }) {
         </div>
       </header>
       <div className="hu-tao-network">
-        <figure><img src="/genshin-hu-tao.webp" alt={copy[lang].genshin.overview.characters.huTao} /></figure>
+        <figure><img src="/genshin-hu-tao.webp" alt={en.genshin.overview.characters.huTao} /></figure>
         <svg viewBox="0 0 800 500" preserveAspectRatio="none" aria-hidden="true">
           <path d="M360 248 C470 104 548 84 688 104" />
           <path d="M374 250 C532 210 612 224 738 244" />
@@ -808,8 +514,8 @@ function GenshinLivingCulture({ lang }: { lang: Language }) {
   );
 }
 
-function FpsOverview({ lang }: { lang: Language }) {
-  const c = copy[lang].fps.overview;
+function FpsOverview() {
+  const c = en.fps.overview;
   return (
     <section className="fps-narrative-overview" aria-label={c.aria}>
       <header>
@@ -857,8 +563,8 @@ function FpsOverview({ lang }: { lang: Language }) {
   );
 }
 
-function FpsMethod({ lang }: { lang: Language }) {
-  const c = copy[lang].fps.method;
+function FpsMethod() {
+  const c = en.fps.method;
   const [active, setActive] = useState(3);
   const steps = c.steps;
 
@@ -899,8 +605,8 @@ function FpsMethod({ lang }: { lang: Language }) {
   );
 }
 
-function AiOverview({ lang }: { lang: Language }) {
-  const c = copy[lang].ai.overview;
+function AiOverview() {
+  const c = en.ai.overview;
   return (
     <section className="ai-narrative-overview" aria-label={c.aria}>
       <header>
@@ -923,8 +629,8 @@ function AiOverview({ lang }: { lang: Language }) {
   );
 }
 
-function AiServiceOpportunity({ lang }: { lang: Language }) {
-  const c = copy[lang].ai.service;
+function AiServiceOpportunity() {
+  const c = en.ai.service;
   const [value, setValue] = useState(50);
   const leaning = useMemo(() => {
     if (value < 34) return c.leaning.aiFirst;
@@ -948,7 +654,7 @@ function AiServiceOpportunity({ lang }: { lang: Language }) {
         </div>
         <div className="ai-service-side ai-service-human">
           <span>{c.humanSide.label}</span>
-          <strong>{lang === "zh" ? <CjkKeep text={c.humanSide.strong} phrase="贴合情境" /> : c.humanSide.strong}</strong>
+          <strong>{c.humanSide.strong}</strong>
           <p>{c.humanSide.text}</p>
         </div>
         <label>
@@ -969,9 +675,9 @@ function AiServiceOpportunity({ lang }: { lang: Language }) {
   );
 }
 
-export default function ProjectNarratives({ kind, slideId, lang = "en" }: ProjectNarrativesProps) {
+export default function ProjectNarratives({ kind, slideId }: ProjectNarrativesProps) {
   if (kind === "character") {
-    const c = copy[lang].attachment;
+    const c = en.attachment;
     if (slideId === "relationships-a") {
       return (
         <AttachmentCaseExplorer
@@ -994,23 +700,23 @@ export default function ProjectNarratives({ kind, slideId, lang = "en" }: Projec
         />
       );
     }
-    if (slideId === "formation") return <AttachmentFormation lang={lang} />;
+    if (slideId === "formation") return <AttachmentFormation />;
   }
 
   if (kind === "genshin") {
-    if (slideId === "overview") return <GenshinOverview lang={lang} />;
-    if (slideId === "shared-world") return <GenshinSharedWorld lang={lang} />;
-    if (slideId === "living-culture") return <GenshinLivingCulture lang={lang} />;
+    if (slideId === "overview") return <GenshinOverview />;
+    if (slideId === "shared-world") return <GenshinSharedWorld />;
+    if (slideId === "living-culture") return <GenshinLivingCulture />;
   }
 
   if (kind === "fps") {
-    if (slideId === "overview") return <FpsOverview lang={lang} />;
-    if (slideId === "method") return <FpsMethod lang={lang} />;
+    if (slideId === "overview") return <FpsOverview />;
+    if (slideId === "method") return <FpsMethod />;
   }
 
   if (kind === "ai") {
-    if (slideId === "overview") return <AiOverview lang={lang} />;
-    if (slideId === "service") return <AiServiceOpportunity lang={lang} />;
+    if (slideId === "overview") return <AiOverview />;
+    if (slideId === "service") return <AiServiceOpportunity />;
   }
 
   return null;
