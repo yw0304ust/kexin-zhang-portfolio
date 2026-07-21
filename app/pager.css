@@ -3744,6 +3744,26 @@ body {
   object-fit: cover;
 }
 
+/* Fill mode: rows stretch to the full column height; fixed photos keep
+   their native aspect ratio, the rest cover the remaining space. */
+.anchor-space-slide[data-fill] .anchor-space-wall {
+  justify-content: normal;
+}
+
+.anchor-space-slide[data-fill] .anchor-space-wall-row {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.anchor-space-slide[data-fill] .anchor-space-photo {
+  height: 100%;
+  flex: 1 1 0;
+}
+
+.anchor-space-slide[data-fill] .anchor-space-photo--fixed {
+  flex: 0 0 auto;
+}
+
 .anchor-space-panel {
   display: flex;
   min-height: 0;
@@ -3894,6 +3914,14 @@ body {
   }
 
   .anchor-space-photo {
+    height: auto;
+  }
+
+  .anchor-space-slide[data-fill] .anchor-space-wall-row {
+    flex: none;
+  }
+
+  .anchor-space-slide[data-fill] .anchor-space-photo {
     height: auto;
   }
 

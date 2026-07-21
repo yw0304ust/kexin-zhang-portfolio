@@ -240,13 +240,14 @@ const en = {
         "The home chapter is staged the way memory works: five warm lamps make fragments of a childhood visible one by one, and when light reaches the photographs, their order becomes the puzzle itself. Same furniture, same scale — only recognisability changes. In this light, care quietly reverses: the one who was cared for becomes the caregiver.",
       worldA: "Readable — medication times, the steamer, shoes by the door: objects, habits and routes line up into “this is who I am”.",
       worldB: "Unstable — the familiar room turns strange; the 03/12 date and the door handle must be pieced back together before home opens.",
+      fill: true,
       images: [
         { src: "/anchor-space-home.webp", alt: "A warm lamp lighting a bookshelf in Anchor's home chapter", row: 1, w: 1152, h: 648 },
-        { src: "/anchor-home-bedroom.webp", alt: "The bedroom: bookshelf, pendant lamp, and a family photo on the wall", row: 1, w: 2344, h: 1280 },
+        { src: "/anchor-home-bedroom.webp", alt: "The bedroom: bookshelf, pendant lamp, and a family photo on the wall", row: 1, w: 2344, h: 1280, fixed: true },
         { src: "/anchor-home-table.webp", alt: "Sunlight and dust over the living-room table", row: 2, w: 1152, h: 648 },
         { src: "/anchor-home-mirror.webp", alt: "A mirror with vanity lamps reflecting the boy", row: 2, w: 1152, h: 648 },
-        { src: "/anchor-home-livingroom.webp", alt: "The living room under the chandelier, dust drifting in the light", row: 2, w: 2344, h: 1280 },
-        { src: "/anchor-world-home.webp", alt: "The locked front door of the home", row: 2, w: 1400, h: 900 },
+        { src: "/anchor-home-livingroom.webp", alt: "The living room under the chandelier, dust drifting in the light", row: 3, w: 2344, h: 1280, fixed: true },
+        { src: "/anchor-world-home.webp", alt: "The locked front door of the home", row: 3, w: 1400, h: 900 },
       ],
     },
     {
@@ -291,12 +292,13 @@ const en = {
         "The hospital speaks through its scenery: long corridors, benches, windows — the same hallway bright at admission and dim at night. Behind the observation room's closed door, seven mechanical stages must be read from physical states alone, before consultation and an MRI review re-read the anchors the player actually kept.",
       worldA: "Readable — corridor, records, diagnosis: the follow-up visit as a calm review of what happened.",
       worldB: "Unstable — the room seals itself; only the mechanical chain, step by visible step, opens it again.",
+      fill: true,
       images: [
-        { src: "/anchor-hospital-exterior.webp", alt: "The hospital building seen from above, between the city and the sea", row: 1, w: 2559, h: 1398 },
+        { src: "/anchor-hospital-exterior.webp", alt: "The hospital building seen from above, between the city and the sea", row: 1, w: 2559, h: 1398, fixed: true },
         { src: "/anchor-space-hospital.webp", alt: "The hospital corridor at night with scattered papers", row: 1, w: 1152, h: 648 },
         { src: "/anchor-hospital-mri.webp", alt: "The MRI review room", row: 2, w: 1152, h: 648 },
         { src: "/anchor-hospital-sink.webp", alt: "The returned hand sanitizer by the sink", row: 2, w: 1280, h: 720 },
-        { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", row: 2, w: 1152, h: 648 },
+        { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", row: 3, w: 1152, h: 648 },
       ],
     },
   ],
@@ -860,7 +862,7 @@ function AnchorSpacePage({
   label: string;
 }) {
   return (
-    <section className="anchor-space-slide" data-space={space.id} aria-label={`Anchor · ${label}`}>
+    <section className="anchor-space-slide" data-space={space.id} data-fill={"fill" in space && space.fill ? "" : undefined} aria-label={`Anchor · ${label}`}>
       <header className="anchor-slide-intro">
         <h2>
           <span className="anchor-space-index">{space.index}</span>
@@ -870,15 +872,21 @@ function AnchorSpacePage({
       </header>
       <div className="anchor-space-body">
         <div className="anchor-space-wall">
-          {[1, 2].map((row) => (
+          {[...new Set(space.images.map((image) => image.row))].map((row) => (
             <div className="anchor-space-wall-row" key={row}>
               {space.images
                 .filter((image) => image.row === row)
                 .map((image) => (
                   <figure
-                    className="anchor-space-photo"
+                    className={`anchor-space-photo${"fixed" in image && image.fixed ? " anchor-space-photo--fixed" : ""}`}
                     key={image.src}
-                    style={{ aspectRatio: `${image.w} / ${image.h}`, flexGrow: image.w / image.h }}
+                    style={
+                      "fixed" in image && image.fixed
+                        ? { aspectRatio: `${image.w} / ${image.h}` }
+                        : "fill" in space && space.fill
+                          ? undefined
+                          : { aspectRatio: `${image.w} / ${image.h}`, flexGrow: image.w / image.h }
+                    }
                   >
                     <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
                   </figure>
