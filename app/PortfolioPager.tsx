@@ -292,7 +292,7 @@ const en = {
       worldB: "Unstable — the room seals itself; only the mechanical chain, step by visible step, opens it again.",
       images: [
         { src: "/anchor-space-hospital.webp", alt: "The hospital corridor at night with scattered papers", slot: "a" },
-        { src: "/anchor-hospital-nurse-station.webp", alt: "The psychiatry nurse station with doctor and nurse", slot: "b" },
+        { src: "/anchor-hospital-mri.webp", alt: "The MRI review room", slot: "b" },
         { src: "/anchor-hospital-sink.webp", alt: "The returned hand sanitizer by the sink", slot: "c" },
         { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", slot: "d" },
       ],
