@@ -244,8 +244,9 @@ const en = {
         { src: "/anchor-space-home.webp", alt: "A warm lamp lighting a bookshelf in Anchor's home chapter", slot: "a" },
         { src: "/anchor-home-table.webp", alt: "Sunlight and dust over the living-room table", slot: "b" },
         { src: "/anchor-home-mirror.webp", alt: "A mirror with vanity lamps reflecting the boy", slot: "c" },
-        { src: "/anchor-home-living.webp", alt: "The armchair and window of the family living room", slot: "d" },
-        { src: "/anchor-world-home.webp", alt: "The locked front door of the home", slot: "e" },
+        { src: "/anchor-home-bedroom.webp", alt: "The bedroom: bookshelf, pendant lamp, and a family photo on the wall", slot: "d" },
+        { src: "/anchor-home-livingroom.webp", alt: "The living room under the chandelier, dust drifting in the light", slot: "e" },
+        { src: "/anchor-world-home.webp", alt: "The locked front door of the home", slot: "f" },
       ],
     },
     {
@@ -261,7 +262,7 @@ const en = {
       images: [
         { src: "/anchor-space-property.webp", alt: "The property investigation terminal replaying CCTV footage", slot: "a" },
         { src: "/anchor-property-gate-night.webp", alt: "CCTV still of the east gate on a rainy night", slot: "b" },
-        { src: "/anchor-world-property.webp", alt: "The property management lobby with mailboxes and notice boards", slot: "c" },
+        { src: "/anchor-property-lobby-live.webp", alt: "In-game view of the property lobby, surveillance cameras overhead", slot: "c" },
       ],
     },
     {
@@ -275,9 +276,10 @@ const en = {
       worldA: "Readable — announcements, signs and exits point somewhere real.",
       worldB: "Unstable — syllables, reflections and faces blur, until the player reassembles them into Guixiang Road.",
       images: [
-        { src: "/anchor-space-subway.webp", alt: "A metro gate area with a staff member whose face is unreadable", slot: "a" },
-        { src: "/anchor-world-subway.webp", alt: "Ticket gates and escalators under fluorescent light", slot: "b" },
-        { src: "/anchor-subway-barrier.webp", alt: "Platform screen doors along the yellow tactile paving", slot: "c" },
+        { src: "/anchor-subway-fog.webp", alt: "The metro exit in heavy fog, the station name reduced to question marks", slot: "a" },
+        { src: "/anchor-space-subway.webp", alt: "A metro gate area with a staff member whose face is unreadable", slot: "b" },
+        { src: "/anchor-world-subway.webp", alt: "Ticket gates and escalators under fluorescent light", slot: "c" },
+        { src: "/anchor-subway-barrier.webp", alt: "Platform screen doors along the yellow tactile paving", slot: "d" },
       ],
     },
     {
@@ -291,10 +293,11 @@ const en = {
       worldA: "Readable — corridor, records, diagnosis: the follow-up visit as a calm review of what happened.",
       worldB: "Unstable — the room seals itself; only the mechanical chain, step by visible step, opens it again.",
       images: [
-        { src: "/anchor-space-hospital.webp", alt: "The hospital corridor at night with scattered papers", slot: "a" },
-        { src: "/anchor-hospital-mri.webp", alt: "The MRI review room", slot: "b" },
-        { src: "/anchor-hospital-sink.webp", alt: "The returned hand sanitizer by the sink", slot: "c" },
-        { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", slot: "d" },
+        { src: "/anchor-hospital-exterior.webp", alt: "The hospital building seen from above, between the city and the sea", slot: "a" },
+        { src: "/anchor-space-hospital.webp", alt: "The hospital corridor at night with scattered papers", slot: "b" },
+        { src: "/anchor-hospital-mri.webp", alt: "The MRI review room", slot: "c" },
+        { src: "/anchor-hospital-sink.webp", alt: "The returned hand sanitizer by the sink", slot: "d" },
+        { src: "/anchor-world-hospital.webp", alt: "The bright hospital corridor during the day", slot: "e" },
       ],
     },
   ],
