@@ -3437,8 +3437,8 @@ body {
 
 /* Project UI v2: neutral canvas, coloured modules, internal paging */
 .project-page {
-  --project-color: #ec6b48;
-  --project-soft: #f5b19e;
+  --project-color: #a3763f;
+  --project-soft: #e9dcc3;
   position: relative;
   display: grid;
   padding: 0;
