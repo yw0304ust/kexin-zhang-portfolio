@@ -1163,7 +1163,11 @@ body {
   background: #f7f5ef;
 }
 
-.journey-item[data-kind="work"] .journey-node {
+.journey-item[data-tag="intern"] .journey-node {
+  border-color: #b07d46;
+}
+
+.journey-item[data-tag="full-time"] .journey-node {
   border-color: var(--pager-accent);
 }
 
@@ -1192,11 +1196,15 @@ body {
   text-transform: uppercase;
 }
 
-.journey-item[data-kind="edu"] .journey-kind {
+.journey-item[data-tag="edu"] .journey-kind {
   color: #6f927a;
 }
 
-.journey-item[data-kind="work"] .journey-kind {
+.journey-item[data-tag="intern"] .journey-kind {
+  color: #b07d46;
+}
+
+.journey-item[data-tag="full-time"] .journey-kind {
   color: var(--pager-accent);
 }
 

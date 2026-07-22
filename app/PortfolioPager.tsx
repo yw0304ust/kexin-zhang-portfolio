@@ -526,41 +526,45 @@ const en = {
     heading: "Researcher’s rigour, maker’s curiosity.",
     lede: "Trained across digital media, communication, user research, and hands-on production.",
     journeyLabel: "The journey so far",
-    eduTag: "Edu",
-    workTag: "Work",
     journey: [
       {
         kind: "edu",
+        tag: "Edu",
         time: "2019—23",
         title: "East China University of Political Science and Law",
         detail: "BA, Journalism and Communication · GPA 3.8 / 4.0",
       },
       {
         kind: "work",
+        tag: "Intern",
         time: "2021",
         title: "Zigong Daily",
         detail: "New Media Editorial Intern",
       },
       {
         kind: "work",
+        tag: "Intern",
         time: "2022",
         title: "Sichuan Newspaper Group · Cover News",
         detail: "Media Intern, Automotive Desk",
       },
       {
         kind: "edu",
+        tag: "Edu",
         time: "2023—25",
         title: "King’s College London",
         detail: "MA, Digital Asset & Media Management",
       },
       {
         kind: "work",
+        tag: "Intern",
         time: "2024—25",
         title: "Sichuan Youhua · Huashang International City",
         detail: "Marketing & Operations Intern",
       },
       {
         kind: "work",
+        tag: "Full-time",
         time: "2025—Now",
         title: "China CITIC Bank",
         detail: "Management Trainee · Chengdu",
@@ -1731,11 +1735,11 @@ export default function PortfolioPager() {
                   <span className="journey-heading">{t.profile.journeyLabel}</span>
                   <ol className="journey-rail">
                     {t.profile.journey.map((entry) => (
-                      <li className="journey-item" data-kind={entry.kind} key={entry.time}>
+                      <li className="journey-item" data-kind={entry.kind} data-tag={entry.tag.toLowerCase()} key={entry.time}>
                         <span className="journey-node" aria-hidden="true" />
                         <div className="journey-meta">
                           <time>{entry.time}</time>
-                          <span className="journey-kind">{entry.kind === "edu" ? t.profile.eduTag : t.profile.workTag}</span>
+                          <span className="journey-kind">{entry.tag}</span>
                         </div>
                         <div className="journey-copy">
                           <h3>{entry.title}</h3>
