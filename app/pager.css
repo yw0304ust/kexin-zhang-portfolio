@@ -3865,24 +3865,93 @@ body {
   gap: 0.4rem;
 }
 
-/* ACG ops pages only: borderless editorial variant for irregular images. */
-.acg-borderless .anchor-system-card {
-  gap: clamp(0.55rem, 1vw, 0.85rem);
-  overflow: visible;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+/* ACG ops pages only: borderless alternating-row editorial layout. */
+.acg-feature-list {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.8rem, 1.6vw, 1.4rem);
 }
 
-.acg-borderless .anchor-system-card img {
+.acg-feature-item {
+  display: grid;
+  align-items: center;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1rem, 2.4vw, 2rem);
+}
+
+.acg-feature-item[data-flip] .acg-feature-thumb {
+  order: 2;
+}
+
+.acg-feature-thumb {
+  display: flex;
+  height: clamp(8.5rem, 20vh, 11.5rem);
+  align-items: center;
+  justify-content: center;
+}
+
+.acg-feature-thumb img {
+  width: auto;
+  max-width: 100%;
   height: auto;
-  aspect-ratio: auto;
-  object-fit: initial;
+  max-height: 100%;
   border-radius: clamp(0.7rem, 1.2vw, 1.1rem);
+  object-fit: contain;
 }
 
-.acg-borderless .anchor-system-card-body {
-  padding: 0 clamp(0.1rem, 0.3vw, 0.3rem);
+.acg-feature-body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.acg-feature-body > span {
+  color: var(--project-color);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.5rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.acg-feature-body h3 {
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.acg-feature-body p {
+  margin: 0;
+  color: rgba(18, 22, 19, 0.72);
+  font-size: clamp(0.7rem, 0.9vw, 0.88rem);
+  line-height: 1.5;
+}
+
+@media (max-width: 980px) {
+  .acg-feature-list {
+    justify-content: flex-start;
+  }
+
+  .acg-feature-item,
+  .acg-feature-item[data-flip] {
+    align-items: start;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .acg-feature-item[data-flip] .acg-feature-thumb {
+    order: 0;
+  }
+
+  .acg-feature-thumb {
+    height: auto;
+    max-height: 12rem;
+  }
 }
 
 .anchor-system-card-body span {

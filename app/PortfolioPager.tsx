@@ -1038,8 +1038,34 @@ function AnchorFeaturePage({
   label: string;
   borderless?: boolean;
 }) {
+  if (borderless) {
+    return (
+      <section className="anchor-systems-slide acg-borderless" aria-label={`Anchor · ${label}`}>
+        <header className="anchor-slide-intro">
+          <h2>{feature.heading}</h2>
+          <p>{feature.lede}</p>
+        </header>
+        <div className="acg-feature-list">
+          {feature.cards.map((card, index) => (
+            <article className="acg-feature-item" data-flip={index % 2 === 1 || undefined} key={card.label}>
+              {"image" in card && card.image ? (
+                <div className="acg-feature-thumb">
+                  <img src={card.image} alt={card.alt} loading="lazy" decoding="async" />
+                </div>
+              ) : null}
+              <div className="acg-feature-body">
+                <span>{card.label}</span>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  }
   return (
-    <section className={`anchor-systems-slide${borderless ? " acg-borderless" : ""}`} aria-label={`Anchor · ${label}`}>
+    <section className="anchor-systems-slide" aria-label={`Anchor · ${label}`}>
       <header className="anchor-slide-intro">
         <h2>{feature.heading}</h2>
         <p>{feature.lede}</p>
