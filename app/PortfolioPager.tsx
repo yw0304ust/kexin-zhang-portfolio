@@ -525,44 +525,50 @@ const en = {
     eyebrow: "04 / Profile",
     heading: "Researcher’s rigour, maker’s curiosity.",
     lede: "Trained across digital media, communication, user research, and hands-on production.",
-    educationLabel: "Education",
-    experienceLabel: "Experience",
-    education: [
+    journeyLabel: "The journey so far",
+    eduTag: "Edu",
+    workTag: "Work",
+    journey: [
       {
-        time: "2023—25",
-        school: "King’s College London",
-        degree: "MA, Digital Asset & Media Management",
-      },
-      {
+        kind: "edu",
         time: "2019—23",
-        school: "East China University of Political Science and Law",
-        degree: "BA, Journalism and Communication · GPA 3.8 / 4.0",
-      },
-    ],
-    experience: [
-      {
-        time: "2025—Now",
-        company: "China CITIC Bank",
-        job: "Management Trainee · Chengdu",
+        title: "East China University of Political Science and Law",
+        detail: "BA, Journalism and Communication · GPA 3.8 / 4.0",
       },
       {
-        time: "2024—25",
-        company: "Sichuan Youhua Technology Group · Huashang International City",
-        job: "Marketing & Operations Intern",
-      },
-      {
-        time: "2022",
-        company: "Sichuan Newspaper Group · Cover News",
-        job: "Media Intern, Automotive Desk",
-      },
-      {
+        kind: "work",
         time: "2021",
-        company: "Zigong Daily",
-        job: "New Media Editorial Intern",
+        title: "Zigong Daily",
+        detail: "New Media Editorial Intern",
+      },
+      {
+        kind: "work",
+        time: "2022",
+        title: "Sichuan Newspaper Group · Cover News",
+        detail: "Media Intern, Automotive Desk",
+      },
+      {
+        kind: "edu",
+        time: "2023—25",
+        title: "King’s College London",
+        detail: "MA, Digital Asset & Media Management",
+      },
+      {
+        kind: "work",
+        time: "2024—25",
+        title: "Sichuan Youhua · Huashang International City",
+        detail: "Marketing & Operations Intern",
+      },
+      {
+        kind: "work",
+        time: "2025—Now",
+        title: "China CITIC Bank",
+        detail: "Management Trainee · Chengdu",
       },
     ],
-    tablistAria: "Profile details",
-    tabs: ["Methods", "Tools", "Recognition"],
+    methodsLabel: "Methods",
+    toolsLabel: "Tools",
+    recognitionLabel: "Recognition",
     methods: [
       "User research",
       "Questionnaire design",
@@ -1151,11 +1157,9 @@ export default function PortfolioPager() {
   const [currentPage, setCurrentPage] = useState(0);
   const [projectSlide, setProjectSlide] = useState(0);
   const [activeDetail, setActiveDetail] = useState<Detail>(null);
-  const [profileTab, setProfileTab] = useState(0);
   const currentPageRef = useRef(0);
   const focusAfterNavigation = useRef(false);
   const headingRefs = useRef<Array<HTMLHeadingElement | null>>([]);
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const touchStart = useRef<{ x: number; y: number; time: number } | null>(null);
 
@@ -1332,16 +1336,6 @@ export default function PortfolioPager() {
     navigateTo(currentPageRef.current + (deltaX < 0 ? 1 : -1), {
       focus: false,
     });
-  };
-
-  const handleTabKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-    event.preventDefault();
-
-    const delta = event.key === "ArrowRight" ? 1 : -1;
-    const nextTab = (profileTab + delta + t.profile.tabs.length) % t.profile.tabs.length;
-    setProfileTab(nextTab);
-    tabRefs.current[nextTab]?.focus();
   };
 
   const closeDetail = () => setActiveDetail(null);
@@ -1733,85 +1727,53 @@ export default function PortfolioPager() {
               </div>
 
               <div className="profile-content page-enter">
-                <div className="profile-timeline">
-                  <div className="timeline-group">
-                    <span className="timeline-group-title">{t.profile.educationLabel}</span>
-                    {t.profile.education.map((entry) => (
-                      <article key={entry.time}>
-                        <time>{entry.time}</time>
-                        <div>
-                          <h3>{entry.school}</h3>
-                          <p>{entry.degree}</p>
+                <div className="profile-journey" aria-label={t.profile.journeyLabel}>
+                  <span className="journey-heading">{t.profile.journeyLabel}</span>
+                  <ol className="journey-rail">
+                    {t.profile.journey.map((entry) => (
+                      <li className="journey-item" data-kind={entry.kind} key={entry.time}>
+                        <span className="journey-node" aria-hidden="true" />
+                        <div className="journey-meta">
+                          <time>{entry.time}</time>
+                          <span className="journey-kind">{entry.kind === "edu" ? t.profile.eduTag : t.profile.workTag}</span>
                         </div>
-                      </article>
-                    ))}
-                  </div>
-
-                  <div className="timeline-group">
-                    <span className="timeline-group-title">{t.profile.experienceLabel}</span>
-                    {t.profile.experience.map((entry) => (
-                      <article key={entry.time}>
-                        <time>{entry.time}</time>
-                        <div>
-                          <h3>{entry.company}</h3>
-                          <p>{entry.job}</p>
+                        <div className="journey-copy">
+                          <h3>{entry.title}</h3>
+                          <p>{entry.detail}</p>
                         </div>
-                      </article>
+                      </li>
                     ))}
-                  </div>
+                  </ol>
                 </div>
 
-                <div className="profile-tabs">
-                  <div className="profile-tab-list" role="tablist" aria-label={t.profile.tablistAria}>
-                    {t.profile.tabs.map((tab, index) => (
-                      <button
-                        key={tab}
-                        id={`profile-tab-${index}`}
-                        role="tab"
-                        aria-selected={profileTab === index}
-                        aria-controls="profile-tab-panel"
-                        tabIndex={profileTab === index ? 0 : -1}
-                        ref={(element) => {
-                          tabRefs.current[index] = element;
-                        }}
-                        onClick={() => setProfileTab(index)}
-                        onKeyDown={handleTabKeyDown}
-                      >
-                        {tab}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div
-                    className="profile-tab-panel"
-                    id="profile-tab-panel"
-                    role="tabpanel"
-                    aria-labelledby={`profile-tab-${profileTab}`}
-                  >
-                    {profileTab === 0 && (
-                      <ul className="profile-chip-list">
-                        {t.profile.methods.map((method) => (
-                          <li key={method}>{method}</li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {profileTab === 1 && (
-                      <ul className="profile-chip-list">
-                        {tools.map((tool) => (
-                          <li key={tool}>{tool}</li>
-                        ))}
-                      </ul>
-                    )}
-
-                    {profileTab === 2 && (
-                      <div className="recognition-list">
-                        {t.profile.recognition.map((item) => (
-                          <p key={item}>{item}</p>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                <div className="profile-capabilities">
+                  <section className="capability-group" aria-label={t.profile.methodsLabel}>
+                    <span className="capability-index">01</span>
+                    <h3>{t.profile.methodsLabel}</h3>
+                    <ul className="profile-chip-list">
+                      {t.profile.methods.map((method) => (
+                        <li key={method}>{method}</li>
+                      ))}
+                    </ul>
+                  </section>
+                  <section className="capability-group" aria-label={t.profile.toolsLabel}>
+                    <span className="capability-index">02</span>
+                    <h3>{t.profile.toolsLabel}</h3>
+                    <ul className="profile-chip-list">
+                      {tools.map((tool) => (
+                        <li key={tool}>{tool}</li>
+                      ))}
+                    </ul>
+                  </section>
+                  <section className="capability-group" aria-label={t.profile.recognitionLabel}>
+                    <span className="capability-index">03</span>
+                    <h3>{t.profile.recognitionLabel}</h3>
+                    <div className="recognition-list">
+                      {t.profile.recognition.map((item) => (
+                        <p key={item}>{item}</p>
+                      ))}
+                    </div>
+                  </section>
                 </div>
               </div>
             </div>

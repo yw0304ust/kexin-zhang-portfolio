@@ -1103,32 +1103,20 @@ body {
 .profile-content {
   display: grid;
   min-height: 0;
-  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
-  gap: 0.8rem;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
 }
 
-.profile-timeline,
-.profile-tabs {
-  padding: clamp(1rem, 2vw, 1.5rem);
-  border-radius: 1.5rem;
-}
-
-.profile-timeline {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 2vw, 2rem);
-}
-
-.timeline-group {
-  display: flex;
+/* The journey so far: one chronological rail mixing education and work. */
+.profile-journey {
   min-height: 0;
-  flex-direction: column;
 }
 
-.timeline-group-title {
+.journey-heading {
   display: block;
-  margin-bottom: 0.55rem;
-  color: var(--pager-accent);
+  margin-bottom: clamp(0.6rem, 1.6vh, 0.9rem);
+  color: var(--pager-muted);
   font-family: var(--font-mono), monospace;
   font-size: 0.59rem;
   font-weight: 620;
@@ -1136,117 +1124,158 @@ body {
   text-transform: uppercase;
 }
 
-.timeline-group article {
-  display: grid;
-  min-height: 0;
-  padding: clamp(0.7rem, 1.6vh, 1.1rem) 0;
-  flex: 1;
-  grid-template-columns: 4.2rem 1fr;
-  gap: 0.7rem;
-  align-items: center;
-  border-top: 1px solid var(--pager-line);
+.journey-rail {
+  position: relative;
+  display: flex;
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  flex-direction: column;
+  list-style: none;
 }
 
-.timeline-group time {
+.journey-rail::before {
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: 0.28rem;
+  width: 1px;
+  background: var(--pager-line);
+  content: "";
+}
+
+.journey-item {
+  position: relative;
+  display: grid;
+  padding: clamp(0.4rem, 1.2vh, 0.65rem) 0;
+  grid-template-columns: 5.6rem 1fr;
+  gap: 0.9rem;
+  align-items: baseline;
+}
+
+.journey-node {
+  position: absolute;
+  top: calc(clamp(0.4rem, 1.2vh, 0.65rem) + 0.35em);
+  left: -1.105rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1.5px solid var(--pager-muted);
+  border-radius: 50%;
+  background: #f7f5ef;
+}
+
+.journey-item[data-kind="work"] .journey-node {
+  border-color: var(--pager-accent);
+}
+
+.journey-item:last-child .journey-node {
+  background: var(--pager-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--pager-accent) 18%, transparent);
+}
+
+.journey-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.journey-meta time {
   color: var(--pager-muted);
   font-family: var(--font-mono), monospace;
   font-size: 0.56rem;
 }
 
-.timeline-group h3 {
-  margin: 0;
-  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  font-size: clamp(0.95rem, 1.5vw, 1.25rem);
-  font-weight: 630;
-  letter-spacing: -0.035em;
-  line-height: 1.18;
+.journey-kind {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.5rem;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
-.timeline-group p {
-  margin: 0.35rem 0 0;
+.journey-item[data-kind="edu"] .journey-kind {
+  color: #6f927a;
+}
+
+.journey-item[data-kind="work"] .journey-kind {
+  color: var(--pager-accent);
+}
+
+.journey-copy h3 {
+  margin: 0;
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: clamp(0.88rem, 1.35vw, 1.15rem);
+  font-weight: 630;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.journey-copy p {
+  margin: 0.25rem 0 0;
   color: var(--pager-muted);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   line-height: 1.4;
 }
 
-.profile-tabs {
-  display: grid;
-  grid-template-rows: auto 1fr;
-}
-
-.profile-tab-list {
+/* Capabilities: three numbered groups, all visible, no tabs. */
+.profile-capabilities {
   display: flex;
-  padding: 0.2rem;
-  border-radius: 999px;
-  background: rgba(30, 35, 42, 0.055);
+  min-height: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.9rem, 2.4vh, 1.5rem);
 }
 
-.profile-tab-list button {
-  min-width: 0;
-  min-height: 42px;
-  padding: 0 0.65rem;
-  flex: 1;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: var(--pager-muted);
-  font-size: 0.67rem;
-  font-weight: 620;
-  transition:
-    color 180ms ease,
-    background-color 200ms var(--pager-ease),
-    box-shadow 200ms var(--pager-ease);
+.capability-group {
+  position: relative;
+  padding-left: clamp(2rem, 3vw, 2.6rem);
 }
 
-.profile-tab-list button[aria-selected="true"] {
-  background: rgba(255, 255, 255, 0.76);
-  box-shadow: 0 3px 12px rgba(35, 42, 52, 0.08);
-  color: var(--pager-ink);
+.capability-index {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: color-mix(in srgb, var(--pager-accent) 68%, transparent);
+  font-family: var(--font-display), -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+  font-weight: 680;
+  letter-spacing: -0.05em;
+  line-height: 1;
 }
 
-.profile-tab-panel {
-  padding-top: 1.1rem;
-  overflow-y: auto;
+.capability-group h3 {
+  margin: 0 0 0.55rem;
+  font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+  font-weight: 680;
+  letter-spacing: -0.015em;
 }
 
 .profile-chip-list {
   display: flex;
-  height: 100%;
   margin: 0;
   padding: 0;
-  gap: 0.45rem;
+  gap: 0.4rem;
   flex-wrap: wrap;
-  align-content: space-evenly;
   list-style: none;
 }
 
 .profile-chip-list li {
-  padding: 0.48rem 0.65rem;
+  padding: 0.42rem 0.6rem;
   border: 1px solid var(--pager-line);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.44);
   color: var(--pager-muted);
-  font-size: 0.66rem;
-}
-
-.recognition-list {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: space-evenly;
+  font-size: 0.64rem;
 }
 
 .recognition-list p {
   margin: 0;
   color: var(--pager-muted);
-  font-size: 0.78rem;
-  line-height: 1.55;
+  font-size: 0.74rem;
+  line-height: 1.5;
 }
 
 .recognition-list p + p {
-  margin-top: 0.8rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--pager-line);
+  margin-top: 0.55rem;
 }
 
 .contact-layout {
@@ -1916,26 +1945,6 @@ body {
   color: rgba(18, 22, 19, 0.66);
 }
 
-.profile-timeline,
-.profile-tabs {
-  border: 1px solid rgba(18, 22, 19, 0.14);
-  background: #fbfaf6;
-  box-shadow: none;
-}
-
-.profile-tab-list {
-  background: #eceae4;
-}
-
-.profile-tab-list button[aria-selected="true"] {
-  background: #fbfaf6;
-  box-shadow: 0 2px 8px rgba(18, 22, 19, 0.08);
-}
-
-.profile-chip-list li {
-  background: transparent;
-}
-
 .pager-contact .contact-email {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: #fbfaf6;
@@ -1986,11 +1995,16 @@ body {
   }
 
   .profile-content {
-    grid-template-columns: 1fr 0.72fr;
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    gap: 1.2rem;
+    overflow-y: auto;
   }
 
-  .profile-timeline {
-    grid-template-columns: 1fr;
+  .profile-journey,
+  .profile-capabilities {
+    flex: none;
   }
 }
 
@@ -2292,31 +2306,16 @@ body {
 
   .profile-content {
     grid-template-columns: 1fr;
-    gap: 0.55rem;
+    gap: 1rem;
+    overflow-y: auto;
   }
 
-  .profile-timeline,
-  .profile-tabs {
-    padding: 0.85rem;
-    border-radius: 1.2rem;
+  .journey-item {
+    grid-template-columns: 4.6rem 1fr;
   }
 
-  .profile-timeline {
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
-  }
-
-  .timeline-group article {
-    padding: 0.6rem 0;
-  }
-
-  .timeline-group-title {
-    margin-bottom: 0.25rem;
-  }
-
-  .profile-tab-panel {
-    max-height: 8.2rem;
-    padding-top: 0.75rem;
+  .profile-capabilities {
+    gap: 0.8rem;
   }
 
   .contact-layout {
@@ -4308,8 +4307,8 @@ body {
 .practice-cards,
 .practice-footer,
 .profile-content,
-.profile-timeline,
-.profile-tabs {
+.profile-journey,
+.profile-capabilities {
   min-height: 0;
 }
 
@@ -4333,16 +4332,6 @@ body {
 .process-strip,
 .story-button {
   min-height: 0;
-}
-
-.profile-tab-panel {
-  min-height: 0;
-  overflow: hidden;
-}
-
-.profile-timeline,
-.profile-tabs {
-  overflow: hidden;
 }
 
 @media (max-height: 650px) and (min-width: 761px) {
@@ -4422,14 +4411,9 @@ body {
     padding: 0.7rem;
   }
 
-  .timeline-group article {
-    padding-top: 0.55rem;
-    padding-bottom: 0.55rem;
-  }
-
-  .profile-timeline,
-  .profile-tabs {
-    padding: 0.9rem;
+  .journey-item {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -4578,42 +4562,32 @@ body {
   }
 
   .profile-content {
-    gap: 0.5rem;
+    gap: 1.2rem;
   }
 
   .pager-profile .pager-page-heading h2 {
     font-size: clamp(2.2rem, 4vw, 2.6rem);
   }
 
-  .profile-timeline,
-  .profile-tabs {
-    padding: 0.6rem;
+  .journey-item {
+    padding: 0.3rem 0;
+    grid-template-columns: 4.6rem 1fr;
   }
 
-  .profile-timeline {
-    gap: 0.45rem;
-  }
-
-  .timeline-group article {
-    padding: 0.4rem 0;
-    grid-template-columns: 3.6rem 1fr;
-  }
-
-  .timeline-group p {
+  .journey-copy p {
     display: none;
   }
 
-  .timeline-group h3 {
-    font-size: 0.86rem;
+  .journey-copy h3 {
+    font-size: 0.84rem;
   }
 
-  .timeline-group p {
-    font-size: 0.58rem;
+  .profile-capabilities {
+    gap: 0.6rem;
   }
 
-  .profile-tab-list button {
-    min-height: 34px;
-    font-size: 0.58rem;
+  .capability-group h3 {
+    margin-bottom: 0.35rem;
   }
 
   .profile-chip-list li {
@@ -4651,21 +4625,12 @@ body {
 }
 
 @media (max-height: 500px) and (min-width: 761px) and (max-width: 900px) {
-  .profile-timeline,
-  .profile-tabs {
-    padding: 0.6rem;
+  .journey-item {
+    padding: 0.28rem 0;
+    grid-template-columns: 4.2rem 1fr;
   }
 
-  .profile-timeline {
-    gap: 0.45rem;
-  }
-
-  .timeline-group article {
-    padding: 0.4rem 0;
-    grid-template-columns: 3.6rem 1fr;
-  }
-
-  .timeline-group p {
+  .journey-copy p {
     display: none;
   }
 }
@@ -4776,31 +4741,13 @@ body {
     min-height: 3.7rem;
   }
 
-  .profile-tab-panel {
-    max-height: none;
+  .journey-item {
+    padding: 0.35rem 0;
+    grid-template-columns: 4.2rem 1fr;
   }
 
-  .profile-timeline,
-  .profile-tabs {
-    padding: 0.6rem;
-  }
-
-  .profile-timeline {
-    gap: 0.35rem;
-  }
-
-  .timeline-group article {
-    padding: 0.4rem 0;
-    grid-template-columns: 3.6rem 1fr;
-  }
-
-  .timeline-group p {
+  .journey-copy p {
     display: none;
-  }
-
-  .profile-tab-list button {
-    min-height: 34px;
-    font-size: 0.58rem;
   }
 
   .profile-chip-list li {
