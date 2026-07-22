@@ -3673,8 +3673,6 @@ body {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.8rem clamp(1.5rem, 3vw, 3rem);
-  padding-bottom: clamp(0.7rem, 1.2vw, 1rem);
-  border-bottom: 1px solid rgba(18, 22, 19, 0.14);
 }
 
 .anchor-slide-intro h2 {
