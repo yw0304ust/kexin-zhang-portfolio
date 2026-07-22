@@ -418,11 +418,15 @@ const en = {
           label: "Coordination",
           title: "20+ vendors, cosplayers, and university clubs",
           text: "Designed the stall map and visitor flow, recruited commercial and fan stalls, set the two-day stage schedule, and managed a ¥38.7k budget across fabrication, staging, and execution.",
+          image: "/acg-comiccon-coordination.webp",
+          alt: "The convention's stage schedule, stall map, and budget table",
         },
         {
           label: "Outcomes",
           title: "+31.6% new foot traffic, 1,000+ sign-ups",
           text: "13,830 total visits with 1,433 incremental; 1,000+ mini-program registrations at 14% conversion; several stalls doubled sales; a 492-member ACG community built from zero became the seed for every later campaign.",
+          image: "/acg-comiccon-dashboard.webp",
+          alt: "The post-event data dashboard for the convention",
         },
       ],
     },
@@ -442,11 +446,15 @@ const en = {
           label: "Christmas",
           title: "2,000+ visits, 40%+ conversion",
           text: "Snow-and-lights ceremony plus a check-in task chain: 2,000+ same-day visits, 424k impressions, 40%+ mini-program conversion, and average dwell time up 38%.",
+          image: "/acg-holiday-xmas.webp",
+          alt: "Snow-night posts: the Xiaohongshu feature and the 129k-view clip",
         },
         {
           label: "Review method",
           title: "Every event ends in a user portrait",
           text: "Post-event reviews segmented young social visitors from parent-child families — motivations, on-site behaviour, and sharing habits — feeding the next event’s targeting, contingency plans, and crowd-flow design.",
+          image: "/acg-review-segment.webp",
+          alt: "The user segmentation model and growth framework used in reviews",
         },
       ],
     },
@@ -473,6 +481,8 @@ const en = {
           label: "Community",
           title: "Two communities built from zero",
           text: "Built and activated a 491-member ACG community at 52% activity and a 442-member pet community, through content seeding, interactive games, and targeted promotion.",
+          image: "/acg-community-groups.webp",
+          alt: "The ACG and pet community groups built from zero",
         },
       ],
     },
@@ -1518,7 +1528,7 @@ export default function PortfolioPager() {
                             </figure>
                           </section>
                   ) : activeProject.kind === "acgops" && activeProjectSlide.type === "overview" ? (
-                          <section className="project-overview-slide anchor-overview-slide" aria-label={t.slideAria.overview(activeProject.title)}>
+                          <section className="acg-overview-slide" aria-label={t.slideAria.overview(activeProject.title)}>
                             <div className="acg-overview-stage">
                               <p className="acg-overview-lede">{activeProjectText.description}</p>
                               <div className="acg-overview-stats">

@@ -3999,6 +3999,14 @@ body {
 }
 
 /* ACG ops overview: lede plus a six-stat evidence grid above the title block. */
+.acg-overview-slide {
+  display: grid;
+  height: 100%;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: clamp(0.7rem, 1.4vw, 1.2rem);
+}
+
 .acg-overview-stage {
   display: flex;
   grid-row: 1;
