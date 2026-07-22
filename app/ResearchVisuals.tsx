@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
+import { useRef, useState, type CSSProperties, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
 
 type ResearchKind = "character" | "genshin" | "fps" | "ai";
 
@@ -981,6 +981,9 @@ function AiTrustEvidence() {
   );
 }
 
+const orreryRingFor = [0, 0, 1, 1, 2, 2];
+const orreryAngles = [15, 195, 75, 255, 135, 315];
+
 function GenshinCulturalOrrery() {
   const c = en.genshin;
   const [active, setActive] = useState(0);
@@ -1001,8 +1004,22 @@ function GenshinCulturalOrrery() {
         </svg>
         <div className="orrery-core"><strong>{dimension.focus}</strong><span>{c.coreLabel}</span></div>
         <div className="orrery-dimensions" role="tablist" aria-label={c.dimensionsAria}>
-          {c.dimensions.map((item, index) => (
-            <button key={item.label} type="button" role="tab" aria-selected={index === active} onClick={() => setActive(index)}><i />{item.label}</button>
+          {[0, 1, 2].map((ring) => (
+            <div className="orrery-ring" data-ring={ring} key={ring}>
+              <div className="orbit-spin">
+                {c.dimensions.map((item, index) =>
+                  orreryRingFor[index] === ring ? (
+                    <div className="orbit-seat" key={item.label} style={{ "--angle": `${orreryAngles[index]}deg` } as CSSProperties}>
+                      <div className="orbit-rev">
+                        <div className="orbit-unangle" style={{ "--angle": `${orreryAngles[index]}deg` } as CSSProperties}>
+                          <button type="button" role="tab" aria-selected={index === active} onClick={() => setActive(index)}><i />{item.label}</button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null,
+                )}
+              </div>
+            </div>
           ))}
         </div>
         <article aria-live="polite"><span>{dimension.label}</span><p>{dimension.statement}</p><strong>{c.takeaway}</strong></article>

@@ -7663,15 +7663,23 @@ body {
 .orrery-core { position: absolute; z-index: 4; top: 49%; left: 52.5%; display: grid; width: clamp(7rem, 12vw, 11rem); aspect-ratio: 1; padding: 0.6rem; place-content: center; border: 1px solid rgba(154, 113, 61, 0.45); border-radius: 50%; background: rgba(247, 243, 232, 0.92); text-align: center; transform: translate(-50%, -50%); }
 .orrery-core strong { font-size: clamp(1.1rem, 2vw, 1.9rem); }
 .orrery-core span { margin-top: 0.2rem; color: rgba(73, 53, 29, 0.56); font-size: 0.56rem; }
-.orrery-dimensions button { position: absolute; z-index: 5; display: flex; padding: 0.4rem 0.65rem; gap: 0.4rem; align-items: center; border: 1px solid rgba(154, 113, 61, 0.32); border-radius: 999px; background: rgba(247, 243, 232, 0.9); color: rgba(72, 53, 31, 0.58); font-size: clamp(0.56rem, 0.74vw, 0.7rem); font-weight: 710; }
+.orrery-dimensions button { display: flex; padding: 0.4rem 0.65rem; gap: 0.4rem; align-items: center; border: 1px solid rgba(154, 113, 61, 0.32); border-radius: 999px; background: rgba(247, 243, 232, 0.9); color: rgba(72, 53, 31, 0.58); font-size: clamp(0.56rem, 0.74vw, 0.7rem); font-weight: 710; white-space: nowrap; }
 .orrery-dimensions button i { width: 0.46rem; height: 0.46rem; border-radius: 50%; background: #ae8957; }
-.orrery-dimensions button:nth-child(1) { top: 6%; left: 43%; }
-.orrery-dimensions button:nth-child(2) { top: 25%; right: 8%; }
-.orrery-dimensions button:nth-child(3) { right: 10%; bottom: 20%; }
-.orrery-dimensions button:nth-child(4) { bottom: 5%; left: 41%; }
-.orrery-dimensions button:nth-child(5) { bottom: 20%; left: 18%; }
-.orrery-dimensions button:nth-child(6) { top: 26%; left: 18%; }
 .orrery-dimensions button[aria-selected="true"] { background: #9a713d; color: white; transform: scale(1.05); }
+
+/* Orbiting dimension tabs: each ring is an ellipse bounding box centred on
+   the core; seats rotate with .orbit-spin while .orbit-rev + .orbit-unangle
+   keep every button upright. */
+.orrery-ring { position: absolute; z-index: 5; top: 49%; left: 52.5%; translate: -50% -50%; pointer-events: none; }
+.orrery-ring[data-ring="0"] { width: 37.6%; aspect-ratio: 292 / 190; --dur: 64s; }
+.orrery-ring[data-ring="1"] { width: 28.1%; aspect-ratio: 218 / 142; --dur: 48s; --spin-dir: -1; }
+.orrery-ring[data-ring="2"] { width: 17%; aspect-ratio: 132 / 88; --dur: 36s; }
+.orbit-spin { position: absolute; inset: 0; animation: orrery-spin var(--dur) linear infinite; }
+.orbit-seat { position: absolute; top: 50%; left: 50%; width: 50%; height: 0; transform: rotate(var(--angle)); transform-origin: left center; }
+.orbit-rev { position: absolute; top: 0; right: 0; translate: 50% -50%; --rev-dir: calc(-1 * var(--spin-dir, 1)); animation: orrery-rev var(--dur) linear infinite; pointer-events: auto; }
+.orbit-unangle { transform: rotate(calc(-1 * var(--angle))); }
+@keyframes orrery-spin { to { transform: rotate(calc(var(--spin-dir, 1) * 360deg)); } }
+@keyframes orrery-rev { to { transform: rotate(calc(var(--rev-dir, -1) * 360deg)); } }
 .cultural-orrery > article { position: absolute; z-index: 6; top: 24%; left: 1%; width: 25%; padding: 0.8rem 0.9rem; border-left: 3px solid #9a713d; background: rgba(247, 243, 232, 0.86); }
 .cultural-orrery > article span { color: #9a713d; font: 760 0.58rem var(--font-mono), monospace; text-transform: uppercase; }
 .cultural-orrery > article p { margin: 0.4rem 0 0; font-size: clamp(0.68rem, 0.88vw, 0.84rem); line-height: 1.42; }
@@ -7852,12 +7860,10 @@ body {
   .cultural-orrery > svg { top: 2%; left: 14%; width: 74%; height: 86%; }
   .orrery-core { top: 44%; left: 51%; width: 7rem; }
   .orrery-dimensions button { padding: 0.32rem 0.45rem; font-size: 0.48rem; }
-  .orrery-dimensions button:nth-child(1) { top: 3%; left: 38%; }
-  .orrery-dimensions button:nth-child(2) { top: 20%; right: 0; }
-  .orrery-dimensions button:nth-child(3) { right: 0; bottom: 24%; }
-  .orrery-dimensions button:nth-child(4) { bottom: 8%; left: 34%; }
-  .orrery-dimensions button:nth-child(5) { bottom: 24%; left: 0; }
-  .orrery-dimensions button:nth-child(6) { top: 22%; left: 0; }
+  .orrery-ring { top: 44%; left: 51%; }
+  .orrery-ring[data-ring="0"] { width: 56.7%; }
+  .orrery-ring[data-ring="1"] { width: 42.4%; }
+  .orrery-ring[data-ring="2"] { width: 25.7%; }
   .cultural-orrery > article { top: auto; right: 4%; bottom: 0; left: 4%; width: auto; }
   .orrery-kazuha { right: -6%; width: 28%; height: 45%; }
   .orrery-nahida { left: 10%; width: 23%; height: 34%; }
@@ -7886,5 +7892,10 @@ body {
   .ai-service-stage::before,
   .ai-retrieval-anchor {
     transition: none;
+  }
+
+  .orbit-spin,
+  .orbit-rev {
+    animation: none;
   }
 }
