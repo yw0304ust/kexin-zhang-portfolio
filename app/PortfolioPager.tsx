@@ -1032,12 +1032,14 @@ function pageIndexFromHash() {
 function AnchorFeaturePage({
   feature,
   label,
+  borderless = false,
 }: {
   feature: (typeof en.anchorFeatures)[number];
   label: string;
+  borderless?: boolean;
 }) {
   return (
-    <section className="anchor-systems-slide" aria-label={`Anchor · ${label}`}>
+    <section className={`anchor-systems-slide${borderless ? " acg-borderless" : ""}`} aria-label={`Anchor · ${label}`}>
       <header className="anchor-slide-intro">
         <h2>{feature.heading}</h2>
         <p>{feature.lede}</p>
@@ -1552,6 +1554,7 @@ export default function PortfolioPager() {
                           <AnchorFeaturePage
                             feature={t.acgOpsFeatures.find((feature) => feature.id === activeProjectSlide.id) ?? t.acgOpsFeatures[0]}
                             label={activeSlideLabel}
+                            borderless
                           />
                   ) : activeProject.kind === "anchor" && t.anchorFeatures.some((feature) => feature.id === activeProjectSlide.id) ? (
                           <AnchorFeaturePage
