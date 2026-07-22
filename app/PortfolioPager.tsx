@@ -119,28 +119,14 @@ const en = {
         },
       ],
     },
-    "ai-library": {
-      subtitle: "Rethinking Library Live Chat",
-      role: "Project lead · User research",
-      status: "HCI study",
-      stat: "55 survey · 6 interviews",
+    "acg-ops": {
+      subtitle: "Zero-to-one events and growth for a Gen-Z ACG audience",
+      role: "Lead planner · Marketing & operations intern",
+      status: "Industry practice",
+      stat: "8 campaigns · 50k new users",
       description:
-        "A mixed-method study with KCL Library exploring student AI use, trust, privacy, guidance, and service opportunities.",
-      tags: ["HCI", "Data visualisation", "Service research"],
-      details: [
-        {
-          label: "Context",
-          text: "The study explored student AI use and the potential integration of AI into King’s College London Library Live Chat.",
-        },
-        {
-          label: "Methods",
-          text: "Fifty-five survey responses, six semi-structured interviews, question-level analysis, and evidence visualisation.",
-        },
-        {
-          label: "Insight",
-          text: "Students wanted the speed of AI, the traceability of search, and the empathy of human support.",
-        },
-      ],
+        "Eight campaigns planned and reviewed end to end at Huashang International City — from an original two-day ACG convention to holiday events, mini-program growth, and community operations.",
+      tags: ["Event design", "User journeys", "Data-driven ops"],
     },
   },
   slideLabels: {
@@ -153,6 +139,9 @@ const en = {
     anchors: "Anchors",
     endings: "Endings",
     agents: "Agents",
+    comiccon: "Comic con",
+    holiday: "Holiday events",
+    growth: "Growth ops",
     "relationships-a": "Portraits I",
     "relationships-b": "Portraits II",
     formation: "Formation",
@@ -400,6 +389,94 @@ const en = {
       ],
     },
   ],
+  acgOpsOverview: {
+    focusLabel: "Focus",
+    focusValue: "Events · Mini-program · Media · Community",
+    stats: [
+      { value: "13,830", label: "convention visits in two days" },
+      { value: "50,000+", label: "New Year’s Eve visits" },
+      { value: "2.01M", label: "cross-platform impressions" },
+      { value: "+744%", label: "monthly view growth, top account" },
+      { value: "50k", label: "new mini-program users" },
+      { value: "492", label: "ACG community members, from zero" },
+    ],
+  },
+  acgOpsFeatures: [
+    {
+      id: "comiccon",
+      heading: "An original ACG convention, from zero",
+      lede: "Two days, one mall atrium, 13,830 visits — and a user portrait of the city’s ACG scene.",
+      cards: [
+        {
+          label: "Participation journey",
+          title: "Sign-up → stamp trail → stage → UGC",
+          text: "A closed loop: mini-program registration unlocked the official photo set; a six-stamp trail with hidden password stamps and a stage achievement stamp pulled visitors through every zone; cosplay contests and photo tasks fed UGC before, during, and after.",
+          image: "/acg-comiccon-case.webp",
+          alt: "Convention case board: background, strategy, outcomes, and on-site photos",
+        },
+        {
+          label: "Coordination",
+          title: "20+ vendors, cosplayers, and university clubs",
+          text: "Designed the stall map and visitor flow, recruited commercial and fan stalls, set the two-day stage schedule, and managed a ¥38.7k budget across fabrication, staging, and execution.",
+        },
+        {
+          label: "Outcomes",
+          title: "+31.6% new foot traffic, 1,000+ sign-ups",
+          text: "13,830 total visits with 1,433 incremental; 1,000+ mini-program registrations at 14% conversion; several stalls doubled sales; a 492-member ACG community built from zero became the seed for every later campaign.",
+        },
+      ],
+    },
+    {
+      id: "holiday",
+      heading: "Holiday events as city-level moments",
+      lede: "Christmas and New Year’s Eve, run with the same task-chain method and reviewed the same way.",
+      cards: [
+        {
+          label: "New Year’s Eve",
+          title: "50,000+ visits, 2.01M impressions",
+          text: "Countdown, drone show, live band, and a koi-prize draw: 50,000+ visits, about 2.012M cross-platform impressions, 790k UGC, and mini-program daily activity peaking at 5,137.",
+          image: "/acg-holiday-hits.webp",
+          alt: "Top-performing posts: the snowy night and countdown clips with view counts",
+        },
+        {
+          label: "Christmas",
+          title: "2,000+ visits, 40%+ conversion",
+          text: "Snow-and-lights ceremony plus a check-in task chain: 2,000+ same-day visits, 424k impressions, 40%+ mini-program conversion, and average dwell time up 38%.",
+        },
+        {
+          label: "Review method",
+          title: "Every event ends in a user portrait",
+          text: "Post-event reviews segmented young social visitors from parent-child families — motivations, on-site behaviour, and sharing habits — feeding the next event’s targeting, contingency plans, and crowd-flow design.",
+        },
+      ],
+    },
+    {
+      id: "growth",
+      heading: "Growth ops: mini-program, media, community",
+      lede: "The channels built around the events kept compounding after them.",
+      cards: [
+        {
+          label: "Mini-program",
+          title: "50k new users, activity up 95% on events",
+          text: "Owned the Huashang Cloud Life mini-program: the 华贝 points system, membership tiers, and campaign mechanics. 199k total users; average daily activity 1,883 normally vs 3,680 during campaigns.",
+          image: "/acg-miniprogram-data.webp",
+          alt: "Mini-program dashboards: daily activity curve and member growth",
+        },
+        {
+          label: "Media matrix",
+          title: "Monthly views 68k → 574k",
+          text: "Ran two short-video accounts with distinct personas: the official account up 97.1% in monthly views, and the 华商课代表 account up 744% — including a 612k-view post, the account’s all-time high.",
+          image: "/acg-media-accounts.webp",
+          alt: "The two short-video accounts with their monthly view growth",
+        },
+        {
+          label: "Community",
+          title: "Two communities built from zero",
+          text: "Built and activated a 491-member ACG community at 52% activity and a 442-member pet community, through content seeding, interactive games, and targeted promotion.",
+        },
+      ],
+    },
+  ],
   practice: {
     eyebrow: "03 / Practice",
     heading: "Design as a way of asking.",
@@ -454,6 +531,16 @@ const en = {
     ],
     experience: [
       {
+        time: "2025—Now",
+        company: "China CITIC Bank",
+        job: "Management Trainee · Chengdu",
+      },
+      {
+        time: "2024—25",
+        company: "Sichuan Youhua Technology Group · Huashang International City",
+        job: "Marketing & Operations Intern",
+      },
+      {
         time: "2022",
         company: "Sichuan Newspaper Group · Cover News",
         job: "Media Intern, Automotive Desk",
@@ -502,6 +589,11 @@ const en = {
     ],
     projects: [
       {
+        tag: "Brand film storyboard · 2025",
+        title: "“The Taste of New Year, at Huashang”",
+        text: "Authored a 27-shot Spring Festival film storyboard that moves from a grandmother’s childhood memories to the present-day mall — closing on “You are here, so the New Year is here.”",
+      },
+      {
         tag: "Interview-led feature · 2020",
         title: "A Dialogue Across Seventeen Years",
         text: "Interviewed healthcare workers who had lived through both SARS and COVID-19, then wrote the resulting feature.",
@@ -528,10 +620,18 @@ const projects = [
     external: "https://tch.cloud.tencent.com/contest/40",
   },
   {
+    id: "acg-ops",
+    navLabel: "ACG Ops",
+    kind: "acgops",
+    number: "02",
+    title: "ACG Event & Community Ops",
+    period: "2024—25",
+  },
+  {
     id: "attachment",
     navLabel: "Attachment",
     kind: "character",
-    number: "02",
+    number: "03",
     title: "Character Attachment",
     period: "2024",
   },
@@ -539,7 +639,7 @@ const projects = [
     id: "genshin",
     navLabel: "Genshin",
     kind: "genshin",
-    number: "03",
+    number: "04",
     title: "Genshin Across Cultures",
     period: "2023",
   },
@@ -547,17 +647,9 @@ const projects = [
     id: "fps",
     navLabel: "FPS Study",
     kind: "fps",
-    number: "04",
+    number: "05",
     title: "FPS Playtime Study",
     period: "2024",
-  },
-  {
-    id: "ai-library",
-    navLabel: "AI × Library",
-    kind: "ai",
-    number: "05",
-    title: "AI × King’s Library",
-    period: "2023—24",
   },
 ] as const;
 
@@ -610,11 +702,11 @@ const projectSlides: Record<
     { id: "sessions", label: "Sessions", type: "evidence" },
     { id: "drivers", label: "Drivers", type: "evidence" },
   ],
-  ai: [
+  acgops: [
     { id: "overview", label: "Overview", type: "overview" },
-    { id: "service", label: "Service opportunity", type: "story" },
-    { id: "adoption", label: "Adoption", type: "evidence" },
-    { id: "trust", label: "Trust", type: "evidence" },
+    { id: "comiccon", label: "Comic con", type: "story" },
+    { id: "holiday", label: "Holiday events", type: "method" },
+    { id: "growth", label: "Growth ops", type: "evidence" },
   ],
 };
 
@@ -1425,6 +1517,32 @@ export default function PortfolioPager() {
                               <figcaption>{t.anchorOverview.demoCaption}</figcaption>
                             </figure>
                           </section>
+                  ) : activeProject.kind === "acgops" && activeProjectSlide.type === "overview" ? (
+                          <section className="project-overview-slide anchor-overview-slide" aria-label={t.slideAria.overview(activeProject.title)}>
+                            <div className="acg-overview-stage">
+                              <p className="acg-overview-lede">{activeProjectText.description}</p>
+                              <div className="acg-overview-stats">
+                                {t.acgOpsOverview.stats.map((stat) => (
+                                  <article key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></article>
+                                ))}
+                              </div>
+                            </div>
+                            <header className="anchor-overview-header">
+                              <div className="anchor-title-block">
+                                <h2>{activeProject.title}</h2>
+                                <p className="project-subtitle">{activeProjectText.subtitle}</p>
+                              </div>
+                              <dl className="anchor-title-meta">
+                                <div><dt>{t.anchorOverview.roleLabel}</dt><dd>{activeProjectText.role}</dd></div>
+                                <div><dt>{t.acgOpsOverview.focusLabel}</dt><dd>{t.acgOpsOverview.focusValue}</dd></div>
+                              </dl>
+                            </header>
+                          </section>
+                  ) : activeProject.kind === "acgops" && t.acgOpsFeatures.some((feature) => feature.id === activeProjectSlide.id) ? (
+                          <AnchorFeaturePage
+                            feature={t.acgOpsFeatures.find((feature) => feature.id === activeProjectSlide.id) ?? t.acgOpsFeatures[0]}
+                            label={activeSlideLabel}
+                          />
                   ) : activeProject.kind === "anchor" && t.anchorFeatures.some((feature) => feature.id === activeProjectSlide.id) ? (
                           <AnchorFeaturePage
                             feature={t.anchorFeatures.find((feature) => feature.id === activeProjectSlide.id) ?? t.anchorFeatures[0]}

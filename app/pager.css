@@ -3998,6 +3998,64 @@ body {
   pointer-events: none;
 }
 
+/* ACG ops overview: lede plus a six-stat evidence grid above the title block. */
+.acg-overview-stage {
+  display: flex;
+  grid-row: 1;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 1.6rem);
+}
+
+.acg-overview-lede {
+  max-width: 44rem;
+  margin: 0;
+  color: rgba(18, 22, 19, 0.75);
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  line-height: 1.5;
+}
+
+.acg-overview-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.55rem, 1vw, 0.85rem);
+}
+
+.acg-overview-stats article {
+  display: flex;
+  padding: clamp(0.9rem, 1.6vw, 1.4rem);
+  flex-direction: column;
+  gap: 0.4rem;
+  border: 1px solid rgba(18, 22, 19, 0.14);
+  border-radius: clamp(0.9rem, 1.6vw, 1.4rem);
+  background: color-mix(in srgb, var(--project-soft) 56%, white);
+}
+
+.acg-overview-stats strong {
+  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.acg-overview-stats span {
+  color: rgba(18, 22, 19, 0.6);
+  font-size: clamp(0.62rem, 0.78vw, 0.78rem);
+  line-height: 1.35;
+}
+
+@media (max-width: 980px) {
+  .acg-overview-stage {
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+
+  .acg-overview-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .project-evidence-slide {
   width: 100%;
   height: 100%;
