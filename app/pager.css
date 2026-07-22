@@ -3838,10 +3838,7 @@ body {
   display: flex;
   min-height: 0;
   flex-direction: column;
-  overflow: hidden;
-  border: 1px solid rgba(18, 22, 19, 0.14);
-  border-radius: clamp(0.9rem, 1.6vw, 1.4rem);
-  background: color-mix(in srgb, var(--project-soft) 56%, white);
+  gap: clamp(0.55rem, 1vw, 0.85rem);
 }
 
 .anchor-system-card img {
@@ -3849,18 +3846,13 @@ body {
   width: 100%;
   height: auto;
   flex: none;
-  background: color-mix(in srgb, var(--project-soft) 40%, white);
-}
-
-.anchor-system-card:not(:has(img)) .anchor-system-card-body {
-  flex: 1;
-  justify-content: center;
+  border-radius: clamp(0.7rem, 1.2vw, 1.1rem);
 }
 
 .anchor-system-card-body {
   display: flex;
   min-height: 0;
-  padding: clamp(0.7rem, 1.2vw, 1rem);
+  padding: 0 clamp(0.1rem, 0.3vw, 0.3rem);
   flex-direction: column;
   gap: 0.4rem;
 }
