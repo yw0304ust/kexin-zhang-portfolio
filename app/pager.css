@@ -3847,9 +3847,9 @@ body {
 .anchor-system-card img {
   display: block;
   width: 100%;
+  height: auto;
   flex: none;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  background: color-mix(in srgb, var(--project-soft) 40%, white);
 }
 
 .anchor-system-card:not(:has(img)) .anchor-system-card-body {
@@ -3936,11 +3936,6 @@ body {
 
   .anchor-systems-grid {
     grid-template-columns: 1fr;
-  }
-
-  .anchor-system-card img {
-    flex: none;
-    aspect-ratio: 21 / 9;
   }
 
   .anchor-slide-intro {
