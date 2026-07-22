@@ -3558,8 +3558,7 @@ body {
   background: color-mix(in srgb, var(--project-soft) 56%, white);
 }
 
-.project-mini-grid span,
-.anchor-evidence-grid span {
+.project-mini-grid span {
   font-family: var(--font-mono), monospace;
   font-size: 0.5rem;
   font-weight: 750;
@@ -3830,6 +3829,8 @@ body {
 
 .anchor-systems-grid {
   display: grid;
+  align-content: center;
+  grid-auto-rows: max-content;
   min-height: 0;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(0.55rem, 1vw, 0.85rem);
@@ -3848,8 +3849,8 @@ body {
 .anchor-system-card img {
   display: block;
   width: 100%;
-  min-height: 0;
-  flex: 1 1 auto;
+  flex: none;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
@@ -3999,43 +4000,6 @@ body {
   pointer-events: none;
 }
 
-/* Anchor prototype page: stat intro above the detail cards. */
-.anchor-prototype-page {
-  display: grid;
-  height: 100%;
-  min-height: 0;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: clamp(0.65rem, 1.2vw, 1rem);
-}
-
-.anchor-prototype-intro {
-  display: flex;
-  padding: clamp(1rem, 2vw, 1.6rem) clamp(1.2rem, 2.4vw, 2rem);
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.8rem 2rem;
-  border: 1px solid color-mix(in srgb, var(--project-color) 22%, transparent);
-  border-radius: clamp(1.1rem, 2vw, 2rem);
-  background: var(--project-soft);
-}
-
-.anchor-prototype-intro strong {
-  font-family: var(--font-display), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  font-size: clamp(1.5rem, 2.6vw, 2.8rem);
-  letter-spacing: -0.05em;
-  line-height: 0.95;
-  white-space: nowrap;
-}
-
-.anchor-prototype-intro p {
-  max-width: 34rem;
-  margin: 0;
-  color: rgba(18, 22, 19, 0.7);
-  font-size: clamp(0.72rem, 0.95vw, 0.95rem);
-  line-height: 1.45;
-  text-align: right;
-}
-
 .project-evidence-slide {
   width: 100%;
   height: 100%;
@@ -4127,25 +4091,6 @@ body {
   text-decoration: none;
 }
 
-.anchor-evidence-grid {
-  display: grid;
-  align-content: center;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.8rem;
-}
-
-.anchor-evidence-grid article {
-  padding: clamp(1rem, 2vw, 1.8rem);
-  border-radius: 1.4rem;
-  background: white;
-}
-
-.anchor-evidence-grid h3 {
-  margin: 1rem 0 0;
-  font-size: clamp(1rem, 1.5vw, 1.5rem);
-  line-height: 1.25;
-}
-
 @media (max-width: 760px) {
   .project-overview-slide {
     grid-template-columns: 1fr;
@@ -4166,12 +4111,6 @@ body {
   .anchor-title-block .project-subtitle { font-size: 0.85rem; }
   .anchor-title-meta { display: none; }
   .anchor-demo-video { width: 100%; height: auto; }
-  .anchor-prototype-intro { align-items: start; flex-direction: column; gap: 0.45rem; }
-  .anchor-prototype-intro strong { font-size: 1.3rem; }
-  .anchor-prototype-intro p { text-align: left; }
-  .anchor-evidence-grid { grid-template-columns: 1fr; gap: 0.5rem; }
-  .anchor-evidence-grid article { padding: 0.65rem 0.85rem; }
-  .anchor-evidence-grid h3 { margin-top: 0.35rem; font-size: 0.8rem; line-height: 1.3; }
 }
 
 /* Strict single-viewport mode: every primary page is fully contained in the browser window. */
@@ -7950,178 +7889,4 @@ body {
   .ai-retrieval-anchor {
     transition: none;
   }
-}
-
-/* ------------------------------------------------------------------
-   Chinese (zh) typography overrides.
-   applyLanguage() sets document.documentElement.lang to "zh-CN",
-   so the [lang|="zh"] attribute-prefix selector is used to match it.
-   ------------------------------------------------------------------ */
-
-html[lang|="zh"] .home-copy h1,
-html[lang|="zh"] .pager-page-heading h2,
-html[lang|="zh"] .pager-contact .contact-copy h2,
-html[lang|="zh"] .project-card-copy h3,
-html[lang|="zh"] .practice-card h3,
-html[lang|="zh"] .profile-timeline h3,
-html[lang|="zh"] .detail-heading h2,
-html[lang|="zh"] .story-projects h3 {
-  letter-spacing: -0.02em;
-  line-height: 1.08;
-}
-
-/* These two display headings stay latin in zh mode; restore their
-   original tight metrics so the surrounding grid layout is unchanged. */
-html[lang|="zh"] .attachment-heading-copy h2 {
-  letter-spacing: -0.075em;
-  line-height: 0.79;
-}
-
-html[lang|="zh"] .anchor-title-block h2 {
-  letter-spacing: -0.055em;
-  line-height: 0.95;
-}
-
-@media (max-width: 1050px) {
-  html[lang|="zh"] .attachment-heading-copy h2 {
-    line-height: 0.83;
-  }
-}
-
-html[lang|="zh"] .home-copy h1,
-html[lang|="zh"] .pager-page-heading h2,
-html[lang|="zh"] .pager-contact .contact-copy h2 {
-  letter-spacing: 0;
-  line-height: 1.12;
-}
-
-html[lang|="zh"] .home-statement,
-html[lang|="zh"] .project-subtitle,
-html[lang|="zh"] .pager-page-heading > p,
-html[lang|="zh"] .contact-copy > p,
-html[lang|="zh"] .attachment-case-bubble p,
-html[lang|="zh"] .anchor-prototype-intro p,
-html[lang|="zh"] .anchor-evidence-grid h3,
-html[lang|="zh"] .practice-card p,
-html[lang|="zh"] .profile-timeline p,
-html[lang|="zh"] .recognition-list p,
-html[lang|="zh"] .detail-heading span,
-html[lang|="zh"] .story-projects p {
-  overflow-wrap: break-word;
-}
-
-/* Keep the zh contact heading on two lines: the 10ch measure assumes
-   latin glyphs; CJK glyphs are ~1em wide, so widen the box and shrink
-   the type enough for the second line ("能被人感知的系统。") to fit.
-   Measured in-browser: the 9-glyph span fits the 753px box up to
-   ~83.5px at 1440x900; min(5.6vw, 9.3vh) lands at ~80px with slack. */
-html[lang|="zh"] .pager-contact .contact-copy h2 {
-  max-width: 100%;
-  font-size: clamp(2.6rem, min(5.6vw, 9.3vh), 5.3rem);
-}
-
-@media (max-width: 760px) {
-  html[lang|="zh"] .pager-contact .contact-copy h2 {
-    font-size: clamp(2.2rem, 9vw, 3.4rem);
-  }
-}
-
-/* The dialog heading's 12ch measure assumes latin glyphs; let the zh
-   title ("在系统之前，是故事。") fit on one line. */
-html[lang|="zh"] .detail-heading h2 {
-  max-width: 100%;
-}
-
-/* zh place-name marks (璃月 / 蒙德 …) use the brush face as decorative
-   labels; English keeps the original Jakarta mono label. */
-html[lang|="zh"] .genshin-region-stage > article > span,
-html[lang|="zh"] .orrery-core strong {
-  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
-  font-weight: 400;
-}
-
-html[lang|="zh"] .genshin-region-stage > article > span {
-  font-size: clamp(1.4rem, 2.6vw, 2.4rem);
-  letter-spacing: 0.02em;
-  text-transform: none;
-}
-
-/* Extend the same brush face to the other short zh name marks. The
-   subset woff2 covers exactly these names (钟离/胡桃/云堇/卡维/凝光/
-   讣告人), the signature line, and the home hero name. Sans-serif UI
-   labels, kickers, and headings stay untouched. */
-html[lang|="zh"] .genshin-character-arc figcaption {
-  top: calc(100% + 0.3rem);
-  bottom: auto;
-  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
-  font-size: clamp(0.9rem, 1.4vw, 1.3rem);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-html[lang|="zh"] .attachment-case-stage figcaption strong {
-  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
-  font-size: clamp(0.95rem, 1.15vw, 1.15rem);
-  font-weight: 400;
-  letter-spacing: 0.03em;
-}
-
-html[lang|="zh"] .contact-signature p {
-  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
-  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: none;
-}
-
-/* zh hero name as a calligraphic signature: brush strokes run loose, so
-   drop the latin tight tracking and give the two lines real leading. */
-html[lang|="zh"] .home-copy h1 {
-  font-family: "HY Shangwei Shoushu W", "Kaiti SC", "STKaiti", "KaiTi", var(--font-display), serif;
-  font-size: clamp(4.6rem, 10.2vw, 9.8rem);
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1.02;
-}
-
-/* zh headings: balance lines so no orphan character drops onto its own
-   line (e.g. "…有效样本。" losing "本。"). */
-html[lang|="zh"] :where(h1, h2, h3) {
-  text-wrap: balance;
-}
-
-/* zh headings whose spaces/punctuation already give clean break points:
-   forbid breaking inside CJK words ("国王学院图书馆" must not split
-   into "国王学 / 院图书馆"). Long single-clause titles keep anywhere-
-   breaking so they cannot overflow. */
-html[lang|="zh"] .ai-narrative-overview header h2,
-html[lang|="zh"] .genshin-overview header h2,
-html[lang|="zh"] .pager-profile .pager-page-heading h2 {
-  word-break: keep-all;
-}
-
-/* CJK glyphs fill the whole em box: latin's 0.83 line-height reads as
-   no leading at all. Give the two-line zh genshin title real spacing. */
-html[lang|="zh"] .genshin-overview header h2 {
-  letter-spacing: -0.02em;
-  line-height: 1.14;
-}
-
-/* zh fps title ("是什么让一次 FPS 游戏持续更久？"): keep-all stops the
-   "一次" split; the spaces around "FPS" are the only break points, and
-   at 4.6vw both unbreakable halves fit the 46%-wide header, settling on
-   two clean lines ("是什么让一次 FPS / 游戏持续更久？"). Measured
-   in-browser: fits up to ~67px at 1440x900. */
-html[lang|="zh"] .fps-narrative-overview header h2 {
-  font-size: clamp(2.5rem, 4.6vw, 4.75rem);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  word-break: keep-all;
-}
-
-/* Atomic CJK phrase inside a long heading (e.g. 跨文化转译): breaks can
-   happen before or after it, never inside. */
-.cjk-keep {
-  display: inline-block;
 }

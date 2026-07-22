@@ -49,24 +49,6 @@ const en = {
       description:
         "A playable inquiry into fragmented memory, caregiver pressure, and the effort to preserve a sense of home — told across four spaces: a home, a property office, a metro station, and a hospital.",
       tags: ["Deterministic puzzle FSM", "Narrative systems", "Godot 4 · WebGL2", "Constrained AI agents"],
-      details: [
-        {
-          label: "Design premise",
-          text: "When memory fails, identity is proven by objects, habits, routes, and how others respond. A daughter’s present and her mother’s fragmented memories re-anchor each other across four spaces.",
-        },
-        {
-          label: "Puzzle systems",
-          text: "Every puzzle is a verifiable causal loop: a kitchen steaming FSM, dual-track CCTV time calibration, a triptych-mirror alignment, and a seven-stage mechanical escape — deterministic and recoverable.",
-        },
-        {
-          label: "AI agent design",
-          text: "Guidance agents layer hints from discovered facts; interrogation agents can be challenged with evidence. Agents output text only — truth, saves, and endings stay with the local FSM.",
-        },
-        {
-          label: "My contribution",
-          text: "Narrative, puzzle, and player-experience design end to end — from script to a playable Godot 4 / WebGL2 web build through an AI-assisted workflow, including the Blender asset pipeline and chaptered web packs.",
-        },
-      ],
     },
     attachment: {
       subtitle: "How Nijigen characters begin to feel alive",
@@ -163,12 +145,14 @@ const en = {
   },
   slideLabels: {
     overview: "Overview",
-    prototype: "Design notes",
+    vision: "Vision",
     "world-home": "Home",
     "world-property": "Property",
     "world-subway": "Metro",
     "world-hospital": "Hospital",
-    systems: "Systems",
+    anchors: "Anchors",
+    endings: "Endings",
+    agents: "Agents",
     "relationships-a": "Portraits I",
     "relationships-b": "Portraits II",
     formation: "Formation",
@@ -302,33 +286,104 @@ const en = {
       ],
     },
   ],
-  anchorSystems: {
-    heading: "Systems that hold the story",
-    lede: "Puzzles are not decoration on the narrative — they are how memory, care, and direction become playable. Each system is deterministic, observable, and recoverable.",
-    cards: [
-      {
-        label: "Puzzle FSM",
-        title: "A kitchen steamer as a full 3D state machine",
-        text: "Temperature thresholds, a water-separated steaming structure, and a safe reset sequence. Wrong actions feed back only the current mechanism — earlier progress is never wiped.",
-        image: "/anchor-puzzle-kitchen.webp",
-        alt: "Kitchen puzzle area in Anchor with stove, steamer pot, and countertop props",
-      },
-      {
-        label: "Environmental forensics",
-        title: "A threshold timeline from shoes, sensors, and wet prints",
-        text: "Who came home, when, and how to walk together safely next time — time is locked to one doorway through physical traces the player reads and verifies.",
-        image: "/anchor-puzzle-threshold.webp",
-        alt: "Entryway evidence in Anchor: shoes, cabinet, and footprints by the door",
-      },
-      {
-        label: "Constrained AI agents",
-        title: "Two dialogue paradigms on a deterministic core",
-        text: "Guidance agents layer hints from discovered facts; interrogation agents can be challenged with evidence. Agents output text only — story state, puzzle progress, saves, and endings never leave the local FSM.",
-        image: "/anchor-agents-duo.webp",
-        alt: "Portraits of two Anchor dialogue agents, a duty officer and a nurse",
-      },
-    ],
-  },
+  anchorFeatures: [
+    {
+      id: "vision",
+      heading: "Design vision",
+      lede: "When memory is no longer reliable, what proves who we are?",
+      cards: [
+        {
+          label: "The condition",
+          title: "A game about Alzheimer’s, played from both sides",
+          text: "Anchor follows a mother living with Alzheimer’s disease and the daughter who becomes her caregiver. Memory loss is not a backdrop — it is the rule system: the world stays in place, only its legibility changes.",
+          image: "/anchor-vision-care.webp",
+          alt: "The mother and daughter together at dinner under a warm lamp",
+        },
+        {
+          label: "The goal",
+          title: "See the patient, and see the caregiver",
+          text: "The goal is empathy through play: early detection, timely diagnosis, proper treatment, sustained care. Its closing message is meant to leave the screen — if you meet a lost elderly person, stay with them somewhere safe and contact their family.",
+        },
+        {
+          label: "The pillars",
+          title: "Observe, verify, then care",
+          text: "Every puzzle is a verifiable causal loop; art is narrative grammar, not decoration; and care itself reverses. Narrative, puzzle, and player-experience design by Kexin, built through an AI-assisted workflow to a playable Godot 4 / WebGL2 release.",
+        },
+      ],
+    },
+    {
+      id: "anchors",
+      heading: "The anchor system",
+      lede: "Objects, habits, routes, and responses — made collectible.",
+      cards: [
+        {
+          label: "What anchors are",
+          title: "Evidence of identity, made tangible",
+          text: "An anchor is a memory made physical: a childhood date, an old work badge, a route home. Anchors are earned by solving puzzles — each one is proof of “I am who I am”.",
+          image: "/anchor-item-badge.webp",
+          alt: "The old work badge anchor, won from the station-name puzzle",
+        },
+        {
+          label: "Carrying",
+          title: "An 18-slot hotbar of kept memories",
+          text: "Players carry anchors across chapters in an 18-slot hotbar, nine slots over two pages — deciding what is worth keeping as the spaces expand.",
+        },
+        {
+          label: "Continuity",
+          title: "What you keep crosses every chapter",
+          text: "Kept anchors, achievements, phone records, and three save slots carry continuity from home to hospital — what the player keeps shapes what resurfaces later.",
+        },
+      ],
+    },
+    {
+      id: "endings",
+      heading: "Endings & achievements",
+      lede: "What you keep decides how the story closes.",
+      cards: [
+        {
+          label: "Anchor voting",
+          title: "Kept anchors become votes",
+          text: "After the metro chapter, retained anchors vote across themes — family, childhood, youth, self, daily life — and the vote decides which ending unfolds.",
+        },
+        {
+          label: "Endings",
+          title: "Every ending lands on an illustrated CG",
+          text: "Ending text is typeset onto CG illustrations with boundary-aware pagination, re-laid out whenever the window changes. Many endings, one shared throughline: slowly home.",
+          image: "/anchor-ending-home.webp",
+          alt: "Ending CG: the daughter walks her mother home from the hospital",
+        },
+        {
+          label: "Achievements",
+          title: "Achievements mark how you cared",
+          text: "Achievements record attention, not just completion — noticing the wet footprints at the threshold, returning the runaway sanitizer, walking the whole route together.",
+        },
+      ],
+    },
+    {
+      id: "agents",
+      heading: "Constrained AI agents",
+      lede: "Two dialogue paradigms on a deterministic core.",
+      cards: [
+        {
+          label: "Guidance",
+          title: "Grandpa Gate and the property grille",
+          text: "Guidance agents start only from facts the player has already discovered and layer hints tier by tier — they help the player form the next action, never act for them.",
+          image: "/anchor-agents-duo.webp",
+          alt: "Portraits of two Anchor dialogue agents, a duty officer and a nurse",
+        },
+        {
+          label: "Interrogation",
+          title: "R-7 and Bubble can be challenged",
+          text: "Interrogation agents make claims; players counter with evidence, expose contradictions, and push until the boundary of the claim is confirmed.",
+        },
+        {
+          label: "Safety boundary",
+          title: "Agents output text, never state",
+          text: "Story truth, puzzle progress, rewards, saves, and endings stay with the local deterministic FSM. The agent service is an optional layer — offline, the game is complete.",
+        },
+      ],
+    },
+  ],
   practice: {
     eyebrow: "03 / Practice",
     heading: "Design as a way of asking.",
@@ -511,12 +566,14 @@ const projectSlides: Record<
 > = {
   anchor: [
     { id: "overview", label: "Overview", type: "overview" },
+    { id: "vision", label: "Vision", type: "story" },
     { id: "world-home", label: "Home", type: "story" },
     { id: "world-property", label: "Property", type: "story" },
     { id: "world-subway", label: "Metro", type: "story" },
     { id: "world-hospital", label: "Hospital", type: "story" },
-    { id: "systems", label: "Systems", type: "method" },
-    { id: "prototype", label: "Design notes", type: "evidence" },
+    { id: "anchors", label: "Anchors", type: "method" },
+    { id: "endings", label: "Endings", type: "method" },
+    { id: "agents", label: "Agents", type: "method" },
   ],
   character: [
     { id: "overview", label: "Overview", type: "overview" },
@@ -852,6 +909,37 @@ function pageIndexFromHash() {
   const id = window.location.hash.replace("#", "");
   const index = pages.findIndex((page) => page.id === id);
   return index >= 0 ? index : 0;
+}
+
+function AnchorFeaturePage({
+  feature,
+  label,
+}: {
+  feature: (typeof en.anchorFeatures)[number];
+  label: string;
+}) {
+  return (
+    <section className="anchor-systems-slide" aria-label={`Anchor · ${label}`}>
+      <header className="anchor-slide-intro">
+        <h2>{feature.heading}</h2>
+        <p>{feature.lede}</p>
+      </header>
+      <div className="anchor-systems-grid">
+        {feature.cards.map((card) => (
+          <article className="anchor-system-card" key={card.label}>
+            {"image" in card && card.image ? (
+              <img src={card.image} alt={card.alt} loading="lazy" decoding="async" />
+            ) : null}
+            <div className="anchor-system-card-body">
+              <span>{card.label}</span>
+              <h3>{card.title}</h3>
+              <p>{card.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 function AnchorSpacePage({
@@ -1321,49 +1409,19 @@ export default function PortfolioPager() {
                               <figcaption>{t.anchorOverview.demoCaption}</figcaption>
                             </figure>
                           </section>
+                  ) : activeProject.kind === "anchor" && t.anchorFeatures.some((feature) => feature.id === activeProjectSlide.id) ? (
+                          <AnchorFeaturePage
+                            feature={t.anchorFeatures.find((feature) => feature.id === activeProjectSlide.id) ?? t.anchorFeatures[0]}
+                            label={activeSlideLabel}
+                          />
                   ) : activeProject.kind === "anchor" && activeProjectSlide.type === "story" ? (
                           <AnchorSpacePage
                             space={t.anchorSpaces.find((space) => space.id === activeProjectSlide.id) ?? t.anchorSpaces[0]}
                             label={activeSlideLabel}
                           />
-                  ) : activeProject.kind === "anchor" && activeProjectSlide.id === "systems" ? (
-                          <section className="anchor-systems-slide" aria-label={`${activeProject.title} · ${t.slideLabels.systems}`}>
-                            <header className="anchor-slide-intro">
-                              <h2>{t.anchorSystems.heading}</h2>
-                              <p>{t.anchorSystems.lede}</p>
-                            </header>
-                            <div className="anchor-systems-grid">
-                              {t.anchorSystems.cards.map((card) => (
-                                <article className="anchor-system-card" key={card.label}>
-                                  {"image" in card && card.image ? (
-                                    <img src={card.image} alt={card.alt} loading="lazy" decoding="async" />
-                                  ) : null}
-                                  <div className="anchor-system-card-body">
-                                    <span>{card.label}</span>
-                                    <h3>{card.title}</h3>
-                                    <p>{card.text}</p>
-                                  </div>
-                                </article>
-                              ))}
-                            </div>
-                          </section>
                   ) : activeProjectSlide.type === "evidence" ? (
                         <section className="project-evidence-slide" aria-label={t.slideAria.evidence(activeProject.title)}>
-                          {activeProject.kind === "anchor" ? (
-                            <div className="anchor-prototype-page">
-                              <header className="anchor-prototype-intro">
-                                <strong>{activeProjectText.stat}</strong>
-                                <p>{activeProjectText.description}</p>
-                              </header>
-                              <div className="anchor-evidence-grid">
-                                {activeProjectText.details.map((detail) => (
-                                  <article key={detail.label}><span>{detail.label}</span><h3>{detail.text}</h3></article>
-                                ))}
-                              </div>
-                            </div>
-                          ) : (
-                            <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} />
-                          )}
+                          <ResearchVisuals kind={activeProject.kind} view={activeProjectSlide.id} />
                         </section>
                   ) : activeProject.kind !== "anchor" ? (
                     <ProjectNarratives kind={activeProject.kind} slideId={activeProjectSlide.id} />
